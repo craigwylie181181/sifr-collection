@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sifr Terminal â Carbon Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #080c0f;
+    --bg-surface: #0d1318;
+    --bg-card: #111820;
+    --bg-hover: #16202a;
+    --border: #1e2d3a;
+    --border-bright: #2a4055;
+    --accent-green: #00e5a0;
+    --accent-green-dim: #00a872;
+    --accent-amber: #f5a623;
+    --accent-red: #ff4757;
+    --accent-blue: #00b4d8;
+    --accent-gold: #c9a227;
+    --text-primary: #e8f4f8;
+    --text-secondary: #7a9ab0;
+    --text-muted: #3d5a6e;
+    --ticker-bg: #060a0d;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans Arabic', sans-serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--mono);
+    font-size: 11px;
+    overflow-x: hidden;
+  }
+
+  /* ââ TICKER ââ */
+  .ticker-wrap {
+    background: var(--ticker-bg);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    height: 28px;
+    display: flex;
+    align-items: center;
+  }
+  .ticker-label {
+    background: var(--accent-green);
+    color: #000;
+    font-weight: 600;
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ticker-track {
+    display: flex;
+    animation: ticker 40s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    padding: 0 28px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .ticker-item .sym { color: var(--text-primary); font-weight: 600; }
+  .ticker-item .up { color: var(--accent-green); }
+  .ticker-item .dn { color: var(--accent-red); }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ââ HEADER ââ */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 52px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--accent-green);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #000;
+    flex-shrink: 0;
+    animation: pulse-hex 3s ease-in-out infinite;
+  }
+  @keyframes pulse-hex {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,160,0.4); }
+    50% { box-shadow: 0 0 20px 4px rgba(0,229,160,0.15); }
+  }
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .logo-name {
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+  }
+  .logo-sub {
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    color: var(--accent-green);
+    text-transform: uppercase;
+  }
+  .nav {
+    display: flex;
+    gap: 2px;
+  }
+  .nav-item {
+    padding: 5px 12px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .nav-item:hover, .nav-item.active {
+    color: var(--accent-green);
+    border-color: var(--accent-green);
+    background: rgba(0,229,160,0.05);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--accent-green);
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .time-display {
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+  }
+
+  /* ââ LAYOUT ââ */
+  .main {
+    display: grid;
+    grid-template-columns: 260px 1fr 280px;
+    grid-template-rows: auto 1fr;
+    height: calc(100vh - 80px);
+    gap: 0;
+  }
+
+  /* ââ SIDEBAR LEFT ââ */
+  .sidebar-left {
+    border-right: 1px solid var(--border);
+    background: var(--bg-surface);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-left::-webkit-scrollbar { width: 3px; }
+  .sidebar-left::-webkit-scrollbar-track { background: transparent; }
+  .sidebar-left::-webkit-scrollbar-thumb { background: var(--border-bright); }
+
+  .panel-header {
+    padding: 10px 14px 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .panel-title {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .panel-action {
+    font-size: 9px;
+    color: var(--accent-blue);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+  }
+
+  /* Carbon Credits Market */
+  .market-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.12s;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px;
+  }
+  .market-item:hover { background: var(--bg-hover); }
+  .market-sym { font-weight: 600; font-size: 11px; color: var(--text-primary); }
+  .market-name { font-size: 9px; color: var(--text-secondary); margin-top: 2px; }
+  .market-price { font-size: 13px; font-weight: 600; text-align: right; }
+  .market-chg { font-size: 9px; text-align: right; margin-top: 2px; }
+  .up { color: var(--accent-green); }
+  .dn { color: var(--accent-red); }
+  .neutral { color: var(--text-secondary); }
+
+  /* Mini spark line */
+  .spark { height: 18px; margin-top: 4px; }
+  .spark svg { width: 80px; height: 18px; }
+
+  /* ââ CENTER PANEL ââ */
+  .center {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+  }
+  .stat-cell {
+    padding: 10px 14px;
+    border-right: 1px solid var(--border);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-label { font-size: 8px; letter-spacing: 0.15em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+  .stat-value { font-size: 16px; font-weight: 600; line-height: 1; }
+  .stat-sub { font-size: 9px; color: var(--text-secondary); margin-top: 3px; }
+
+  /* Map area */
+  .map-container {
+    flex: 1;
+    position: relative;
+    background: #05090c;
+    overflow: hidden;
+  }
+
+  .map-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Map overlay UI */
+  .map-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .map-controls {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    pointer-events: all;
+  }
+  .map-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(13,19,24,0.92);
+    border: 1px solid var(--border-bright);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .map-btn:hover { border-color: var(--accent-green); color: var(--accent-green); }
+
+  .map-legend {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(13,19,24,0.92);
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    pointer-events: all;
+  }
+  .legend-title { font-size: 8px; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
+  .legend-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { font-size: 9px; color: var(--text-secondary); }
+
+  .map-layer-toggle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    pointer-events: all;
+  }
+  .layer-btn {
+    padding: 4px 10px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    background: rgba(13,19,24,0.92);
+    border: 1px solid var(--border-bright);
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .layer-btn.active { border-color: var(--accent-green); color: var(--accent-green); background: rgba(0,229,160,0.08); }
+
+  /* ââ PROJECT PINS ââ */
+  .project-pin {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .project-pin:hover { transform-origin: center; }
+  .pin-ring {
+    animation: ring-pulse 2s ease-out infinite;
+  }
+  @keyframes ring-pulse {
+    0% { r: 8; opacity: 0.8; }
+    100% { r: 18; opacity: 0; }
+  }
+
+  /* Tooltip */
+  .map-tooltip {
+    position: absolute;
+    background: rgba(13,19,24,0.96);
+    border: 1px solid var(--accent-green);
+    padding: 10px 12px;
+    font-size: 10px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 50;
+    min-width: 180px;
+  }
+  .map-tooltip.visible { opacity: 1; }
+  .tt-name { font-weight: 600; color: var(--text-primary); margin-bottom: 6px; font-size: 11px; }
+  .tt-row { display: flex; justify-content: space-between; gap: 16px; color: var(--text-secondary); margin-bottom: 3px; }
+  .tt-val { color: var(--text-primary); }
+
+  /* ââ BOTTOM TABS ââ */
+  .bottom-panel {
+    height: 220px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-surface);
+  }
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    padding: 7px 16px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-right: 1px solid var(--border);
+    text-transform: uppercase;
+    transition: all 0.15s;
+    border-bottom: 2px solid transparent;
+  }
+  .tab:hover { color: var(--text-secondary); }
+  .tab.active { color: var(--accent-green); border-bottom-color: var(--accent-green); background: rgba(0,229,160,0.04); }
+
+  .tab-content {
+    flex: 1;
+    overflow: auto;
+  }
+  .tab-content::-webkit-scrollbar { height: 3px; }
+  .tab-content::-webkit-scrollbar-track { background: transparent; }
+  .tab-content::-webkit-scrollbar-thumb { background: var(--border-bright); }
+
+  /* Trade table */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 6px 14px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg-surface);
+    text-transform: uppercase;
+  }
+  .data-table td {
+    font-size: 10px;
+    padding: 5px 14px;
+    border-bottom: 1px solid rgba(30,45,58,0.5);
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td { background: var(--bg-hover); }
+  .data-table td.sym { color: var(--text-primary); font-weight: 600; }
+  .badge {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    border-radius: 2px;
+  }
+  .badge-buy { background: rgba(0,229,160,0.12); color: var(--accent-green); border: 1px solid rgba(0,229,160,0.2); }
+  .badge-sell { background: rgba(255,71,87,0.12); color: var(--accent-red); border: 1px solid rgba(255,71,87,0.2); }
+  .badge-project { background: rgba(0,180,216,0.12); color: var(--accent-blue); border: 1px solid rgba(0,180,216,0.2); }
+  .badge-soil { background: rgba(201,162,39,0.12); color: var(--accent-gold); border: 1px solid rgba(201,162,39,0.2); }
+
+  /* ââ SIDEBAR RIGHT ââ */
+  .sidebar-right {
+    border-left: 1px solid var(--border);
+    background: var(--bg-surface);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-right::-webkit-scrollbar { width: 3px; }
+  .sidebar-right::-webkit-scrollbar-thumb { background: var(--border-bright); }
+
+  /* Soil Carbon Section */
+  .soil-header {
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(201,162,39,0.08) 0%, transparent 100%);
+  }
+  .soil-title {
+    font-family: var(--display);
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    color: var(--accent-gold);
+    margin-bottom: 2px;
+  }
+  .soil-sub { font-size: 9px; color: var(--text-muted); letter-spacing: 0.1em; }
+
+  .soil-metric {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .soil-m-label { font-size: 8px; letter-spacing: 0.15em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+  .soil-m-value { font-size: 20px; font-weight: 600; color: var(--accent-gold); line-height: 1; }
+  .soil-m-unit { font-size: 9px; color: var(--text-secondary); margin-top: 2px; }
+
+  /* Progress bars */
+  .progress-group { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .progress-item { margin-bottom: 10px; }
+  .progress-item:last-child { margin-bottom: 0; }
+  .prog-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .prog-name { font-size: 9px; color: var(--text-secondary); }
+  .prog-val { font-size: 9px; color: var(--text-primary); font-weight: 600; }
+  .prog-bar { height: 3px; background: var(--border); overflow: hidden; }
+  .prog-fill { height: 100%; transition: width 1.5s ease; }
+
+  /* Country allocations */
+  .country-list { }
+  .country-row {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .country-row:hover { background: var(--bg-hover); }
+  .country-flag { font-size: 14px; }
+  .country-name { flex: 1; font-size: 10px; color: var(--text-secondary); }
+  .country-tco2 { font-size: 10px; color: var(--text-primary); font-weight: 600; }
+  .country-chg { font-size: 9px; margin-left: 4px; }
+
+  /* News feed */
+  .news-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .news-item:hover { background: var(--bg-hover); }
+  .news-time { font-size: 8px; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 4px; }
+  .news-headline { font-size: 10px; color: var(--text-secondary); line-height: 1.4; }
+  .news-headline strong { color: var(--text-primary); }
+  .news-tag {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+  .tag-soil { background: rgba(201,162,39,0.12); color: var(--accent-gold); }
+  .tag-market { background: rgba(0,229,160,0.12); color: var(--accent-green); }
+  .tag-policy { background: rgba(0,180,216,0.12); color: var(--accent-blue); }
+  .tag-project { background: rgba(245,166,35,0.12); color: var(--accent-amber); }
+
+  /* Chart area */
+  .mini-chart { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .chart-title { font-size: 8px; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
+  .chart-bars { display: flex; gap: 3px; align-items: flex-end; height: 50px; }
+  .bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .bar { width: 100%; background: var(--accent-green); opacity: 0.7; min-height: 2px; border-radius: 1px 1px 0 0; }
+  .bar-label { font-size: 7px; color: var(--text-muted); }
+
+  /* Geospatial Panel */
+  .geo-panel { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+  .geo-cell {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .geo-cell:hover { border-color: var(--accent-green); }
+  .geo-cell-label { font-size: 7px; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+  .geo-cell-val { font-size: 13px; font-weight: 600; }
+  .geo-cell-unit { font-size: 8px; color: var(--text-muted); }
+
+  /* Divider */
+  .section-divider {
+    padding: 6px 14px 4px;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+  /* Animations on load */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .stat-cell { animation: fadeIn 0.4s ease forwards; }
+  .stat-cell:nth-child(2) { animation-delay: 0.05s; }
+  .stat-cell:nth-child(3) { animation-delay: 0.1s; }
+  .stat-cell:nth-child(4) { animation-delay: 0.15s; }
+  .stat-cell:nth-child(5) { animation-delay: 0.2s; }
+
+  /* Grid scan line effect on map */
+  .scanline {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,229,160,0.015) 2px,
+      rgba(0,229,160,0.015) 4px
+    );
+    pointer-events: none;
+  }
+
+  /* Soil Carbon Heatmap Legend */
+  .heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .hm-gradient {
+    flex: 1;
+    height: 6px;
+    background: linear-gradient(to right, #0d1318, #1a4a2e, #2d8a5a, #5ecb8a, #a8f0c6, #f5e642);
+    border-radius: 3px;
+  }
+  .hm-label { font-size: 7px; color: var(--text-muted); }
+
+  /* Responsive tabs content hiding */
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* Button styles */
+  .action-btn {
+    padding: 5px 12px;
+    font-size: 9px;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--accent-green);
+    background: rgba(0,229,160,0.08);
+    color: var(--accent-green);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .action-btn:hover { background: rgba(0,229,160,0.18); }
+  .action-btn.secondary {
+    border-color: var(--border-bright);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .action-btn.secondary:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+
+  .btn-row { display: flex; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border); }
+
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-label">SIFR LIVE</div>
+  <div style="overflow:hidden;flex:1">
+    <div class="ticker-track" id="tickerTrack">
+      <div class="ticker-item"><span class="sym">EUA</span> â¬65.40 <span class="up">â² +1.2%</span></div>
+      <div class="ticker-item"><span class="sym">VCS-MENA</span> $18.20 <span class="up">â² +3.4%</span></div>
+      <div class="ticker-item"><span class="sym">SOIL-AE</span> $24.80 <span class="up">â² +0.8%</span></div>
+      <div class="ticker-item"><span class="sym">REDD+SA</span> $12.50 <span class="dn">â¼ -0.5%</span></div>
+      <div class="ticker-item"><span class="sym">GS-AGRI</span> $31.10 <span class="up">â² +2.1%</span></div>
+      <div class="ticker-item"><span class="sym">CER-JO</span> $9.40 <span class="dn">â¼ -1.3%</span></div>
+      <div class="ticker-item"><span class="sym">ACR-EG</span> $15.70 <span class="up">â² +0.6%</span></div>
+      <div class="ticker-item"><span class="sym">SOIL-SA</span> $28.90 <span class="up">â² +4.1%</span></div>
+      <div class="ticker-item"><span class="sym">MENA-BLUE</span> $41.20 <span class="up">â² +1.9%</span></div>
+      <div class="ticker-item"><span class="sym">IQ-CARBON</span> $7.80 <span class="dn">â¼ -2.1%</span></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="ticker-item"><span class="sym">EUA</span> â¬65.40 <span class="up">â² +1.2%</span></div>
+      <div class="ticker-item"><span class="sym">VCS-MENA</span> $18.20 <span class="up">â² +3.4%</span></div>
+      <div class="ticker-item"><span class="sym">SOIL-AE</span> $24.80 <span class="up">â² +0.8%</span></div>
+      <div class="ticker-item"><span class="sym">REDD+SA</span> $12.50 <span class="dn">â¼ -0.5%</span></div>
+      <div class="ticker-item"><span class="sym">GS-AGRI</span> $31.10 <span class="up">â² +2.1%</span></div>
+      <div class="ticker-item"><span class="sym">CER-JO</span> $9.40 <span class="dn">â¼ -1.3%</span></div>
+      <div class="ticker-item"><span class="sym">ACR-EG</span> $15.70 <span class="up">â² +0.6%</span></div>
+      <div class="ticker-item"><span class="sym">SOIL-SA</span> $28.90 <span class="up">â² +4.1%</span></div>
+      <div class="ticker-item"><span class="sym">MENA-BLUE</span> $41.20 <span class="up">â² +1.9%</span></div>
+      <div class="ticker-item"><span class="sym">IQ-CARBON</span> $7.80 <span class="dn">â¼ -2.1%</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-mark">C</div>
+    <div class="logo-text">
+      <div class="logo-name">Sifr Collection</div>
+      <div class="logo-sub">Middle East Carbon Intelligence</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-item active">Dashboard</div>
+    <div class="nav-item">Markets</div>
+    <div class="nav-item">Projects</div>
+    <div class="nav-item">Soil Carbon</div>
+    <div class="nav-item">Geospatial</div>
+    <div class="nav-item">Reports</div>
+    <div class="nav-item">API</div>
+  </nav>
+  <div class="header-right">
+    <div class="live-badge"><div class="live-dot"></div> LIVE DATA</div>
+    <div class="time-display" id="clock">--:--:-- GST</div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main">
+
+  <!-- LEFT SIDEBAR: Markets -->
+  <div class="sidebar-left">
+    <div class="panel-header">
+      <span class="panel-title">Carbon Markets</span>
+      <span class="panel-action">+ WATCHLIST</span>
+    </div>
+
+    <!-- Market Items -->
+    <div class="market-item">
+      <div>
+        <div class="market-sym">VCS-MENA</div>
+        <div class="market-name">Verra VCS â MENA Region</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,14 10,12 20,10 30,8 40,11 50,6 60,4 70,5 80,3" fill="none" stroke="#00e5a0" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price up">$18.20</div>
+        <div class="market-chg up">â² +3.4%</div>
+      </div>
+    </div>
+
+    <div class="market-item">
+      <div>
+        <div class="market-sym">SOIL-AE</div>
+        <div class="market-name">Soil Carbon â UAE</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,16 10,14 20,15 30,12 40,10 50,9 60,7 70,8 80,5" fill="none" stroke="#c9a227" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price" style="color:var(--accent-gold)">$24.80</div>
+        <div class="market-chg up">â² +0.8%</div>
+      </div>
+    </div>
+
+    <div class="market-item">
+      <div>
+        <div class="market-sym">GS-AGRI</div>
+        <div class="market-name">Gold Standard Agriculture</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,10 10,9 20,11 30,7 40,8 50,5 60,6 70,4 80,3" fill="none" stroke="#00e5a0" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price up">$31.10</div>
+        <div class="market-chg up">â² +2.1%</div>
+      </div>
+    </div>
+
+    <div class="market-item">
+      <div>
+        <div class="market-sym">REDD+SA</div>
+        <div class="market-name">REDD+ â Saudi Arabia</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,4 10,5 20,6 30,4 40,8 50,9 60,11 70,10 80,12" fill="none" stroke="#ff4757" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price dn">$12.50</div>
+        <div class="market-chg dn">â¼ -0.5%</div>
+      </div>
+    </div>
+
+    <div class="market-item">
+      <div>
+        <div class="market-sym">MENA-BLUE</div>
+        <div class="market-name">Blue Carbon â Mangrove</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,12 10,10 20,8 30,9 40,7 50,5 60,6 70,4 80,3" fill="none" stroke="#00b4d8" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price" style="color:var(--accent-blue)">$41.20</div>
+        <div class="market-chg up">â² +1.9%</div>
+      </div>
+    </div>
+
+    <div class="market-item">
+      <div>
+        <div class="market-sym">CER-JO</div>
+        <div class="market-name">CER â Jordan Renewables</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,6 10,7 20,8 30,6 40,10 50,11 60,12 70,11 80,13" fill="none" stroke="#ff4757" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price dn">$9.40</div>
+        <div class="market-chg dn">â¼ -1.3%</div>
+      </div>
+    </div>
+
+    <div class="market-item">
+      <div>
+        <div class="market-sym">SOIL-SA</div>
+        <div class="market-name">Soil Carbon â Saudi</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,16 10,13 20,11 30,10 40,8 50,6 60,5 70,3 80,2" fill="none" stroke="#c9a227" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price" style="color:var(--accent-gold)">$28.90</div>
+        <div class="market-chg up">â² +4.1%</div>
+      </div>
+    </div>
+
+    <div class="market-item">
+      <div>
+        <div class="market-sym">ACR-EG</div>
+        <div class="market-name">ACR â Egypt Reforestation</div>
+        <div class="spark"><svg viewBox="0 0 80 18"><polyline points="0,10 10,9 20,7 30,8 40,6 50,7 60,5 70,5 80,4" fill="none" stroke="#00e5a0" stroke-width="1.5" opacity="0.8"/></svg></div>
+      </div>
+      <div>
+        <div class="market-price up">$15.70</div>
+        <div class="market-chg up">â² +0.6%</div>
+      </div>
+    </div>
+
+    <div class="section-divider">Indices</div>
+
+    <div class="market-item">
+      <div><div class="market-sym">CMXI</div><div class="market-name">Sifr Collection Index</div></div>
+      <div><div class="market-price up">2,847.3</div><div class="market-chg up">â² +1.8%</div></div>
+    </div>
+    <div class="market-item">
+      <div><div class="market-sym">SOIL-IDX</div><div class="market-name">MENA Soil Carbon Index</div></div>
+      <div><div class="market-price" style="color:var(--accent-gold)">1,204.6</div><div class="market-chg up">â² +2.9%</div></div>
+    </div>
+    <div class="market-item">
+      <div><div class="market-sym">GCC-GREEN</div><div class="market-name">GCC Green Economy Index</div></div>
+      <div><div class="market-price up">891.2</div><div class="market-chg up">â² +0.4%</div></div>
+    </div>
+
+    <div class="section-divider">Compliance</div>
+    <div class="market-item">
+      <div><div class="market-sym">EUA</div><div class="market-name">EU Allowance (Reference)</div></div>
+      <div><div class="market-price up">â¬65.40</div><div class="market-chg up">â² +1.2%</div></div>
+    </div>
+    <div class="market-item">
+      <div><div class="market-sym">KSA-ETS</div><div class="market-name">Saudi ETS Allowance</div></div>
+      <div><div class="market-price up">$22.10</div><div class="market-chg up">â² +0.9%</div></div>
+    </div>
+
+  </div>
+
+  <!-- CENTER: Map + Bottom Panel -->
+  <div class="center">
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-cell">
+        <div class="stat-label">Total Credits Traded (YTD)</div>
+        <div class="stat-value up">142.8M</div>
+        <div class="stat-sub up">â² +34% vs 2024</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Active Projects</div>
+        <div class="stat-value" style="color:var(--accent-blue)">284</div>
+        <div class="stat-sub">Across 14 MENA countries</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Soil Carbon Sequestered</div>
+        <div class="stat-value" style="color:var(--accent-gold)">8.4M</div>
+        <div class="stat-sub">tCOâe YTD</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Market Value</div>
+        <div class="stat-value up">$3.2B</div>
+        <div class="stat-sub">Regional carbon market cap</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Avg Carbon Price</div>
+        <div class="stat-value">$21.40</div>
+        <div class="stat-sub neutral">MENA blended avg / tCOâe</div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="map-container" id="mapContainer">
+      <div class="scanline"></div>
+
+      <!-- SVG Map of Middle East -->
+      <svg class="map-svg" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" id="mainMap">
+        <defs>
+          <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#0d2a1a;stop-opacity:0.6"/>
+            <stop offset="100%" style="stop-color:#05090c;stop-opacity:0"/>
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+
+          <!-- Grid pattern -->
+          <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(0,229,160,0.04)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+
+        <!-- Background -->
+        <rect width="900" height="480" fill="#05090c"/>
+        <rect width="900" height="480" fill="url(#grid)"/>
+        <ellipse cx="450" cy="240" rx="320" ry="200" fill="url(#mapGlow)"/>
+
+        <!-- Water bodies (light blue tint) -->
+        <!-- Persian Gulf -->
+        <ellipse cx="580" cy="225" rx="55" ry="22" fill="rgba(0,100,180,0.12)" stroke="rgba(0,180,216,0.2)" stroke-width="0.5"/>
+        <!-- Red Sea -->
+        <rect x="295" y="180" width="35" height="120" rx="15" fill="rgba(0,100,180,0.1)" stroke="rgba(0,180,216,0.15)" stroke-width="0.5" transform="rotate(-5,310,240)"/>
+        <!-- Gulf of Aden -->
+        <ellipse cx="430" cy="330" rx="60" ry="15" fill="rgba(0,100,180,0.08)" stroke="rgba(0,180,216,0.1)" stroke-width="0.5"/>
+        <!-- Mediterranean Sea -->
+        <ellipse cx="230" cy="110" rx="100" ry="30" fill="rgba(0,100,180,0.08)" stroke="rgba(0,180,216,0.1)" stroke-width="0.5"/>
+
+        <!-- Country shapes (simplified polygons) -->
+        <!-- Egypt -->
+        <polygon points="210,130 290,130 295,200 285,240 260,250 220,250 200,200 200,155" fill="rgba(0,229,160,0.06)" stroke="rgba(0,229,160,0.3)" stroke-width="0.8" class="country-shape" data-country="egypt"/>
+        <!-- Libya (partial) -->
+        <polygon points="140,120 205,120 205,200 185,240 140,245 120,200 125,160" fill="rgba(0,229,160,0.04)" stroke="rgba(0,229,160,0.2)" stroke-width="0.8"/>
+        <!-- Sudan -->
+        <polygon points="220,255 290,255 310,290 300,340 260,360 220,345 195,310 200,270" fill="rgba(0,229,160,0.05)" stroke="rgba(0,229,160,0.2)" stroke-width="0.8"/>
+        <!-- Saudi Arabia (large) -->
+        <polygon points="340,175 420,160 500,165 550,180 560,215 545,265 500,310 450,325 390,320 355,295 330,260 325,215" fill="rgba(0,229,160,0.07)" stroke="rgba(0,229,160,0.35)" stroke-width="0.9" class="country-shape" data-country="saudi"/>
+        <!-- UAE -->
+        <polygon points="578,230 610,220 640,228 645,248 625,258 595,260 572,252" fill="rgba(0,229,160,0.1)" stroke="rgba(0,229,160,0.45)" stroke-width="0.9" class="country-shape" data-country="uae"/>
+        <!-- Oman -->
+        <polygon points="598,225 650,210 680,230 690,270 675,320 645,345 610,330 590,295 580,260 590,238" fill="rgba(0,229,160,0.07)" stroke="rgba(0,229,160,0.3)" stroke-width="0.8" class="country-shape" data-country="oman"/>
+        <!-- Yemen -->
+        <polygon points="380,300 440,300 500,305 520,330 490,360 430,365 375,350 360,325" fill="rgba(0,229,160,0.05)" stroke="rgba(0,229,160,0.2)" stroke-width="0.8"/>
+        <!-- Jordan -->
+        <polygon points="292,165 330,162 340,185 332,218 305,225 285,210 280,188" fill="rgba(0,229,160,0.08)" stroke="rgba(0,229,160,0.4)" stroke-width="0.8" class="country-shape" data-country="jordan"/>
+        <!-- Israel/Palestine -->
+        <polygon points="278,168 292,165 285,185 278,195 270,185 272,172" fill="rgba(0,229,160,0.06)" stroke="rgba(0,229,160,0.25)" stroke-width="0.7"/>
+        <!-- Iraq -->
+        <polygon points="390,130 450,125 480,140 490,165 470,200 430,215 395,205 370,185 368,155" fill="rgba(0,229,160,0.07)" stroke="rgba(0,229,160,0.32)" stroke-width="0.8" class="country-shape" data-country="iraq"/>
+        <!-- Kuwait -->
+        <polygon points="495,168 520,165 530,178 525,192 505,195 488,183" fill="rgba(0,229,160,0.1)" stroke="rgba(0,229,160,0.4)" stroke-width="0.8"/>
+        <!-- Qatar -->
+        <polygon points="550,215 563,210 570,220 568,234 555,236 546,226" fill="rgba(0,229,160,0.12)" stroke="rgba(0,229,160,0.5)" stroke-width="0.9"/>
+        <!-- Bahrain -->
+        <circle cx="545" cy="210" r="5" fill="rgba(0,229,160,0.15)" stroke="rgba(0,229,160,0.5)" stroke-width="0.8"/>
+        <!-- Iran (partial) -->
+        <polygon points="490,100 580,90 640,110 670,140 660,180 620,195 580,195 545,175 500,165 480,140 470,115" fill="rgba(0,180,216,0.07)" stroke="rgba(0,180,216,0.25)" stroke-width="0.8"/>
+        <!-- Turkey (partial) -->
+        <polygon points="230,80 330,70 390,80 400,105 380,120 330,125 270,120 220,110 215,95" fill="rgba(0,180,216,0.06)" stroke="rgba(0,180,216,0.2)" stroke-width="0.8"/>
+        <!-- Syria/Lebanon -->
+        <polygon points="310,128 360,122 370,145 355,162 320,165 298,155 295,140" fill="rgba(0,229,160,0.07)" stroke="rgba(0,229,160,0.3)" stroke-width="0.8"/>
+
+        <!-- Water labels -->
+        <text x="550" y="222" fill="rgba(0,180,216,0.5)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">Persian Gulf</text>
+        <text x="307" y="215" fill="rgba(0,180,216,0.4)" font-size="7" font-family="IBM Plex Mono" text-anchor="middle" transform="rotate(-70,307,215)">Red Sea</text>
+
+        <!-- Country name labels -->
+        <text x="248" y="195" fill="rgba(0,229,160,0.6)" font-size="9" font-family="IBM Plex Mono" font-weight="600" text-anchor="middle">EGYPT</text>
+        <text x="435" y="250" fill="rgba(0,229,160,0.6)" font-size="9" font-family="IBM Plex Mono" font-weight="600" text-anchor="middle">SAUDI ARABIA</text>
+        <text x="613" y="245" fill="rgba(0,229,160,0.6)" font-size="8" font-family="IBM Plex Mono" font-weight="600" text-anchor="middle">UAE</text>
+        <text x="430" y="165" fill="rgba(0,229,160,0.55)" font-size="8" font-family="IBM Plex Mono" font-weight="600" text-anchor="middle">IRAQ</text>
+        <text x="308" y="195" fill="rgba(0,229,160,0.55)" font-size="7" font-family="IBM Plex Mono" font-weight="600" text-anchor="middle">JORDAN</text>
+        <text x="575" y="120" fill="rgba(0,180,216,0.5)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">IRAN</text>
+        <text x="310" y="98" fill="rgba(0,180,216,0.45)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">TURKEY</text>
+        <text x="640" y="290" fill="rgba(0,229,160,0.5)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">OMAN</text>
+        <text x="556" y="216" fill="rgba(0,229,160,0.7)" font-size="5.5" font-family="IBM Plex Mono" font-weight="600" text-anchor="middle">QAT</text>
+
+        <!-- PROJECT PINS -->
+        <!-- UAE Soil Carbon Project -->
+        <g class="project-pin" data-project="uae-soil" onclick="showTooltip(event, 'UAE Soil Sequestration', '$24.80/tCOâe', '42,000 ha', 'Active', 'Soil Carbon')">
+          <circle class="pin-ring" cx="615" cy="240" r="8" fill="none" stroke="rgba(201,162,39,0.5)" stroke-width="1"/>
+          <circle cx="615" cy="240" r="6" fill="rgba(201,162,39,0.2)" stroke="#c9a227" stroke-width="1.5" filter="url(#glow)"/>
+          <circle cx="615" cy="240" r="2.5" fill="#c9a227"/>
+        </g>
+
+        <!-- Saudi Arabia Large Scale -->
+        <g class="project-pin" data-project="saudi-1" onclick="showTooltip(event, 'AlUla Desert Reforestation', '$18.20/tCOâe', '180,000 ha', 'Active', 'VCS')">
+          <circle class="pin-ring" cx="400" cy="210" r="9" fill="none" stroke="rgba(0,229,160,0.5)" stroke-width="1"/>
+          <circle cx="400" cy="210" r="7" fill="rgba(0,229,160,0.15)" stroke="#00e5a0" stroke-width="1.5" filter="url(#glow)"/>
+          <circle cx="400" cy="210" r="3" fill="#00e5a0"/>
+        </g>
+
+        <!-- Saudi Soil Carbon -->
+        <g class="project-pin" data-project="saudi-soil" onclick="showTooltip(event, 'Qassim Soil Carbon Project', '$28.90/tCOâe', '95,000 ha', 'Active', 'Soil Carbon')">
+          <circle class="pin-ring" cx="450" cy="230" r="7" fill="none" stroke="rgba(201,162,39,0.5)" stroke-width="1"/>
+          <circle cx="450" cy="230" r="5.5" fill="rgba(201,162,39,0.15)" stroke="#c9a227" stroke-width="1.5" filter="url(#glow)"/>
+          <circle cx="450" cy="230" r="2" fill="#c9a227"/>
+        </g>
+
+        <!-- Egypt Delta Blue Carbon -->
+        <g class="project-pin" data-project="egypt-blue" onclick="showTooltip(event, 'Nile Delta Blue Carbon', '$41.20/tCOâe', '12,000 ha', 'Active', 'Blue Carbon')">
+          <circle class="pin-ring" cx="255" cy="155" r="7" fill="none" stroke="rgba(0,180,216,0.5)" stroke-width="1"/>
+          <circle cx="255" cy="155" r="5.5" fill="rgba(0,180,216,0.15)" stroke="#00b4d8" stroke-width="1.5" filter="url(#glow)"/>
+          <circle cx="255" cy="155" r="2" fill="#00b4d8"/>
+        </g>
+
+        <!-- Jordan Watershed -->
+        <g class="project-pin" data-project="jordan-ws" onclick="showTooltip(event, 'Jordan Valley Watershed', '$12.50/tCOâe', '28,000 ha', 'Development', 'REDD+')">
+          <circle class="pin-ring" cx="310" cy="190" r="6" fill="none" stroke="rgba(245,166,35,0.5)" stroke-width="1"/>
+          <circle cx="310" cy="190" r="5" fill="rgba(245,166,35,0.1)" stroke="#f5a623" stroke-width="1.5" filter="url(#glow)"/>
+          <circle cx="310" cy="190" r="2" fill="#f5a623"/>
+        </g>
+
+        <!-- Oman Soil -->
+        <g class="project-pin" data-project="oman-soil" onclick="showTooltip(event, 'Dhofar Soil Restoration', '$26.40/tCOâe', '67,000 ha', 'Active', 'Soil Carbon')">
+          <circle class="pin-ring" cx="652" cy="275" r="7" fill="none" stroke="rgba(201,162,39,0.5)" stroke-width="1"/>
+          <circle cx="652" cy="275" r="5.5" fill="rgba(201,162,39,0.12)" stroke="#c9a227" stroke-width="1.5" filter="url(#glow)"/>
+          <circle cx="652" cy="275" r="2" fill="#c9a227"/>
+        </g>
+
+        <!-- Iraq REDD+ -->
+        <g class="project-pin" data-project="iraq-redd" onclick="showTooltip(event, 'Mesopotamia Wetlands', '$9.40/tCOâe', '55,000 ha', 'Pending', 'REDD+')">
+          <circle class="pin-ring" cx="435" cy="168" r="6" fill="none" stroke="rgba(255,71,87,0.4)" stroke-width="1"/>
+          <circle cx="435" cy="168" r="5" fill="rgba(255,71,87,0.08)" stroke="#ff4757" stroke-width="1.2" filter="url(#glow)"/>
+          <circle cx="435" cy="168" r="2" fill="#ff4757"/>
+        </g>
+
+        <!-- Saudi Large Soil Project -->
+        <g class="project-pin" data-project="saudi-large" onclick="showTooltip(event, 'NEOM Green Spine', '$31.10/tCOâe', '320,000 ha', 'Development', 'Gold Standard')">
+          <circle class="pin-ring" cx="365" cy="185" r="10" fill="none" stroke="rgba(0,229,160,0.4)" stroke-width="1"/>
+          <circle cx="365" cy="185" r="8" fill="rgba(0,229,160,0.1)" stroke="#00e5a0" stroke-width="1.5" filter="url(#glow)"/>
+          <circle cx="365" cy="185" r="3.5" fill="#00e5a0"/>
+        </g>
+
+        <!-- Soil Carbon concentration heatmap overlay zones -->
+        <ellipse cx="430" cy="220" rx="70" ry="40" fill="rgba(201,162,39,0.04)" stroke="rgba(201,162,39,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+        <ellipse cx="250" cy="200" rx="40" ry="55" fill="rgba(0,180,216,0.04)" stroke="rgba(0,180,216,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+        <ellipse cx="630" cy="255" rx="50" ry="35" fill="rgba(201,162,39,0.04)" stroke="rgba(201,162,39,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+
+        <!-- Scale bar -->
+        <line x1="700" y1="440" x2="820" y2="440" stroke="rgba(122,154,176,0.4)" stroke-width="1"/>
+        <line x1="700" y1="436" x2="700" y2="444" stroke="rgba(122,154,176,0.4)" stroke-width="1"/>
+        <line x1="820" y1="436" x2="820" y2="444" stroke="rgba(122,154,176,0.4)" stroke-width="1"/>
+        <text x="760" y="435" fill="rgba(122,154,176,0.5)" font-size="8" font-family="IBM Plex Mono" text-anchor="middle">500 km</text>
+
+        <!-- N indicator -->
+        <text x="862" y="440" fill="rgba(0,229,160,0.5)" font-size="18" font-family="IBM Plex Mono" font-weight="600">N</text>
+        <line x1="869" y1="418" x2="869" y2="442" stroke="rgba(0,229,160,0.4)" stroke-width="1"/>
+        <polygon points="869,408 865,420 873,420" fill="rgba(0,229,160,0.6)"/>
+      </svg>
+
+      <!-- Map Controls -->
+      <div class="map-controls">
+        <div class="map-btn" title="Zoom In">+</div>
+        <div class="map-btn" title="Zoom Out">â</div>
+        <div class="map-btn" title="Reset View">â¡</div>
+        <div class="map-btn" title="Satellite">â¬¡</div>
+      </div>
+
+      <!-- Layer Toggles -->
+      <div class="map-layer-toggle">
+        <div class="layer-btn active" onclick="toggleLayer(this,'projects')">Projects</div>
+        <div class="layer-btn active" onclick="toggleLayer(this,'soil')">Soil Carbon</div>
+        <div class="layer-btn" onclick="toggleLayer(this,'satellite')">Satellite</div>
+        <div class="layer-btn" onclick="toggleLayer(this,'ndvi')">NDVI</div>
+        <div class="layer-btn" onclick="toggleLayer(this,'emissions')">Emissions</div>
+      </div>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <div class="legend-title">Project Type</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#00e5a0"></div><div class="legend-label">VCS / Gold Standard</div></div>
+        <div class="legend-row"><div class="legend-dot" style="background:#c9a227"></div><div class="legend-label">Soil Carbon Sequestration</div></div>
+        <div class="legend-row"><div class="legend-dot" style="background:#00b4d8"></div><div class="legend-label">Blue Carbon</div></div>
+        <div class="legend-row"><div class="legend-dot" style="background:#f5a623"></div><div class="legend-label">REDD+ / Forest</div></div>
+        <div class="legend-row"><div class="legend-dot" style="background:#ff4757"></div><div class="legend-label">Pending / Development</div></div>
+        <div style="margin-top:8px">
+          <div class="legend-title">Soil Organic Carbon (tC/ha)</div>
+          <div class="heatmap-legend">
+            <div class="hm-label">Low</div>
+            <div class="hm-gradient"></div>
+            <div class="hm-label">High</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tooltip -->
+      <div class="map-tooltip" id="mapTooltip">
+        <div class="tt-name" id="ttName">Project Name</div>
+        <div class="tt-row"><span>Price</span><span class="tt-val" id="ttPrice">â</span></div>
+        <div class="tt-row"><span>Area</span><span class="tt-val" id="ttArea">â</span></div>
+        <div class="tt-row"><span>Status</span><span class="tt-val" id="ttStatus">â</span></div>
+        <div class="tt-row"><span>Standard</span><span class="tt-val" id="ttStd">â</span></div>
+      </div>
+    </div>
+
+    <!-- Bottom Tabs -->
+    <div class="bottom-panel">
+      <div class="tab-bar">
+        <div class="tab active" onclick="switchTab('trades',this)">Live Trades</div>
+        <div class="tab" onclick="switchTab('projects',this)">New Projects</div>
+        <div class="tab" onclick="switchTab('soil',this)">Soil Carbon</div>
+        <div class="tab" onclick="switchTab('listings',this)">Listings</div>
+        <div class="tab" onclick="switchTab('alerts',this)">Alerts</div>
+        <div style="flex:1"></div>
+        <div class="tab" style="color:var(--accent-green);border-right:none">+ New Order</div>
+      </div>
+
+      <div class="tab-content">
+        <!-- TRADES -->
+        <div class="tab-pane active" id="tab-trades">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Time</th><th>Type</th><th>Symbol</th><th>Standard</th>
+                <th>Volume (tCOâe)</th><th>Price</th><th>Value</th>
+                <th>Buyer</th><th>Seller</th><th>Country</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>14:32:18</td><td><span class="badge badge-buy">BUY</span></td><td class="sym">SOIL-AE</td><td><span class="badge badge-soil">Soil</span></td><td>12,500</td><td class="up">$24.80</td><td class="up">$310,000</td><td>ADNOC</td><td>GreenEarth LLC</td><td>UAE</td><td class="up">Settled</td></tr>
+              <tr><td>14:31:45</td><td><span class="badge badge-buy">BUY</span></td><td class="sym">VCS-MENA</td><td><span class="badge badge-project">VCS</span></td><td>50,000</td><td class="up">$18.20</td><td class="up">$910,000</td><td>Saudi Aramco</td><td>ClimateCo</td><td>KSA</td><td class="up">Settled</td></tr>
+              <tr><td>14:30:12</td><td><span class="badge badge-sell">SELL</span></td><td class="sym">REDD+SA</td><td><span class="badge badge-project">REDD+</span></td><td>25,000</td><td class="dn">$12.50</td><td>$312,500</td><td>Masdar</td><td>ForestFund</td><td>KSA</td><td class="up">Settled</td></tr>
+              <tr><td>14:29:58</td><td><span class="badge badge-buy">BUY</span></td><td class="sym">MENA-BLUE</td><td><span class="badge badge-project">Blue</span></td><td>8,200</td><td style="color:var(--accent-blue)">$41.20</td><td style="color:var(--accent-blue)">$337,840</td><td>DP World</td><td>OceanCarbon</td><td>UAE</td><td class="up">Settled</td></tr>
+              <tr><td>14:28:33</td><td><span class="badge badge-sell">SELL</span></td><td class="sym">GS-AGRI</td><td><span class="badge badge-project">Gold Std</span></td><td>18,000</td><td class="up">$31.10</td><td class="up">$559,800</td><td>Investor A</td><td>AgroCarbon</td><td>EG</td><td>Pending</td></tr>
+              <tr><td>14:27:09</td><td><span class="badge badge-buy">BUY</span></td><td class="sym">SOIL-SA</td><td><span class="badge badge-soil">Soil</span></td><td>35,000</td><td style="color:var(--accent-gold)">$28.90</td><td style="color:var(--accent-gold)">$1,011,500</td><td>PIF</td><td>SoilFirst</td><td>KSA</td><td class="up">Settled</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PROJECTS -->
+        <div class="tab-pane" id="tab-projects">
+          <table class="data-table">
+            <thead>
+              <tr><th>Project</th><th>Type</th><th>Country</th><th>Area (ha)</th><th>Est. tCOâe/yr</th><th>Standard</th><th>Price Ask</th><th>Status</th><th>Developer</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="sym">NEOM Green Spine</td><td><span class="badge badge-project">Reforestation</span></td><td>KSA</td><td>320,000</td><td>1,200,000</td><td>Gold Standard</td><td class="up">$31.10</td><td><span style="color:var(--accent-amber)">Development</span></td><td>NEOM</td></tr>
+              <tr><td class="sym">Qassim Soil Restoration</td><td><span class="badge badge-soil">Soil Carbon</span></td><td>KSA</td><td>95,000</td><td>420,000</td><td>VCS</td><td style="color:var(--accent-gold)">$28.90</td><td><span class="up">Active</span></td><td>SoilFirst ME</td></tr>
+              <tr><td class="sym">Dhofar Rangeland</td><td><span class="badge badge-soil">Soil Carbon</span></td><td>OMN</td><td>67,000</td><td>185,000</td><td>Gold Standard</td><td style="color:var(--accent-gold)">$26.40</td><td><span class="up">Active</span></td><td>Green Oman</td></tr>
+              <tr><td class="sym">Nile Delta Mangrove</td><td><span class="badge badge-project">Blue Carbon</span></td><td>EGY</td><td>12,000</td><td>96,000</td><td>VCS</td><td style="color:var(--accent-blue)">$41.20</td><td><span class="up">Active</span></td><td>EgyptBlue</td></tr>
+              <tr><td class="sym">AlUla Desert Ecosystem</td><td><span class="badge badge-project">VCS</span></td><td>KSA</td><td>180,000</td><td>680,000</td><td>VCS</td><td class="up">$18.20</td><td><span class="up">Active</span></td><td>RCU AlUla</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SOIL CARBON -->
+        <div class="tab-pane" id="tab-soil">
+          <table class="data-table">
+            <thead>
+              <tr><th>Region</th><th>Country</th><th>SOC (tC/ha)</th><th>Change YoY</th><th>Area Monitored</th><th>Method</th><th>Satellite</th><th>Last Updated</th><th>Verified By</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="sym">Qassim Basin</td><td>KSA</td><td style="color:var(--accent-gold)">42.8</td><td class="up">â² +3.2%</td><td>95,000 ha</td><td>NIR + LiDAR</td><td>Sentinel-2</td><td>2026-03-28</td><td>Verra</td></tr>
+              <tr><td class="sym">Dhofar Highlands</td><td>OMN</td><td style="color:var(--accent-gold)">38.1</td><td class="up">â² +2.8%</td><td>67,000 ha</td><td>NIR + Field</td><td>Landsat-9</td><td>2026-03-25</td><td>Gold Std</td></tr>
+              <tr><td class="sym">Nile Delta North</td><td>EGY</td><td style="color:var(--accent-gold)">71.4</td><td class="up">â² +1.1%</td><td>18,000 ha</td><td>UAV + Lab</td><td>Sentinel-1/2</td><td>2026-04-01</td><td>Verra</td></tr>
+              <tr><td class="sym">Al-Ahsa Oasis</td><td>KSA</td><td style="color:var(--accent-gold)">55.2</td><td class="up">â² +4.7%</td><td>33,000 ha</td><td>EO + Field</td><td>PlanetScope</td><td>2026-03-30</td><td>ACR</td></tr>
+              <tr><td class="sym">Wadi Rum</td><td>JOR</td><td style="color:var(--accent-gold)">18.4</td><td class="up">â² +0.9%</td><td>28,000 ha</td><td>Field only</td><td>Sentinel-2</td><td>2026-03-20</td><td>Pending</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- LISTINGS -->
+        <div class="tab-pane" id="tab-listings">
+          <table class="data-table">
+            <thead>
+              <tr><th>Listing ID</th><th>Type</th><th>Volume</th><th>Vintage</th><th>Price</th><th>Country</th><th>Standard</th><th>Expiry</th><th>Contact</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="sym">LST-2026-0842</td><td><span class="badge badge-sell">OFFER</span></td><td>250,000 tCOâe</td><td>2025</td><td style="color:var(--accent-gold)">$26.50</td><td>KSA</td><td>VCS</td><td>2026-06-30</td><td>saudi@carbonmena.com</td></tr>
+              <tr><td class="sym">LST-2026-0841</td><td><span class="badge badge-buy">BID</span></td><td>100,000 tCOâe</td><td>2024-25</td><td class="up">$30.00</td><td>UAE</td><td>Gold Std</td><td>2026-05-15</td><td>uae@carbonmena.com</td></tr>
+              <tr><td class="sym">LST-2026-0839</td><td><span class="badge badge-sell">OFFER</span></td><td>50,000 tCOâe</td><td>2026</td><td style="color:var(--accent-blue)">$40.00</td><td>EGY</td><td>VCS Blue</td><td>2026-07-01</td><td>egypt@carbonmena.com</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ALERTS -->
+        <div class="tab-pane" id="tab-alerts">
+          <table class="data-table">
+            <thead><tr><th>Time</th><th>Type</th><th>Message</th><th>Impact</th></tr></thead>
+            <tbody>
+              <tr><td>14:30</td><td><span class="badge badge-soil">SOIL</span></td><td>New soil carbon data available: Qassim Basin SOC reading +3.2% MoM</td><td class="up">Positive</td></tr>
+              <tr><td>14:15</td><td><span class="badge badge-project">POLICY</span></td><td>Saudi Arabia announces new ETS expansion â 35% more sectors covered from Q3 2026</td><td class="up">Positive</td></tr>
+              <tr><td>13:52</td><td><span class="badge badge-buy">MARKET</span></td><td>SOIL-SA breaks $28.90 resistance level â volume 320% above 30-day average</td><td class="up">Bullish</td></tr>
+              <tr><td>12:40</td><td><span class="badge badge-sell">RISK</span></td><td>CER-JO project pending re-verification â trading temporarily suspended</td><td class="dn">Negative</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="sidebar-right">
+    <!-- Soil Carbon Deep Dive -->
+    <div class="soil-header">
+      <div class="soil-title">SOIL CARBON</div>
+      <div class="soil-sub">MENA DEEP INTELLIGENCE</div>
+    </div>
+
+    <div class="soil-metric">
+      <div class="soil-m-label">Total SOC Monitored</div>
+      <div class="soil-m-value">8.4M</div>
+      <div class="soil-m-unit">tCOâe Â· YTD Â· Across 14 Countries</div>
+    </div>
+
+    <div class="progress-group">
+      <div class="chart-title">Sequestration by Country</div>
+      <div class="progress-item">
+        <div class="prog-header"><span class="prog-name">ð¸ð¦ Saudi Arabia</span><span class="prog-val" style="color:var(--accent-gold)">3.2M tCOâe</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:82%;background:var(--accent-gold)"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="prog-header"><span class="prog-name">ð¦ðª UAE</span><span class="prog-val" style="color:var(--accent-gold)">1.8M tCOâe</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:46%;background:var(--accent-gold)"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="prog-header"><span class="prog-name">ð´ð² Oman</span><span class="prog-val" style="color:var(--accent-gold)">1.1M tCOâe</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:28%;background:var(--accent-gold)"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="prog-header"><span class="prog-name">ðªð¬ Egypt</span><span class="prog-val" style="color:var(--accent-gold)">0.9M tCOâe</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:23%;background:var(--accent-gold)"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="prog-header"><span class="prog-name">ð¯ð´ Jordan</span><span class="prog-val" style="color:var(--accent-gold)">0.4M tCOâe</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:10%;background:var(--accent-gold)"></div></div>
+      </div>
+    </div>
+
+    <!-- Geospatial Data Panel -->
+    <div class="geo-panel">
+      <div class="chart-title">Geospatial Layers</div>
+      <div class="geo-grid">
+        <div class="geo-cell">
+          <div class="geo-cell-label">Avg SOC</div>
+          <div class="geo-cell-val" style="color:var(--accent-gold)">38.4</div>
+          <div class="geo-cell-unit">tC/ha Â· MENA avg</div>
+        </div>
+        <div class="geo-cell">
+          <div class="geo-cell-label">NDVI Score</div>
+          <div class="geo-cell-val" style="color:var(--accent-green)">0.42</div>
+          <div class="geo-cell-unit">Vegetation index</div>
+        </div>
+        <div class="geo-cell">
+          <div class="geo-cell-label">Sentinel-2</div>
+          <div class="geo-cell-val" style="color:var(--accent-blue)">10m</div>
+          <div class="geo-cell-unit">Resolution active</div>
+        </div>
+        <div class="geo-cell">
+          <div class="geo-cell-label">Coverage</div>
+          <div class="geo-cell-val up">94%</div>
+          <div class="geo-cell-unit">MENA landmass</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trend Chart -->
+    <div class="mini-chart">
+      <div class="chart-title">MENA Soil Carbon â Monthly (MtCOâe)</div>
+      <div class="chart-bars">
+        <div class="bar-wrap"><div class="bar" style="height:30%;background:var(--accent-gold);opacity:0.5"></div><div class="bar-label">Jun</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:38%;background:var(--accent-gold);opacity:0.55"></div><div class="bar-label">Jul</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:42%;background:var(--accent-gold);opacity:0.6"></div><div class="bar-label">Aug</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:48%;background:var(--accent-gold);opacity:0.65"></div><div class="bar-label">Sep</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:55%;background:var(--accent-gold);opacity:0.7"></div><div class="bar-label">Oct</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:60%;background:var(--accent-gold);opacity:0.75"></div><div class="bar-label">Nov</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:65%;background:var(--accent-gold);opacity:0.8"></div><div class="bar-label">Dec</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:70%;background:var(--accent-gold);opacity:0.85"></div><div class="bar-label">Jan</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:74%;background:var(--accent-gold);opacity:0.9"></div><div class="bar-label">Feb</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:79%;background:var(--accent-gold);opacity:0.95"></div><div class="bar-label">Mar</div></div>
+        <div class="bar-wrap"><div class="bar" style="height:85%;background:var(--accent-gold)"></div><div class="bar-label" style="color:var(--accent-gold)">Apr</div></div>
+      </div>
+    </div>
+
+    <!-- News Feed -->
+    <div class="section-divider">Regional Intelligence</div>
+
+    <div class="news-item">
+      <div class="news-time">14:28 Â· 06 APR 2026</div>
+      <div class="news-headline"><strong>Saudi Arabia</strong> launches 100M hectare soil restoration initiative under Vision 2030 carbon neutrality goals</div>
+      <span class="news-tag tag-soil">Soil Carbon</span>
+    </div>
+
+    <div class="news-item">
+      <div class="news-time">13:45 Â· 06 APR 2026</div>
+      <div class="news-headline"><strong>UAE ETS</strong> mandates Scope 3 reporting for all listed companies from Q3 2026 â demand for offsets expected to surge</div>
+      <span class="news-tag tag-policy">Policy</span>
+    </div>
+
+    <div class="news-item">
+      <div class="news-time">12:30 Â· 06 APR 2026</div>
+      <div class="news-headline"><strong>SOIL-SA</strong> hits all-time high of $28.90 â Qassim project delivers third consecutive quarter of above-forecast sequestration</div>
+      <span class="news-tag tag-market">Market</span>
+    </div>
+
+    <div class="news-item">
+      <div class="news-time">11:15 Â· 06 APR 2026</div>
+      <div class="news-headline"><strong>New PIF-backed project:</strong> $2.4B mangrove restoration across Red Sea coastline â 8.2M tCOâe pipeline</div>
+      <span class="news-tag tag-project">Project</span>
+    </div>
+
+    <div class="news-item">
+      <div class="news-time">10:02 Â· 06 APR 2026</div>
+      <div class="news-headline"><strong>Jordan</strong> joins GCC voluntary carbon market framework â first Wadi-based soil credits expected H2 2026</div>
+      <span class="news-tag tag-soil">Soil Carbon</span>
+    </div>
+
+    <div class="news-item">
+      <div class="news-time">09:20 Â· 06 APR 2026</div>
+      <div class="news-headline"><strong>Oman</strong> â Dhofar project achieves Gold Standard verification for 185,000 tCOâe, first MENA rangeland credit</div>
+      <span class="news-tag tag-project">Project</span>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="btn-row">
+      <button class="action-btn">+ Post Listing</button>
+      <button class="action-btn secondary">Submit Project</button>
+    </div>
+    <div class="btn-row">
+      <button class="action-btn secondary" style="flex:1">Download Report</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Tooltip overlay -->
+<div class="map-tooltip" id="mapTooltip2" style="position:fixed;pointer-events:none;z-index:200;opacity:0;transition:opacity 0.15s;">
+  <div class="tt-name" id="ttName2">â</div>
+  <div class="tt-row"><span>Price</span><span class="tt-val" id="ttPrice2">â</span></div>
+  <div class="tt-row"><span>Area</span><span class="tt-val" id="ttArea2">â</span></div>
+  <div class="tt-row"><span>Status</span><span class="tt-val" id="ttStatus2">â</span></div>
+  <div class="tt-row"><span>Standard</span><span class="tt-val" id="ttStd2">â</span></div>
+</div>
+
+<script>
+  // Clock
+  function updateClock() {
+    const now = new Date();
+    const gst = new Date(now.getTime() + (4 * 60 * 60 * 1000));
+    const h = String(gst.getUTCHours()).padStart(2,'0');
+    const m = String(gst.getUTCMinutes()).padStart(2,'0');
+    const s = String(gst.getUTCSeconds()).padStart(2,'0');
+    document.getElementById('clock').textContent = `${h}:${m}:${s} GST`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Tab switching
+  function switchTab(id, el) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-'+id).classList.add('active');
+    el.classList.add('active');
+  }
+
+  // Layer toggle
+  function toggleLayer(el, layer) {
+    el.classList.toggle('active');
+  }
+
+  // Map tooltip
+  function showTooltip(e, name, price, area, status, std) {
+    const tt = document.getElementById('mapTooltip2');
+    document.getElementById('ttName2').textContent = name;
+    document.getElementById('ttPrice2').textContent = price;
+    document.getElementById('ttArea2').textContent = area;
+    document.getElentById('ttStatus2').textContent = status;
+    document.getElementById('ttStd2').textContent = std;
+    tt.style.left = (e.clientX + 12) + 'px';
+    tt.style.top = (e.clientY - 60) + 'px';
+    tt.style.opacity = '1';
+    clearTimeout(window._ttTimeout);
+    window._ttTimeout = setTimeout(() => { tt.style.opacity = '0'; }, 3000);
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    const tt = document.getElementById('mapTooltip2');
+    if (tt.style.opacity === '1') {
+      tt.style.left = (e.clientX + 12) + 'px';
+      tt.style.top = (e.clientY - 60) + 'px';
+    }
+  });
+
+  // Nav switching
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.addEventListener('click', function() {
+      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Simulate live price flicker
+  const prices = [
+    {el: null, base: 18.20, sym: 'VCS-MENA'},
+    {el: null, base: 24.80, sym: 'SOIL-AE'},
+  ];
+
+  // Animate progress bars on load
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.prog-fill').forEach(bar => {
+      const w = bar.style.width;
+      bar.style.width = '0';
+      setTimeout(() => { bar.style.width = w; }, 300);
+    });
+  });
+
+  // Subtle ticker price update
+  setInterval(() => {
+    document.querySelectorAll('.market-item').forEach(item => {
+      if (Math.random() > 0.8) {
+        item.style.background = 'rgba(0,229,160,0.04)';
+        setTimeout(() => { item.style.background = ''; }, 400);
+      }
+    });
+  }, 2000);
+</script>
+
+</body>
+</html>
