@@ -1,9 +1,9 @@
 // Sifr Collection newsletter signup.
-// Adds an email to a Resend audience. Runs as a Vercel serverless function.
-// Requires two environment variables set in Vercel (never in the site):
+// Adds an email to Resend as a contact. Runs as a Vercel serverless function.
+// Requires one environment variable set in Vercel (never in the site):
 //   RESEND_API_KEY        your Resend API key
-//   RESEND_AUDIENCE_ID    the id of the Sifr audience in Resend
-// Optional: SUBSCRIBE_NOTIFY  an email to copy on each new signup.
+// Optional: SUBSCRIBE_NOTIFY  an email to alert on each new signup
+//           (sends from a verified Resend domain, noreply@astongroupuae.com).
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,8 +12,7 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const audienceId = process.env.RESEND_AUDIENCE_ID;
-  if (!apiKey || !audienceId) {
+  if (!apiKey) {
     return res.status(500).json({ ok: false, error: 'Newsletter is not configured yet.' });
   }
 
@@ -32,7 +31,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const r = await fetch('https://api.resend.com/audiences/' + audienceId + '/contacts', {
+    const r = await fetch('https://api.resend.com/contacts', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + apiKey,
@@ -41,6 +40,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({ email: email, unsubscribed: false })
     });
 
+    // 409 means the contact already exists, which we treat as success
     if (!r.ok && r.status !== 409) {
       const detail = await r.text();
       return res.status(502).json({ ok: false, error: 'Could not subscribe right now.', detail: detail.slice(0, 200) });
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          from: 'Sifr Collection <noreply@sifrcollection.com>',
+          from: 'Sifr Collection <noreply@astongroupuae.com>',
           to: process.env.SUBSCRIBE_NOTIFY,
           subject: 'New Sifr brief subscriber',
           text: email + ' subscribed to the Sifr Weekly Brief.'
