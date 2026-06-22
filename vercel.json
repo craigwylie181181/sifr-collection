@@ -1,7 +1,13 @@
 {
   "rewrites": [
     { "source": "/projects", "destination": "/projects.html" },
-    { "source": "/dashboard", "destination": "/dashboard.html" }
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/policy", "destination": "/policy.html" },
+    { "source": "/countries", "destination": "/countries.html" },
+    { "source": "/research", "destination": "/research.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/methodology", "destination": "/methodology.html" },
+    { "source": "/ar", "destination": "/index-ar.html" }
   ],
   "headers": [
     {

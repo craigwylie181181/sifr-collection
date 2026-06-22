@@ -3,263 +3,206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sifr Collection â MENA Carbon Intelligence</title>
+<title>Sifr Collection | MENA Carbon Market Intelligence</title>
+<meta name="description" content="Sifr Collection is the carbon market intelligence platform for the Middle East and North Africa. Reference prices, project tracking, soil and geospatial data for corporates and governments. Information only.">
+<link rel="canonical" href="https://sifrcollection.com/">
+<link rel="alternate" hreflang="en" href="https://sifrcollection.com/">
+<link rel="alternate" hreflang="ar" href="https://sifrcollection.com/ar">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sifr Collection">
+<meta property="og:title" content="Sifr Collection | MENA Carbon Market Intelligence">
+<meta property="og:description" content="Carbon market intelligence for the Middle East and North Africa. Reference prices, project tracking, soil and geospatial data. Information only, not a marketplace.">
+<meta property="og:url" content="https://sifrcollection.com/">
+<meta property="og:image" content="https://sifrcollection.com/og-image.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sifr Collection | MENA Carbon Market Intelligence">
+<meta name="twitter:description" content="Carbon market intelligence for the Middle East and North Africa. Information only.">
+<meta name="twitter:image" content="https://sifrcollection.com/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Sifr Collection",
+  "alternateName": "صفر كولكشن",
+  "url": "https://sifrcollection.com",
+  "logo": "https://sifrcollection.com/favicon.svg",
+  "description": "Carbon market intelligence platform for the Middle East and North Africa. Reference prices, project tracking, soil and geospatial data. Information only, not a trading venue.",
+  "foundingDate": "2026",
+  "areaServed": "Middle East and North Africa",
+  "knowsAbout": ["Carbon markets", "Voluntary carbon credits", "Soil organic carbon", "Geospatial monitoring", "MRV", "MENA climate policy"],
+  "email": "C.wylie@sifrcollection.com"
+}
+</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="news-data.js"></script>
+<script src="coverage-data.js"></script>
 <link rel="stylesheet" href="shared.css">
 <style>
-/* ââ HERO ââ */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 56px 80px;
-  overflow: hidden;
-}
-.hero-bg-globe {
-  position: absolute;
-  right: -8%;
-  top: 50%;
-  transform: translateY(-52%);
-  width: 72vw;
-  max-width: 960px;
-  height: 72vw;
-  max-height: 960px;
-  opacity: 0.16;
-  pointer-events: none;
-}
-.hero-bg-globe svg { width:100%; height:100%; animation: globe-spin 80s linear infinite; }
-@keyframes globe-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+/* ── HERO ── */
+.hero { position:relative; padding:170px 0 90px; overflow:hidden; }
+.hero-grid { display:grid; grid-template-columns:1.05fr 0.95fr; gap:64px; align-items:center; }
+.hero-eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:26px; }
+.eyebrow-line { width:32px; height:2px; background:var(--green); }
+.eyebrow-text { font-family:var(--mono); font-size:11px; letter-spacing:0.2em; color:var(--green); text-transform:uppercase; font-weight:500; }
+.hero-h1 { font-family:var(--serif); font-size:clamp(48px,6.2vw,92px); font-weight:500; line-height:0.98; letter-spacing:-0.015em; color:var(--text); }
+.hero-h1 em { font-style:italic; color:var(--clay); }
+.hero-h1 .sifr-ar { display:block; font-family:var(--serif); font-style:italic; font-weight:400; color:var(--green); opacity:0.55; font-size:0.34em; letter-spacing:0.04em; margin-top:14px; }
+.hero-body { margin-top:30px; font-size:19px; line-height:1.7; color:var(--sand-dim); max-width:480px; }
+.hero-actions { margin-top:38px; display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.hero-panel { background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 18px 50px -28px rgba(28,43,36,0.4); }
+.hp-top { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-bottom:1px solid var(--line); background:var(--alt); }
+.hp-dots { display:flex; gap:6px; } .hp-dot { width:9px; height:9px; border-radius:50%; }
+.hp-title { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; color:var(--green-deep); text-transform:uppercase; }
+.hp-time { font-family:var(--mono); font-size:10px; color:var(--mist); }
+.hp-map { display:block; width:100%; height:auto; background:#ede5d5; }
+.hp-prices { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); }
+.hp-price { padding:14px 16px; border-right:1px solid var(--line); }
+.hp-price:last-child { border-right:none; }
+.hp-sym { font-family:var(--mono); font-size:9px; letter-spacing:0.08em; color:var(--mist); text-transform:uppercase; }
+.hp-val { font-family:var(--serif); font-size:24px; font-weight:600; color:var(--text); margin-top:3px; }
+.hp-chg { font-family:var(--mono); font-size:10px; color:var(--green); }
 
-.hero-gradient {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 55% 75% at 0% 100%, rgba(61,122,94,0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 50% at 100% 0%, rgba(200,169,126,0.07) 0%, transparent 50%),
-    linear-gradient(170deg, transparent 35%, rgba(10,11,10,0.6) 65%, var(--ink) 100%);
-  pointer-events: none;
-}
-.hero-scan {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
-  pointer-events: none;
-}
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 820px;
-}
-.hero-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 32px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease forwards 0.3s;
-}
-.eyebrow-line { width: 36px; height: 1px; background: var(--verdigris-bright); }
-.eyebrow-text { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; color: var(--verdigris-bright); text-transform: uppercase; }
-.hero-h1 {
-  font-family: var(--serif);
-  font-size: clamp(56px, 8.5vw, 118px);
-  font-weight: 300;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 0.5s;
-}
-.hero-h1 em { font-style: italic; color: var(--clay); }
-.hero-h1 .sifr-ar {
-  display: block;
-  font-family: var(--serif);
-  font-style: italic;
-  color: rgba(200,169,126,0.4);
-  font-size: 0.7em;
-  letter-spacing: 0.05em;
-  margin-top: 6px;
-}
-.hero-body {
-  margin-top: 36px;
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.75;
-  color: var(--sand-dim);
-  max-width: 440px;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 0.7s;
-}
-.hero-actions {
-  margin-top: 52px;
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 0.9s;
-}
-.hero-scroll-hint {
-  position: absolute;
-  bottom: 48px;
-  right: 56px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 1.2s;
-  z-index: 2;
-}
-.scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, transparent, var(--verdigris)); animation: scroll-pulse 2s ease-in-out infinite; }
-.scroll-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.25em; color: var(--mist); text-transform: uppercase; transform: rotate(90deg) translateX(14px); white-space: nowrap; }
-@keyframes scroll-pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+/* ── STAT STRIP ── */
+.about { padding:110px 0; }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; margin-top:56px; }
+.about-text p { font-size:18px; line-height:1.8; color:var(--sand-dim); margin-bottom:20px; }
+.about-text p strong { color:var(--text); font-weight:600; }
+.stat-mosaic { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.stat-tile { background:var(--surface); padding:28px 26px; border:1px solid var(--line); border-radius:12px; transition:transform 0.25s, box-shadow 0.25s; }
+.stat-tile:hover { transform:translateY(-3px); box-shadow:0 14px 30px -20px rgba(28,43,36,0.35); }
+.st-num { font-family:var(--serif); font-size:44px; font-weight:600; color:var(--green-deep); line-height:1; }
+.st-unit { font-family:var(--mono); font-size:10px; color:var(--clay); letter-spacing:0.06em; margin-top:6px; text-transform:uppercase; }
+.st-label { font-size:13px; color:var(--mist); margin-top:10px; line-height:1.5; }
 
-/* Ticker */
-.hero-ticker { position:absolute; bottom:0; left:0; right:0; height:42px; background:rgba(13,26,20,0.85); border-top:1px solid rgba(61,122,94,0.15); display:flex; align-items:center; overflow:hidden; backdrop-filter:blur(8px); z-index:5; }
-.ticker-live-badge { padding:0 16px; font-family:var(--mono); font-size:8px; letter-spacing:0.2em; color:#000; background:var(--verdigris-bright); height:100%; display:flex; align-items:center; white-space:nowrap; flex-shrink:0; }
-.ticker-live-dot { width:5px; height:5px; background:#000; border-radius:50%; margin-right:6px; animation:blink 1.2s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-.ticker-inner { display:flex; animation:ticker-scroll 35s linear infinite; white-space:nowrap; }
-.t-item { padding:0 28px; font-family:var(--mono); font-size:10px; color:var(--mist); display:flex; gap:8px; align-items:center; border-right:1px solid rgba(61,122,94,0.1); }
-.t-sym { color:var(--sand); font-weight:500; }
-.t-up { color:var(--verdigris-bright); }
-.t-dn { color:var(--dn); }
-@keyframes ticker-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+/* ── SERVICES ── */
+.services { padding:110px 0; background:var(--alt); }
+.services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:56px; }
+.svc-card { background:var(--surface); padding:38px 32px; border:1px solid var(--line); border-radius:14px; transition:transform 0.25s, box-shadow 0.25s; }
+.svc-card:hover { transform:translateY(-3px); box-shadow:0 18px 38px -24px rgba(28,43,36,0.4); }
+.svc-num { font-family:var(--mono); font-size:10px; letter-spacing:0.14em; color:var(--clay); margin-bottom:20px; font-weight:500; }
+.svc-icon { width:48px; height:48px; border-radius:10px; background:rgba(46,110,80,0.08); display:flex; align-items:center; justify-content:center; margin-bottom:22px; }
+.svc-name { font-family:var(--serif); font-size:27px; font-weight:600; line-height:1.12; margin-bottom:14px; color:var(--text); }
+.svc-desc { font-size:15px; line-height:1.7; color:var(--sand-dim); }
+.svc-link { display:inline-flex; align-items:center; gap:8px; margin-top:24px; font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--green); text-decoration:none; font-weight:500; transition:gap 0.2s; }
+.svc-link:hover { gap:14px; color:var(--green-deep); }
 
-/* ââ MARQUEE ââ */
-.marquee-strip { background:var(--midnight); border-top:1px solid rgba(200,169,126,0.1); border-bottom:1px solid rgba(200,169,126,0.1); padding:14px 0; overflow:hidden; }
-.marquee-track { display:flex; animation:marquee 28s linear infinite; white-space:nowrap; width:max-content; }
-.marquee-item { padding:0 44px; font-family:var(--serif); font-style:italic; font-size:20px; font-weight:300; color:var(--clay); opacity:0.55; display:flex; align-items:center; gap:20px; }
-.m-sep { color:var(--verdigris); font-style:normal; font-size:12px; opacity:0.5; }
-@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+/* ── TERMINAL PREVIEW ── */
+.terminal-preview { padding:110px 0; }
+.terminal-wrap { margin-top:48px; border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 24px 60px -34px rgba(28,43,36,0.45); background:var(--surface); }
+.terminal-topbar { height:46px; background:var(--alt); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; padding:0 20px; }
+.term-dots { display:flex; gap:6px; } .term-dot { width:10px; height:10px; border-radius:50%; }
+.term-title { font-family:var(--mono); font-size:11px; letter-spacing:0.12em; color:var(--green-deep); text-transform:uppercase; }
+.term-time { font-family:var(--mono); font-size:11px; color:var(--mist); }
+.terminal-body { display:grid; grid-template-columns:230px 1fr 280px; }
+.term-col { border-right:1px solid var(--line); }
+.term-col:last-child { border-right:none; }
+.term-col-head { padding:14px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:10px; letter-spacing:0.14em; color:var(--mist); text-transform:uppercase; }
+.price-row { display:flex; justify-content:space-between; align-items:center; padding:10px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:13px; }
+.pr-sym { color:var(--text); font-weight:500; } .pr-price { color:var(--green-deep); font-weight:500; }
+.pr-price.gold { color:var(--clay); } .pr-price.blue { color:#2c7a8c; }
+.term-map img { width:100%; height:100%; object-fit:cover; display:block; min-height:360px; }
+.term-map { min-height:380px; }
+#leafMapHome { width:100%; height:100%; min-height:380px; background:#ede5d5 url('mena-map.svg') center/cover no-repeat; }
+.leaflet-popup-content { font-family:var(--sans); font-size:13px; }
+.news-entry { padding:13px 18px; border-bottom:1px solid var(--line); }
+.ne-time { font-family:var(--mono); font-size:9px; color:var(--clay); margin-bottom:5px; letter-spacing:0.04em; text-transform:uppercase; }
+.ne-text { font-size:13px; line-height:1.5; color:var(--sand-dim); }
+.terminal-cta { padding:18px 22px; border-top:1px solid var(--line); background:var(--alt); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.terminal-cta span { font-family:var(--mono); font-size:11px; color:var(--mist); }
+.terminal-cta a { font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--green); text-decoration:none; font-weight:500; }
 
-/* ââ ABOUT ââ */
-.about { padding:130px 0; }
-.about-grid { display:grid; grid-template-columns:5fr 6fr; gap:88px; align-items:start; margin-top:68px; }
-.about-text p { font-size:17px; font-weight:300; line-height:1.85; color:var(--sand-dim); margin-bottom:22px; }
-.about-text p strong { color:var(--sand); font-weight:500; }
-.stat-mosaic { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
-.stat-tile { background:var(--midnight); padding:32px 28px; border:1px solid rgba(61,122,94,0.08); transition:border-color 0.3s, transform 0.3s; }
-.stat-tile:hover { border-color:rgba(61,122,94,0.3); transform:translateY(-2px); }
-.st-num { font-family:var(--serif); font-size:48px; font-weight:300; color:var(--clay); line-height:1; }
-.st-unit { font-family:var(--mono); font-size:10px; color:var(--verdigris-bright); letter-spacing:0.1em; margin-top:5px; }
-.st-label { font-size:12px; color:var(--mist); margin-top:10px; line-height:1.4; }
-
-/* ââ SERVICES ââ */
-.services { padding:130px 0; background:var(--midnight); }
-.services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:68px; }
-.svc-card { background:var(--ink); padding:44px 36px; border:1px solid rgba(61,122,94,0.07); transition:all 0.3s; position:relative; overflow:hidden; }
-.svc-card::before { content:''; position:absolute; top:0; left:0; right:100%; height:2px; background:linear-gradient(90deg, var(--verdigris), var(--verdigris-bright)); transition:right 0.5s ease; }
-.svc-card:hover::before { right:0; }
-.svc-card:hover { border-color:rgba(61,122,94,0.22); }
-.svc-num { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; color:var(--verdigris); margin-bottom:18px; }
-.svc-icon { margin-bottom:22px; font-size:28px; line-height:1; }
-.svc-name { font-family:var(--serif); font-size:28px; font-weight:300; line-height:1.1; margin-bottom:16px; }
-.svc-desc { font-size:13px; font-weight:300; line-height:1.75; color:var(--mist); }
-.svc-link { display:inline-flex; align-items:center; gap:8px; margin-top:28px; font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--verdigris-bright); text-decoration:none; transition:gap 0.2s; }
-.svc-link:hover { gap:16px; }
-
-/* ââ TERMINAL PREVIEW ââ */
-.terminal-preview { padding:130px 0; }
-.terminal-wrap { margin-top:68px; border:1px solid rgba(200,169,126,0.12); overflow:hidden; position:relative; }
-.terminal-topbar { height:36px; background:var(--midnight); border-bottom:1px solid rgba(61,122,94,0.18); display:flex; align-items:center; justify-content:space-between; padding:0 18px; }
-.term-dots { display:flex; gap:6px; }
-.term-dot { width:10px; height:10px; border-radius:50%; }
-.term-title { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; color:var(--verdigris-bright); text-transform:uppercase; }
-.term-time { font-family:var(--mono); font-size:9px; color:var(--mist); }
-.terminal-body { display:grid; grid-template-columns:240px 1fr 260px; background:rgba(61,122,94,0.06); gap:1px; min-height:420px; }
-.term-col { background:var(--midnight); }
-.term-col-head { padding:12px 16px; border-bottom:1px solid rgba(61,122,94,0.12); font-family:var(--mono); font-size:8px; letter-spacing:0.2em; color:var(--mist); text-transform:uppercase; }
-.price-row { display:flex; justify-content:space-between; align-items:center; padding:7px 16px; border-bottom:1px solid rgba(61,122,94,0.06); font-family:var(--mono); font-size:10px; cursor:default; transition:background 0.15s; }
-.price-row:hover { background:rgba(61,122,94,0.05); }
-.pr-sym { color:var(--sand); font-weight:500; }
-.pr-price { color:var(--verdigris-bright); }
-.pr-price.gold { color:var(--clay); }
-.pr-price.blue { color:#5a9fc4; }
-.pr-chg-up { color:var(--verdigris-bright); font-size:9px; }
-.pr-chg-dn { color:var(--dn); font-size:9px; }
-/* Map col */
-.term-map { background:#040d08; position:relative; }
-.term-map svg { width:100%; height:100%; min-height:420px; display:block; }
-/* News col */
-.news-entry { padding:10px 16px; border-bottom:1px solid rgba(61,122,94,0.06); }
-.ne-time { font-family:var(--mono); font-size:8px; color:var(--mist); margin-bottom:4px; }
-.ne-text { font-size:11px; line-height:1.45; color:var(--sand-dim); }
-.ne-tag { display:inline-block; margin-top:5px; font-family:var(--mono); font-size:7px; letter-spacing:0.1em; padding:2px 6px; text-transform:uppercase; }
-.tag-soil { background:rgba(200,169,126,0.1); color:var(--clay); }
-.tag-mkt { background:rgba(82,168,126,0.1); color:var(--verdigris-bright); }
-.tag-pol { background:rgba(90,159,196,0.1); color:#5a9fc4; }
-.tag-prj { background:rgba(180,115,51,0.1); color:var(--copper); }
-.terminal-cta { padding:18px 20px; border-top:1px solid rgba(61,122,94,0.12); background:var(--midnight); display:flex; align-items:center; justify-content:space-between; }
-.terminal-cta a { font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--verdigris-bright); text-decoration:none; }
-.terminal-cta span { font-family:var(--mono); font-size:9px; color:var(--mist); }
-
-/* ââ SOIL SECTION ââ */
-.soil-section { padding:140px 0; background:var(--midnight); position:relative; overflow:hidden; }
-.soil-watermark { position:absolute; bottom:-20px; right:-20px; font-family:var(--serif); font-size:240px; font-weight:300; color:rgba(200,169,126,0.03); pointer-events:none; font-style:italic; letter-spacing:-0.03em; white-space:nowrap; }
-.soil-grid { display:grid; grid-template-columns:1fr 1fr; gap:88px; align-items:center; margin-top:68px; }
-.soil-diagram { position:relative; }
-.soil-depth-chart { display:flex; flex-direction:column; gap:0; border:1px solid rgba(200,169,126,0.1); overflow:hidden; }
-.depth-row { display:flex; align-items:center; padding:14px 20px; border-bottom:1px solid rgba(200,169,126,0.06); gap:16px; transition:background 0.2s; }
+/* ── SOIL ── */
+.soil-section { padding:110px 0; background:var(--alt); }
+.soil-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; margin-top:56px; }
+.soil-depth-chart { background:var(--surface); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.depth-row { display:flex; align-items:center; padding:15px 20px; border-bottom:1px solid var(--line); gap:16px; }
 .depth-row:last-child { border-bottom:none; }
-.depth-row:hover { background:rgba(200,169,126,0.03); }
-.dr-depth { font-family:var(--mono); font-size:9px; letter-spacing:0.05em; color:var(--mist); width:72px; flex-shrink:0; }
-.dr-bar-bg { flex:1; height:8px; background:rgba(61,122,94,0.08); overflow:hidden; }
-.dr-bar { height:100%; border-radius:0 4px 4px 0; transition:width 2.5s cubic-bezier(0.16,1,0.3,1); }
-.dr-val { font-family:var(--mono); font-size:10px; width:88px; text-align:right; flex-shrink:0; }
-.dr-name { font-size:10px; color:var(--mist); width:120px; flex-shrink:0; }
-.soil-chart-label { margin-top:10px; font-family:var(--mono); font-size:8px; letter-spacing:0.15em; color:var(--mist); text-align:center; text-transform:uppercase; }
-.soil-copy p { font-size:16px; font-weight:300; line-height:1.82; color:var(--sand-dim); margin-bottom:22px; }
-.soil-copy p strong { color:var(--sand); font-weight:500; }
-.soil-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:36px; background:rgba(61,122,94,0.08); }
-.ss-cell { background:var(--midnight); padding:22px; }
-.ss-val { font-family:var(--serif); font-size:34px; font-weight:300; color:var(--clay); line-height:1; }
-.ss-unit { font-family:var(--mono); font-size:8px; color:var(--verdigris-bright); letter-spacing:0.1em; margin-top:4px; }
-.ss-label { font-size:11px; color:var(--mist); margin-top:7px; }
+.dr-depth { font-family:var(--mono); font-size:11px; color:var(--mist); width:78px; flex-shrink:0; }
+.dr-bar-bg { flex:1; height:9px; background:var(--alt); border-radius:5px; overflow:hidden; }
+.dr-bar { height:100%; border-radius:5px; transition:width 2s cubic-bezier(0.16,1,0.3,1); }
+.dr-val { font-family:var(--mono); font-size:12px; width:90px; text-align:right; flex-shrink:0; color:var(--green-deep); }
+.dr-name { font-size:12px; color:var(--mist); width:110px; flex-shrink:0; }
+.soil-chart-label { margin-top:12px; font-family:var(--mono); font-size:10px; letter-spacing:0.06em; color:var(--mist); text-align:center; text-transform:uppercase; }
+.soil-copy p { font-size:18px; line-height:1.8; color:var(--sand-dim); margin-bottom:20px; }
+.soil-copy p strong { color:var(--text); font-weight:600; }
+.soil-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:32px; }
+.ss-cell { background:var(--surface); padding:22px; border:1px solid var(--line); border-radius:10px; }
+.ss-val { font-family:var(--serif); font-size:30px; font-weight:600; color:var(--green-deep); line-height:1; }
+.ss-unit { font-family:var(--mono); font-size:9px; color:var(--clay); letter-spacing:0.06em; margin-top:5px; text-transform:uppercase; }
+.ss-label { font-size:12px; color:var(--mist); margin-top:7px; }
 
-/* ââ COVERAGE ââ */
-.coverage { padding:130px 0; }
-.countries-wrap { margin-top:68px; display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
-.country-cell { background:var(--midnight); padding:24px 14px; text-align:center; border:1px solid rgba(61,122,94,0.07); transition:all 0.25s; cursor:none; }
-.country-cell:hover { background:var(--stone); border-color:rgba(61,122,94,0.28); transform:translateY(-3px); }
+/* ── COVERAGE ── */
+.coverage { padding:110px 0; }
+.countries-wrap { margin-top:48px; display:grid; grid-template-columns:repeat(7,1fr); gap:12px; }
+.country-cell { background:var(--surface); padding:22px 14px; text-align:center; border:1px solid var(--line); border-radius:10px; transition:transform 0.2s, box-shadow 0.2s; }
+.country-cell:hover { transform:translateY(-3px); box-shadow:0 12px 26px -18px rgba(28,43,36,0.4); }
 .cc-flag { font-size:26px; margin-bottom:8px; line-height:1; }
-.cc-name { font-family:var(--mono); font-size:8px; letter-spacing:0.1em; color:var(--mist); text-transform:uppercase; }
-.cc-num { font-family:var(--serif); font-size:19px; font-weight:300; color:var(--clay); margin-top:6px; }
-.cc-unit { font-family:var(--mono); font-size:7px; color:var(--verdigris); letter-spacing:0.06em; }
+.cc-name { font-family:var(--mono); font-size:9px; letter-spacing:0.06em; color:var(--mist); text-transform:uppercase; }
+.cc-num { font-family:var(--serif); font-size:20px; font-weight:600; color:var(--green-deep); margin-top:6px; }
+.cc-unit { font-family:var(--mono); font-size:8px; color:var(--clay); letter-spacing:0.05em; text-transform:uppercase; }
 
-/* ââ GEO FEATURES ââ */
-.geo-section { padding:130px 0; background:var(--midnight); }
-.geo-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:68px; }
-.geo-card { background:var(--ink); padding:44px; border:1px solid rgba(61,122,94,0.07); display:flex; gap:28px; transition:border-color 0.3s; }
-.geo-card:hover { border-color:rgba(61,122,94,0.22); }
-.gc-icon { font-size:32px; line-height:1; flex-shrink:0; width:48px; }
-.gc-title { font-family:var(--serif); font-size:24px; font-weight:300; margin-bottom:12px; }
-.gc-desc { font-size:13px; color:var(--mist); line-height:1.75; }
+/* ── GEO ── */
+.geo-section { padding:110px 0; background:var(--alt); }
+.geo-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:56px; }
+.geo-card { background:var(--surface); padding:38px; border:1px solid var(--line); border-radius:14px; display:flex; gap:24px; transition:transform 0.25s, box-shadow 0.25s; }
+.geo-card:hover { transform:translateY(-3px); box-shadow:0 16px 34px -22px rgba(28,43,36,0.4); }
+.gc-icon { width:46px; height:46px; border-radius:10px; background:rgba(46,110,80,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.gc-title { font-family:var(--serif); font-size:24px; font-weight:600; margin-bottom:10px; color:var(--text); }
+.gc-desc { font-size:15px; color:var(--sand-dim); line-height:1.7; }
 
-/* ââ CTA ââ */
-.cta { padding:170px 0; text-align:center; position:relative; overflow:hidden; }
-.cta-rings { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
-.cta-ring { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border-radius:50%; border:1px solid rgba(61,122,94,0.07); }
-.cta-inner { position:relative; z-index:1; }
-.cta-h2 { font-family:var(--serif); font-size:clamp(42px,6.5vw,90px); font-weight:300; line-height:1.02; margin-bottom:28px; }
-.cta-h2 em { font-style:italic; color:var(--clay); }
-.cta-sub { font-size:16px; font-weight:300; color:var(--mist); max-width:500px; margin:0 auto 52px; line-height:1.75; }
-.cta-btns { display:flex; gap:16px; justify-content:center; }
+/* ── CONTACT ── */
+.contact { padding:110px 0; }
+.contact-grid { display:grid; grid-template-columns:5fr 6fr; gap:64px; align-items:start; margin-top:48px; }
+.contact-intro { font-size:18px; line-height:1.8; color:var(--sand-dim); max-width:420px; }
+.contact-meta { margin-top:30px; display:flex; flex-direction:column; gap:12px; font-family:var(--mono); font-size:13px; }
+.contact-meta a { color:var(--green); text-decoration:none; } .contact-meta a:hover { color:var(--green-deep); }
+.contact-meta span { color:var(--mist); }
+.cform { display:grid; gap:14px; }
+.cform input, .cform textarea { background:var(--surface); border:1px solid var(--line-strong); color:var(--text); padding:14px 16px; font-family:var(--sans); font-size:15px; border-radius:8px; }
+.cform input:focus, .cform textarea:focus { outline:none; border-color:var(--green); }
+.cform-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+/* ── CTA band ── */
+.cta { padding:120px 0; text-align:center; background:var(--green-deep); color:#f6f2e9; }
+.cta .section-label { color:#cfe3d6; justify-content:center; } .cta .section-label::before { background:#cfe3d6; }
+.cta-h2 { font-family:var(--serif); font-size:clamp(38px,5.4vw,72px); font-weight:500; line-height:1.04; margin-bottom:22px; color:#f6f2e9; }
+.cta-h2 em { font-style:italic; color:#e3b98a; }
+.cta-sub { font-size:18px; color:#d6e2da; max-width:520px; margin:0 auto 40px; line-height:1.7; }
+.cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.cta .btn-primary { background:#f6f2e9; color:var(--green-deep); }
+.cta .btn-primary:hover { background:#fff; }
+.cta .btn-secondary { border-color:rgba(246,242,233,0.4); color:#f6f2e9; }
+.cta .btn-secondary:hover { border-color:#f6f2e9; background:rgba(246,242,233,0.1); }
+
+@media (max-width:980px) {
+  .hero-grid, .about-grid, .soil-grid, .geo-grid, .contact-grid { grid-template-columns:1fr; gap:44px; }
+  .services-grid { grid-template-columns:1fr; }
+  .terminal-body { grid-template-columns:1fr; }
+  .term-col { border-right:none; border-bottom:1px solid var(--line); }
+  .countries-wrap { grid-template-columns:repeat(4,1fr); }
+  .cform-row { grid-template-columns:1fr; }
+}
+@media (max-width:520px){ .countries-wrap{ grid-template-columns:repeat(2,1fr);} .stat-mosaic,.soil-stats{grid-template-columns:1fr 1fr;} }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 <div class="geo-pattern"></div>
 
 <nav id="mainNav">
   <a class="nav-logo" href="index.html">
     <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-      <polygon points="17,1 33,9 33,25 17,33 1,25 1,9" fill="none" stroke="#c8a97e" stroke-width="1"/>
-      <polygon points="17,6 28,12 28,22 17,28 6,22 6,12" fill="none" stroke="rgba(200,169,126,0.35)" stroke-width="0.6"/>
-      <text x="17" y="21" text-anchor="middle" font-family="Georgia" font-size="13" fill="#c8a97e" font-style="italic">Øµ</text>
+      <polygon points="17,1 33,9 33,25 17,33 1,25 1,9" fill="none" stroke="#2e6e50" stroke-width="1.1"/>
+      <polygon points="17,6 28,12 28,22 17,28 6,22 6,12" fill="none" stroke="rgba(46,110,80,0.4)" stroke-width="0.7"/>
+      <text x="17" y="21" text-anchor="middle" font-family="Georgia" font-size="13" fill="#2e6e50" font-style="italic">ص</text>
     </svg>
     <div>
       <div class="nav-logo-ar">Sifr Collection</div>
@@ -267,159 +210,74 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#soil">Soil Carbon</a></li>
-    <li><a href="#geospatial">Geospatial</a></li>
     <li><a href="dashboard.html">Terminal</a></li>
     <li><a href="projects.html">Projects</a></li>
-    <li><a href="#about">About</a></li>
+    <li><a href="policy.html">Policy</a></li>
+    <li><a href="countries.html">Countries</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="dashboard.html" class="nav-cta">Open Terminal â</a>
+  <div style="display:flex;align-items:center">
+    <a href="dashboard.html" class="nav-cta">Open Terminal</a>
+    <a href="index-ar.html" style="font-family:var(--mono);font-size:13px;color:var(--green-deep);text-decoration:none;border:1px solid var(--line-strong);border-radius:6px;padding:7px 12px;margin-left:10px" title="العربية">ع</a>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg-globe">
-    <svg viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="300" cy="300" r="290" stroke="rgba(200,169,126,0.35)" stroke-width="0.6"/>
-      <circle cx="300" cy="300" r="245" stroke="rgba(200,169,126,0.18)" stroke-width="0.5"/>
-      <circle cx="300" cy="300" r="200" stroke="rgba(61,122,94,0.2)" stroke-width="0.5"/>
-      <circle cx="300" cy="300" r="155" stroke="rgba(61,122,94,0.14)" stroke-width="0.5"/>
-      <circle cx="300" cy="300" r="110" stroke="rgba(61,122,94,0.1)" stroke-width="0.5"/>
-      <!-- Latitude rings -->
-      <ellipse cx="300" cy="300" rx="290" ry="96" stroke="rgba(200,169,126,0.1)" stroke-width="0.5"/>
-      <ellipse cx="300" cy="300" rx="290" ry="195" stroke="rgba(200,169,126,0.07)" stroke-width="0.5"/>
-      <!-- Longitude -->
-      <line x1="300" y1="10" x2="300" y2="590" stroke="rgba(200,169,126,0.1)" stroke-width="0.5"/>
-      <line x1="10" y1="300" x2="590" y2="300" stroke="rgba(200,169,126,0.1)" stroke-width="0.5"/>
-      <line x1="95" y1="95" x2="505" y2="505" stroke="rgba(200,169,126,0.06)" stroke-width="0.5"/>
-      <line x1="505" y1="95" x2="95" y2="505" stroke="rgba(200,169,126,0.06)" stroke-width="0.5"/>
-      <!-- MENA highlight -->
-      <path d="M240,190 Q300,170 370,195 Q420,215 415,270 Q400,315 355,330 Q300,340 255,315 Q210,285 215,240 Q220,210 240,190Z" fill="rgba(61,122,94,0.07)" stroke="rgba(82,168,126,0.4)" stroke-width="0.8"/>
-      <!-- Project nodes -->
-      <circle cx="305" cy="248" r="4" fill="#52a87e" opacity="0.9"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.5s" repeatCount="indefinite"/></circle>
-      <circle cx="360" cy="255" r="3" fill="#c8a97e" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite" begin="0.5s"/></circle>
-      <circle cx="280" cy="268" r="3" fill="#52a87e" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="2s" repeatCount="indefinite" begin="1s"/></circle>
-      <!-- Hex overlay -->
-      <g opacity="0.05" stroke="#f0ebe0" stroke-width="0.4" fill="none">
-        <polygon points="300,155 338,176 338,218 300,239 262,218 262,176"/>
-        <polygon points="300,239 338,260 338,302 300,323 262,302 262,260"/>
-        <polygon points="362,193 400,214 400,256 362,277 324,256 324,214"/>
-        <polygon points="238,193 276,214 276,256 238,277 200,256 200,214"/>
-      </g>
-    </svg>
-  </div>
-  <div class="hero-gradient"></div>
-  <div class="hero-scan"></div>
-
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      <div class="eyebrow-line"></div>
-      <div class="eyebrow-text">ØµÙØ± Â· Sifr Â· Zero â Est. 2026, Dubai</div>
-    </div>
-    <h1 class="hero-h1">
-      The MENA<br>
-      carbon <em>intelligence</em><br>
-      platform
-      <span class="sifr-ar">ØµÙØ± ÙÙÙÙØ´Ù</span>
-    </h1>
-    <p class="hero-body">
-      Trade credits. Restore land. Verify impact. Sifr Collection is the definitive marketplace and intelligence platform for carbon across the Middle East and North Africa.
-    </p>
-    <div class="hero-actions">
-      <a href="dashboard.html" class="btn-primary">Open Terminal</a>
-      <a href="projects.html" class="btn-secondary">Browse Projects</a>
-    </div>
-  </div>
-
-  <div class="hero-scroll-hint">
-    <div class="scroll-label">Scroll</div>
-    <div class="scroll-line"></div>
-  </div>
-
-  <div class="hero-ticker">
-    <div class="ticker-live-badge"><div class="ticker-live-dot"></div>LIVE</div>
-    <div style="overflow:hidden;flex:1">
-      <div class="ticker-inner">
-        <div class="t-item"><span class="t-sym">VCS-MENA</span> $18.20 <span class="t-up">â²+3.4%</span></div>
-        <div class="t-item"><span class="t-sym">SOIL-AE</span> $24.80 <span class="t-up">â²+0.8%</span></div>
-        <div class="t-item"><span class="t-sym">SOIL-SA</span> $28.90 <span class="t-up">â²+4.1%</span></div>
-        <div class="t-item"><span class="t-sym">MENA-BLUE</span> $41.20 <span class="t-up">â²+1.9%</span></div>
-        <div class="t-item"><span class="t-sym">GS-AGRI</span> $31.10 <span class="t-up">â²+2.1%</span></div>
-        <div class="t-item"><span class="t-sym">EUA</span> â¬65.40 <span class="t-up">â²+1.2%</span></div>
-        <div class="t-item"><span class="t-sym">KSA-ETS</span> $22.10 <span class="t-up">â²+0.9%</span></div>
-        <div class="t-item"><span class="t-sym">REDD+SA</span> $12.50 <span class="t-dn">â¼-0.5%</span></div>
-        <div class="t-item"><span class="t-sym">CMXI</span> 2,847 <span class="t-up">â²+1.8%</span></div>
-        <div class="t-item"><span class="t-sym">SOIL-IDX</span> 1,205 <span class="t-up">â²+2.9%</span></div>
-        <div class="t-item"><span class="t-sym">VCS-MENA</span> $18.20 <span class="t-up">â²+3.4%</span></div>
-        <div class="t-item"><span class="t-sym">SOIL-AE</span> $24.80 <span class="t-up">â²+0.8%</span></div>
-        <div class="t-item"><span class="t-sym">SOIL-SA</span> $28.90 <span class="t-up">â²+4.1%</span></div>
-        <div class="t-item"><span class="t-sym">MENA-BLUE</span> $41.20 <span class="t-up">â²+1.9%</span></div>
-        <div class="t-item"><span class="t-sym">GS-AGRI</span> $31.10 <span class="t-up">â²+2.1%</span></div>
-        <div class="t-item"><span class="t-sym">EUA</span> â¬65.40 <span class="t-up">â²+1.2%</span></div>
-        <div class="t-item"><span class="t-sym">KSA-ETS</span> $22.10 <span class="t-up">â²+0.9%</span></div>
-        <div class="t-item"><span class="t-sym">REDD+SA</span> $12.50 <span class="t-dn">â¼-0.5%</span></div>
-        <div class="t-item"><span class="t-sym">CMXI</span> 2,847 <span class="t-up">â²+1.8%</span></div>
-        <div class="t-item"><span class="t-sym">SOIL-IDX</span> 1,205 <span class="t-up">â²+2.9%</span></div>
+  <div class="section-inner">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <div class="eyebrow-line"></div>
+          <div class="eyebrow-text">صفر · Sifr · Zero · Est. 2026, Dubai</div>
+        </div>
+        <h1 class="hero-h1">
+          The MENA<br>carbon <em>intelligence</em><br>platform
+          <span class="sifr-ar">صفر كولكشن</span>
+        </h1>
+        <p class="hero-body">Reference prices, project tracking, and soil and geospatial data for carbon across the Middle East and North Africa. One screen for the region's fastest growing carbon market. Information only, not a trading venue.</p>
+        <div class="hero-actions">
+          <a href="dashboard.html" class="btn-primary">Open Terminal</a>
+          <a href="#contact" class="btn-secondary">Request Access</a>
+        </div>
+      </div>
+      <div class="hero-panel reveal">
+        <div class="hp-top">
+          <div class="hp-dots"><div class="hp-dot" style="background:#2e6e50"></div><div class="hp-dot" style="background:#a85f32"></div><div class="hp-dot" style="background:#c9a227"></div></div>
+          <div class="hp-title">MENA Carbon · Reference</div>
+          <div class="hp-time" id="heroClock">··:··</div>
+        </div>
+        <img class="hp-map" src="mena-map.svg" alt="Map of carbon projects tracked across the Arabian Peninsula, Egypt, Jordan and Iraq" width="1000" height="720" loading="lazy">
+        <div class="hp-prices">
+          <div class="hp-price"><div class="hp-sym">NBS removal</div><div class="hp-val">$24</div><div class="hp-chg">per tCO₂e</div></div>
+          <div class="hp-price"><div class="hp-sym">RVCMC</div><div class="hp-val">6.1M</div><div class="hp-chg">t auctioned</div></div>
+          <div class="hp-price"><div class="hp-sym">MEA VCM '23</div><div class="hp-val">$107M</div><div class="hp-chg">~27% CAGR</div></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-strip">
-  <div class="marquee-track">
-    <div class="marquee-item">Carbon Trading <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">Soil Sequestration <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">Geospatial Intelligence <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">Project Finance <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">MRV & Verification <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">MENA Markets <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">ØµÙØ± ÙÙÙÙØ´Ù <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">Carbon Trading <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">Soil Sequestration <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">Geospatial Intelligence <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">Project Finance <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">MRV & Verification <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">MENA Markets <span class="m-sep">â¦</span></div>
-    <div class="marquee-item">ØµÙØ± ÙÙÙÙØ´Ù <span class="m-sep">â¦</span></div>
-  </div>
-</div>
-
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="section-inner">
     <div class="section-label reveal">Foundation</div>
-    <h2 class="section-title reveal reveal-delay-1">Where zero begins â<br>built for the <em>region</em></h2>
+    <h2 class="section-title reveal reveal-delay-1">Where zero begins.<br>Built for the <em>region</em></h2>
     <div class="about-grid">
       <div class="about-text reveal reveal-delay-2">
-        <p><strong>Sifr</strong> â the Arabic root of the word zero â is the foundation of our mission. From zero, everything is possible. We are the MENA region's dedicated carbon intelligence platform, built to unlock the world's next great carbon economy.</p>
-        <p>We connect carbon credit buyers and sellers, project developers, landowners, governments, and institutional investors across 14 nations â providing the trading infrastructure, data intelligence, and MRV systems that turn intent into impact.</p>
-        <p>Our soil carbon practice is the most technically sophisticated in the region, deploying satellite remote sensing, field sensing networks, and machine learning to quantify, verify, and monetise soil organic carbon across arid landscapes at unprecedented scale.</p>
+        <p><strong>Sifr</strong> is the Arabic root of the word zero. From zero, everything is possible. Sifr Collection is the carbon market intelligence platform for the Middle East and North Africa, built so the people deploying capital here can finally see the market clearly.</p>
+        <p>The MENA voluntary carbon market is small today and growing fast. Buyers, project developers, governments, and investors are working from scattered data, foreign benchmarks, and PDFs. We bring reference prices, project tracking, policy intelligence, and soil and geospatial data into one place.</p>
+        <p>We do not broker credits and we do not run a trading venue. We are an information platform. That independence is the point: our job is to tell you what the market is doing, not to sell you a position in it.</p>
       </div>
       <div class="stat-mosaic reveal reveal-delay-3">
-        <div class="stat-tile">
-          <div class="st-num">142M</div>
-          <div class="st-unit">tCOâe Traded</div>
-          <div class="st-label">Year-to-date 2026 across all credits</div>
-        </div>
-        <div class="stat-tile">
-          <div class="st-num">284</div>
-          <div class="st-unit">Live Projects</div>
-          <div class="st-label">Across 14 MENA countries</div>
-        </div>
-        <div class="stat-tile">
-          <div class="st-num">$3.2B</div>
-          <div class="st-unit">Market Value</div>
-          <div class="st-label">Regional carbon market capitalisation</div>
-        </div>
-        <div class="stat-tile">
-          <div class="st-num">8.4M</div>
-          <div class="st-unit">tCOâe Soil</div>
-          <div class="st-label">Soil carbon sequestered to date</div>
-        </div>
+        <div class="stat-tile"><div class="st-num">$107.5M</div><div class="st-unit">MEA VCM 2023</div><div class="st-label">Regional voluntary market revenue, growing ~27% a year to 2030</div></div>
+        <div class="stat-tile"><div class="st-num">6.1M</div><div class="st-unit">tCO₂e</div><div class="st-label">Credits auctioned by Saudi Arabia's RVCMC across 2022 to 2024</div></div>
+        <div class="stat-tile"><div class="st-num">$24</div><div class="st-unit">per tCO₂e</div><div class="st-label">Nature-based removal benchmark, up from ~$14 in early 2025</div></div>
+        <div class="stat-tile"><div class="st-num">14</div><div class="st-unit">Nations tracked</div><div class="st-label">Projects, policy, and pricing across the MENA region</div></div>
       </div>
     </div>
+    <div class="source-note reveal" style="margin-top:20px">Sources: Grand View Research (MEA voluntary carbon credit market); Saudi PIF / RVCMC auction disclosures; 2025 nature-based removal price reporting.</div>
   </div>
 </section>
 
@@ -427,28 +285,28 @@
 <section class="services" id="services">
   <div class="section-inner">
     <div class="section-label reveal">What We Do</div>
-    <h2 class="section-title reveal reveal-delay-1">Three pillars of MENA<br>carbon <em>leadership</em></h2>
+    <h2 class="section-title reveal reveal-delay-1">Three layers of MENA<br>carbon <em>intelligence</em></h2>
     <div class="services-grid">
       <div class="svc-card reveal reveal-delay-1">
-        <div class="svc-num">01 â TRADING</div>
-        <div class="svc-icon">ð</div>
-        <div class="svc-name">Carbon Credit<br>Marketplace</div>
-        <p class="svc-desc">Real-time bilateral and multilateral trading of voluntary and compliance credits across all MENA markets. Live pricing, order books, and settlement for VCS, Gold Standard, REDD+, Blue Carbon, and sovereign ETS allowances.</p>
-        <a href="dashboard.html" class="svc-link">Open Terminal â</a>
+        <div class="svc-num">01 · MARKET DATA</div>
+        <div class="svc-icon"><svg width="26" height="26" viewBox="0 0 30 30" fill="none" stroke="#2e6e50" stroke-width="1.6"><path d="M3 27V3"/><path d="M3 27h24"/><rect x="7" y="16" width="4" height="8" fill="rgba(46,110,80,0.15)"/><rect x="14" y="10" width="4" height="14" fill="rgba(46,110,80,0.15)"/><rect x="21" y="5" width="4" height="19" fill="rgba(46,110,80,0.15)"/></svg></div>
+        <div class="svc-name">Reference Prices<br>&amp; Indices</div>
+        <p class="svc-desc">Indicative reference prices, regional indices, and auction outcomes for voluntary and compliance carbon across MENA. We track VCS, Gold Standard, blue carbon, and sovereign schemes so you are not guessing from foreign benchmarks. We report the market, we do not make it.</p>
+        <a href="dashboard.html" class="svc-link">Open Terminal &rarr;</a>
       </div>
       <div class="svc-card reveal reveal-delay-2">
-        <div class="svc-num">02 â INTELLIGENCE</div>
-        <div class="svc-icon">ð°</div>
-        <div class="svc-name">Geospatial &amp;<br>Soil Analytics</div>
-        <p class="svc-desc">Satellite-derived soil organic carbon mapping at 10m resolution. 25+ years of historical data, NDVI tracking, biomass quantification, and pixel-level uncertainty metrics. Full MRV infrastructure for Verra and Gold Standard methodology.</p>
-        <a href="#geospatial" class="svc-link">Explore Data â</a>
+        <div class="svc-num">02 · GEOSPATIAL</div>
+        <div class="svc-icon"><svg width="26" height="26" viewBox="0 0 30 30" fill="none" stroke="#2e6e50" stroke-width="1.6"><circle cx="15" cy="15" r="12"/><ellipse cx="15" cy="15" rx="5" ry="12"/><path d="M3 15h24"/><circle cx="15" cy="9" r="1.6" fill="#a85f32" stroke="none"/></svg></div>
+        <div class="svc-name">Soil &amp; Geospatial<br>Data</div>
+        <p class="svc-desc">Satellite-derived soil organic carbon and vegetation data for the region's arid landscapes, with NDVI and biomass tracking aligned to Verra and Gold Standard methodology. Built for MRV-grade reporting, not marketing slides.</p>
+        <a href="#geospatial" class="svc-link">Explore Data &rarr;</a>
       </div>
       <div class="svc-card reveal reveal-delay-3">
-        <div class="svc-num">03 â DEVELOPMENT</div>
-        <div class="svc-icon">ð±</div>
-        <div class="svc-name">Project Pipeline<br>&amp; Finance</div>
-        <p class="svc-desc">End-to-end project origination, structuring, and listing. From desert reforestation to mangrove restoration and soil regeneration â we bring MENA projects to global voluntary carbon markets with full infrastructure.</p>
-        <a href="projects.html" class="svc-link">Browse Projects â</a>
+        <div class="svc-num">03 · RESEARCH</div>
+        <div class="svc-icon"><svg width="26" height="26" viewBox="0 0 30 30" fill="none" stroke="#2e6e50" stroke-width="1.6"><rect x="5" y="3" width="20" height="24" rx="1"/><path d="M9 9h12M9 14h12M9 19h7"/></svg></div>
+        <div class="svc-name">Project Tracking<br>&amp; Research</div>
+        <p class="svc-desc">A live registry of announced and active carbon projects across the region, from desert reforestation to mangrove restoration, with policy intelligence on the schemes shaping demand. Briefings written for the people deciding where capital goes.</p>
+        <a href="projects.html" class="svc-link">View Projects &rarr;</a>
       </div>
     </div>
   </div>
@@ -459,176 +317,66 @@
   <div class="section-inner">
     <div class="section-label reveal">Sifr Terminal</div>
     <h2 class="section-title reveal reveal-delay-1">Bloomberg-grade data,<br>built for <em>MENA carbon</em></h2>
+    <p class="source-note reveal" style="margin-top:10px;max-width:580px">Prices shown are sample data while the live market feed is being connected, not real quotes. Sifr Collection is an information platform.</p>
     <div class="terminal-wrap reveal reveal-delay-2">
       <div class="terminal-topbar">
-        <div class="term-dots">
-          <div class="term-dot" style="background:#3d7a5e"></div>
-          <div class="term-dot" style="background:#c8a97e"></div>
-          <div class="term-dot" style="background:#b05050"></div>
-        </div>
-        <div class="term-title">Sifr Terminal â Live Carbon Markets</div>
-        <div class="term-time" id="termClock">â</div>
+        <div class="term-dots"><div class="term-dot" style="background:#2e6e50"></div><div class="term-dot" style="background:#a85f32"></div><div class="term-dot" style="background:#c9a227"></div></div>
+        <div class="term-title">Sifr Terminal · Carbon Markets · Reference Data</div>
+        <div class="term-time" id="termClock">··:··</div>
       </div>
       <div class="terminal-body">
-        <!-- Prices -->
         <div class="term-col">
-          <div class="term-col-head">Carbon Markets</div>
-          <div class="price-row"><span class="pr-sym">VCS-MENA</span><span class="pr-price">$18.20</span><span class="pr-chg-up">â²3.4%</span></div>
-          <div class="price-row"><span class="pr-sym">SOIL-AE</span><span class="pr-price gold">$24.80</span><span class="pr-chg-up">â²0.8%</span></div>
-          <div class="price-row"><span class="pr-sym">SOIL-SA</span><span class="pr-price gold">$28.90</span><span class="pr-chg-up">â²4.1%</span></div>
-          <div class="price-row"><span class="pr-sym">MENA-BLUE</span><span class="pr-price blue">$41.20</span><span class="pr-chg-up">â²1.9%</span></div>
-          <div class="price-row"><span class="pr-sym">GS-AGRI</span><span class="pr-price">$31.10</span><span class="pr-chg-up">â²2.1%</span></div>
-          <div class="price-row"><span class="pr-sym">REDD+SA</span><span class="pr-price">$12.50</span><span class="pr-chg-dn">â¼0.5%</span></div>
-          <div class="price-row"><span class="pr-sym">EUA</span><span class="pr-price">â¬65.40</span><span class="pr-chg-up">â²1.2%</span></div>
-          <div class="price-row"><span class="pr-sym">KSA-ETS</span><span class="pr-price">$22.10</span><span class="pr-chg-up">â²0.9%</span></div>
-          <div class="term-col-head" style="margin-top:8px">Indices</div>
-          <div class="price-row"><span class="pr-sym">CMXI</span><span class="pr-price">2,847</span><span class="pr-chg-up">â²1.8%</span></div>
-          <div class="price-row"><span class="pr-sym">SOIL-IDX</span><span class="pr-price gold">1,205</span><span class="pr-chg-up">â²2.9%</span></div>
+          <div class="term-col-head">Reference Prices</div>
+          <div class="price-row"><span class="pr-sym">NBS-ARR</span><span class="pr-price">$24.00</span></div>
+          <div class="price-row"><span class="pr-sym">NBS-AVOID</span><span class="pr-price">$2-5</span></div>
+          <div class="price-row"><span class="pr-sym">GS-NBS</span><span class="pr-price gold">+20-40%</span></div>
+          <div class="price-row"><span class="pr-sym">BLUE-C</span><span class="pr-price blue">$30-45</span></div>
+          <div class="price-row"><span class="pr-sym">TECH-REM</span><span class="pr-price">$300+</span></div>
+          <div class="price-row"><span class="pr-sym">EUA</span><span class="pr-price">€71</span></div>
+          <div class="term-col-head" style="border-top:1px solid var(--line)">Auctions</div>
+          <div class="price-row"><span class="pr-sym">RVCMC total</span><span class="pr-price">6.1M t</span></div>
+          <div class="price-row"><span class="pr-sym">ACX ADGM</span><span class="pr-price">Live</span></div>
         </div>
-        <!-- Map -->
-        <div class="term-col term-map">
-          <svg viewBox="0 0 580 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="tgrid" width="18" height="18" patternUnits="userSpaceOnUse">
-                <path d="M18 0L0 0 0 18" fill="none" stroke="rgba(82,168,126,0.04)" stroke-width="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="580" height="420" fill="#040d08"/>
-            <rect width="580" height="420" fill="url(#tgrid)"/>
-            <!-- Countries -->
-            <polygon points="122,100 182,100 187,152 175,182 148,190 120,177 113,148" fill="rgba(82,168,126,0.06)" stroke="rgba(82,168,126,0.25)" stroke-width="0.7"/>
-            <polygon points="215,130 278,115 348,118 388,133 393,162 378,200 334,222 280,224 243,212 220,188 212,162" fill="rgba(82,168,126,0.09)" stroke="rgba(82,168,126,0.38)" stroke-width="0.9"/>
-            <polygon points="388,162 418,154 442,162 445,178 428,184 398,184" fill="rgba(82,168,126,0.14)" stroke="rgba(82,168,126,0.55)" stroke-width="0.9"/>
-            <polygon points="406,156 448,142 472,156 482,182 472,218 448,234 420,226 404,202 400,178" fill="rgba(82,168,126,0.07)" stroke="rgba(82,168,126,0.28)" stroke-width="0.7"/>
-            <polygon points="185,116 214,112 222,132 215,158 196,162 177,150 175,130" fill="rgba(82,168,126,0.09)" stroke="rgba(82,168,126,0.38)" stroke-width="0.7"/>
-            <polygon points="248,88 302,82 328,94 334,116 320,146 286,155 260,150 236,134 234,108" fill="rgba(82,168,126,0.07)" stroke="rgba(82,168,126,0.28)" stroke-width="0.7"/>
-            <polygon points="368,150 378,144 385,150 383,162 370,162" fill="rgba(82,168,126,0.17)" stroke="rgba(82,168,126,0.65)" stroke-width="0.8"/>
-            <!-- Project pins with pulse -->
-            <circle cx="272" cy="178" r="6" fill="rgba(82,168,126,0.18)" stroke="#52a87e" stroke-width="1.2"/>
-            <circle cx="272" cy="178" r="2.5" fill="#52a87e"/>
-            <circle cx="272" cy="178" r="12" fill="none" stroke="rgba(82,168,126,0.2)" stroke-width="1"><animate attributeName="r" values="6;18;6" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="3s" repeatCount="indefinite"/></circle>
-            <circle cx="308" cy="162" r="5" fill="rgba(200,169,126,0.18)" stroke="#c8a97e" stroke-width="1.2"/>
-            <circle cx="308" cy="162" r="2" fill="#c8a97e"/>
-            <circle cx="308" cy="162" r="10" fill="none" stroke="rgba(200,169,126,0.2)" stroke-width="1"><animate attributeName="r" values="5;14;5" dur="2.5s" repeatCount="indefinite" begin="0.6s"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.5s" repeatCount="indefinite" begin="0.6s"/></circle>
-            <circle cx="424" cy="172" r="5" fill="rgba(200,169,126,0.18)" stroke="#c8a97e" stroke-width="1.2"/>
-            <circle cx="424" cy="172" r="2" fill="#c8a97e"/>
-            <circle cx="150" cy="140" r="4" fill="rgba(90,159,196,0.2)" stroke="#5a9fc4" stroke-width="1"/>
-            <circle cx="150" cy="140" r="1.5" fill="#5a9fc4"/>
-            <!-- Labels -->
-            <text x="300" y="176" fill="rgba(82,168,126,0.5)" font-size="8" font-family="IBM Plex Mono" font-weight="500" text-anchor="middle">SAUDI ARABIA</text>
-            <text x="149" y="148" fill="rgba(82,168,126,0.45)" font-size="7" font-family="IBM Plex Mono" text-anchor="middle">EGYPT</text>
-            <text x="416" y="173" fill="rgba(82,168,126,0.5)" font-size="6.5" font-family="IBM Plex Mono" text-anchor="middle">UAE</text>
-            <text x="437" y="198" fill="rgba(82,168,126,0.4)" font-size="6" font-family="IBM Plex Mono" text-anchor="middle">OMAN</text>
-            <text x="374" y="154" fill="rgba(82,168,126,0.45)" font-size="5.5" font-family="IBM Plex Mono" text-anchor="middle">QAT</text>
-          </svg>
-        </div>
-        <!-- News -->
+        <div class="term-col term-map" id="leafMapHome" aria-label="Interactive map of MENA carbon projects"></div>
         <div class="term-col">
           <div class="term-col-head">Intelligence Feed</div>
-          <div class="news-entry">
-            <div class="ne-time">14:28 Â· 06 APR 2026</div>
-            <div class="ne-text">Saudi Arabia launches 100M ha soil restoration under Vision 2030</div>
-            <span class="ne-tag tag-soil">Soil Carbon</span>
-          </div>
-          <div class="news-entry">
-            <div class="ne-time">13:45 Â· 06 APR 2026</div>
-            <div class="ne-text">UAE ETS mandates Scope 3 from Q3 2026 â offset demand to surge</div>
-            <span class="ne-tag tag-pol">Policy</span>
-          </div>
-          <div class="news-entry">
-            <div class="ne-time">12:30 Â· 06 APR 2026</div>
-            <div class="ne-text">SOIL-SA hits ATH $28.90 â Qassim project Q3 record</div>
-            <span class="ne-tag tag-mkt">Market</span>
-          </div>
-          <div class="news-entry">
-            <div class="ne-time">11:15 Â· 06 APR 2026</div>
-            <div class="ne-text">PIF backs $2.4B Red Sea mangrove restoration</div>
-            <span class="ne-tag tag-prj">Project</span>
-          </div>
-          <div class="news-entry">
-            <div class="ne-time">10:02 Â· 06 APR 2026</div>
-            <div class="ne-text">Jordan joins GCC voluntary carbon framework</div>
-            <span class="ne-tag tag-pol">Policy</span>
-          </div>
+          <div id="homeNews"></div>
         </div>
       </div>
       <div class="terminal-cta">
-        <span>Full terminal with live trading, soil data, and geospatial layers</span>
-        <a href="dashboard.html">Launch Full Terminal â</a>
+        <span>Full terminal with reference prices, project tracking, soil and geospatial layers</span>
+        <a href="dashboard.html">Launch Full Terminal &rarr;</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SOIL CARBON -->
+<!-- SOIL -->
 <section class="soil-section" id="soil">
-  <div class="soil-watermark">Soil</div>
   <div class="section-inner">
     <div class="section-label reveal">Soil Carbon Intelligence</div>
     <h2 class="section-title reveal reveal-delay-1">The ground beneath<br>the <em>opportunity</em></h2>
     <div class="soil-grid">
       <div class="soil-diagram reveal reveal-delay-2">
         <div class="soil-depth-chart">
-          <div class="depth-row">
-            <div class="dr-depth">0 â 10 cm</div>
-            <div class="dr-bar-bg"><div class="dr-bar" style="width:82%;background:linear-gradient(90deg,#c8a97e,#9a7040)"></div></div>
-            <div class="dr-val" style="color:#c8a97e">42.8 tC/ha</div>
-            <div class="dr-name">Topsoil</div>
-          </div>
-          <div class="depth-row">
-            <div class="dr-depth">10 â 30 cm</div>
-            <div class="dr-bar-bg"><div class="dr-bar" style="width:65%;background:linear-gradient(90deg,#a08060,#5a4020)"></div></div>
-            <div class="dr-val" style="color:#a08060">33.4 tC/ha</div>
-            <div class="dr-name">Subsoil A</div>
-          </div>
-          <div class="depth-row">
-            <div class="dr-depth">30 â 60 cm</div>
-            <div class="dr-bar-bg"><div class="dr-bar" style="width:49%;background:linear-gradient(90deg,#706050,#3a3020)"></div></div>
-            <div class="dr-val" style="color:#909080">24.9 tC/ha</div>
-            <div class="dr-name">Subsoil B</div>
-          </div>
-          <div class="depth-row">
-            <div class="dr-depth">60 â 100 cm</div>
-            <div class="dr-bar-bg"><div class="dr-bar" style="width:34%;background:linear-gradient(90deg,#4a4a40,#252520)"></div></div>
-            <div class="dr-val" style="color:#707068">17.7 tC/ha</div>
-            <div class="dr-name">Deep soil A</div>
-          </div>
-          <div class="depth-row">
-            <div class="dr-depth">100 â 200 cm</div>
-            <div class="dr-bar-bg"><div class="dr-bar" style="width:22%;background:linear-gradient(90deg,#353530,#1e1e1c)"></div></div>
-            <div class="dr-val" style="color:#565650">11.4 tC/ha</div>
-            <div class="dr-name">Deep soil B</div>
-          </div>
-          <div class="depth-row">
-            <div class="dr-depth">&gt; 200 cm</div>
-            <div class="dr-bar-bg"><div class="dr-bar" style="width:12%;background:linear-gradient(90deg,#252520,#141412)"></div></div>
-            <div class="dr-val" style="color:#444440">6.2 tC/ha</div>
-            <div class="dr-name">Parent material</div>
-          </div>
+          <div class="depth-row"><div class="dr-depth">0-10 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:82%;background:#a85f32"></div></div><div class="dr-val">42.8 tC/ha</div><div class="dr-name">Topsoil</div></div>
+          <div class="depth-row"><div class="dr-depth">10-30 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:65%;background:#9a7b3e"></div></div><div class="dr-val">33.4 tC/ha</div><div class="dr-name">Subsoil A</div></div>
+          <div class="depth-row"><div class="dr-depth">30-60 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:49%;background:#6e7c52"></div></div><div class="dr-val">24.9 tC/ha</div><div class="dr-name">Subsoil B</div></div>
+          <div class="depth-row"><div class="dr-depth">60-100 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:34%;background:#5e6d64"></div></div><div class="dr-val">17.7 tC/ha</div><div class="dr-name">Deep soil</div></div>
+          <div class="depth-row"><div class="dr-depth">&gt; 100 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:22%;background:#8a8170"></div></div><div class="dr-val">11.4 tC/ha</div><div class="dr-name">Deep soil B</div></div>
         </div>
-        <div class="soil-chart-label">Soil Organic Carbon Profile â Qassim Basin, KSA Â· April 2026</div>
+        <div class="soil-chart-label">Illustrative soil organic carbon depth profile · arid rangeland</div>
       </div>
       <div class="soil-copy reveal reveal-delay-3">
-        <p>Arid and semi-arid soils represent one of the world's most overlooked carbon sinks. Across MENA, <strong>centuries of overgrazing, desertification, and land conversion</strong> have depleted vast stores of soil organic carbon â but restoration can reverse this.</p>
-        <p>Sifr Collection has built the region's most granular soil carbon monitoring network. We combine Sentinel-2 and PlanetScope satellite imagery with 1,200+ field verification sites and NIR spectroscopy to deliver <strong>MRV-grade soil carbon data at scale</strong>.</p>
-        <p>Our Soil Carbon Intelligence Platform enables landowners, governments, and investors to quantify baseline SOC, model sequestration trajectories, and issue verifiable carbon credits â meeting Verra VM0042 and Gold Standard methodology.</p>
+        <p>Arid and semi-arid soils are one of the region's most overlooked carbon stories. They hold little carbon per hectare, but MENA has a vast amount of land. Generations of overgrazing and desertification have stripped these soils, and well managed restoration can rebuild part of that stock.</p>
+        <p>The honest picture matters here. Dryland restoration sequesters carbon slowly, roughly <strong>0.1 to 0.5 tonnes of carbon per hectare each year</strong> on grazing land, so credible measurement separates real projects from optimistic ones. That is exactly where data earns its keep.</p>
+        <p>Sifr tracks soil organic carbon using Sentinel-2 satellite data and published dryland science, aligned to Verra VM0042 and Gold Standard methodology, so a soil carbon claim can survive scrutiny.</p>
         <div class="soil-stats">
-          <div class="ss-cell">
-            <div class="ss-val">38.4</div>
-            <div class="ss-unit">tC/ha avg</div>
-            <div class="ss-label">MENA SOC baseline</div>
-          </div>
-          <div class="ss-cell">
-            <div class="ss-val">94%</div>
-            <div class="ss-unit">Coverage</div>
-            <div class="ss-label">MENA landmass</div>
-          </div>
-          <div class="ss-cell">
-            <div class="ss-val">10m</div>
-            <div class="ss-unit">Resolution</div>
-            <div class="ss-label">Sentinel-2 pixel</div>
-          </div>
+          <div class="ss-cell"><div class="ss-val">0.1-0.5</div><div class="ss-unit">tC/ha/yr</div><div class="ss-label">Typical dryland restoration rate</div></div>
+          <div class="ss-cell"><div class="ss-val">10m</div><div class="ss-unit">Resolution</div><div class="ss-label">Sentinel-2 pixel</div></div>
+          <div class="ss-cell"><div class="ss-val">VM0042</div><div class="ss-unit">Verra</div><div class="ss-label">Soil carbon methodology</div></div>
         </div>
+        <div class="source-note" style="margin-top:14px">Sequestration rates per Lal (2004) and recent semi-arid restoration studies. Figures are scientific ranges, not project guarantees.</div>
       </div>
     </div>
   </div>
@@ -638,22 +386,21 @@
 <section class="coverage">
   <div class="section-inner">
     <div class="section-label reveal">Regional Reach</div>
-    <h2 class="section-title reveal reveal-delay-1">14 nations. One <em>platform.</em></h2>
+    <h2 class="section-title reveal reveal-delay-1">12 nations. One <em>platform.</em></h2>
+    <p class="source-note reveal" style="margin-bottom:8px;max-width:560px">Indicative tracked project pipeline by country. Figures reflect coverage scope, not credits traded by Sifr.</p>
     <div class="countries-wrap">
-      <div class="country-cell reveal"><div class="cc-flag">ð¸ð¦</div><div class="cc-name">Saudi Arabia</div><div class="cc-num">3.2M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-1"><div class="cc-flag">ð¦ðª</div><div class="cc-name">UAE</div><div class="cc-num">1.8M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-2"><div class="cc-flag">ð´ð²</div><div class="cc-name">Oman</div><div class="cc-num">1.1M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">ðªð¬</div><div class="cc-name">Egypt</div><div class="cc-num">0.9M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-4"><div class="cc-flag">ð¯ð´</div><div class="cc-name">Jordan</div><div class="cc-num">0.4M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal"><div class="cc-flag">ð¶ð¦</div><div class="cc-name">Qatar</div><div class="cc-num">0.3M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-1"><div class="cc-flag">ð°ð¼</div><div class="cc-name">Kuwait</div><div class="cc-num">0.2M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-2"><div class="cc-flag">ð§ð­</div><div class="cc-name">Bahrain</div><div class="cc-num">0.1M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">ð®ð¶</div><div class="cc-name">Iraq</div><div class="cc-num">0.2M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-4"><div class="cc-flag">ð¾ðª</div><div class="cc-name">Yemen</div><div class="cc-num">0.1M</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal"><div class="cc-flag">ð±ð§</div><div class="cc-name">Lebanon</div><div class="cc-num">50K</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-1"><div class="cc-flag">ð±ð¾</div><div class="cc-name">Libya</div><div class="cc-num">80K</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-2"><div class="cc-flag">ð¹ð³</div><div class="cc-name">Tunisia</div><div class="cc-num">60K</div><div class="cc-unit">tCOâe</div></div>
-      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">ð¸ð¾</div><div class="cc-name">Syria</div><div class="cc-num">40K</div><div class="cc-unit">tCOâe</div></div>
+      <div class="country-cell reveal"><div class="cc-flag">🇸🇦</div><div class="cc-name">Saudi Arabia</div><div class="cc-num">3.2M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-1"><div class="cc-flag">🇦🇪</div><div class="cc-name">UAE</div><div class="cc-num">1.8M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-2"><div class="cc-flag">🇴🇲</div><div class="cc-name">Oman</div><div class="cc-num">1.1M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">🇪🇬</div><div class="cc-name">Egypt</div><div class="cc-num">0.9M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-4"><div class="cc-flag">🇯🇴</div><div class="cc-name">Jordan</div><div class="cc-num">0.4M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal"><div class="cc-flag">🇶🇦</div><div class="cc-name">Qatar</div><div class="cc-num">0.3M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-1"><div class="cc-flag">🇰🇼</div><div class="cc-name">Kuwait</div><div class="cc-num">0.2M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-2"><div class="cc-flag">🇧🇭</div><div class="cc-name">Bahrain</div><div class="cc-num">0.1M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">🇮🇶</div><div class="cc-name">Iraq</div><div class="cc-num">0.2M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-4"><div class="cc-flag">🇾🇪</div><div class="cc-name">Yemen</div><div class="cc-num">0.1M</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal"><div class="cc-flag">🇱🇧</div><div class="cc-name">Lebanon</div><div class="cc-num">50K</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">🇸🇾</div><div class="cc-name">Syria</div><div class="cc-num">40K</div><div class="cc-unit">tracked</div></div>
     </div>
   </div>
 </section>
@@ -665,32 +412,20 @@
     <h2 class="section-title reveal reveal-delay-1">See the carbon.<br>From <em>space.</em></h2>
     <div class="geo-grid">
       <div class="geo-card reveal">
-        <div class="gc-icon">ð°</div>
-        <div>
-          <div class="gc-title">Satellite Monitoring</div>
-          <p class="gc-desc">Continuous coverage via Sentinel-1/2, Landsat-9, and PlanetScope. 10m resolution biomass and SOC mapping, updated monthly, across 100% of MENA landmass. 25-year historical archive.</p>
-        </div>
+        <div class="gc-icon"><svg width="24" height="24" viewBox="0 0 30 30" fill="none" stroke="#2e6e50" stroke-width="1.6"><circle cx="15" cy="15" r="4"/><path d="M15 2v5M15 23v5M2 15h5M23 15h5"/><path d="M6 6l3 3M24 6l-3 3M6 24l3-3M24 24l-3-3"/></svg></div>
+        <div><div class="gc-title">Satellite Monitoring</div><p class="gc-desc">Coverage drawn from Sentinel-1/2, Landsat, and commercial imagery. 10m resolution biomass and soil carbon mapping across the MENA region, backed by a multi-decade satellite archive.</p></div>
       </div>
       <div class="geo-card reveal reveal-delay-1">
-        <div class="gc-icon">ð¿</div>
-        <div>
-          <div class="gc-title">NDVI & Biomass</div>
-          <p class="gc-desc">25 years of vegetation index history. Above-ground biomass stock and annual change detection. Forest cover dynamics with pixel-level uncertainty quantification for MRV-grade data products.</p>
-        </div>
+        <div class="gc-icon"><svg width="24" height="24" viewBox="0 0 30 30" fill="none" stroke="#2e6e50" stroke-width="1.6"><path d="M15 27c0-9 0-15 9-21-1 10-4 15-9 18"/><path d="M15 27c0-7-1-12-7-16 1 8 3 12 7 14" stroke="#a85f32"/></svg></div>
+        <div><div class="gc-title">NDVI &amp; Biomass</div><p class="gc-desc">Vegetation index history, above-ground biomass stock, and annual change detection. Forest and rangeland cover dynamics with pixel-level uncertainty for MRV-grade data products.</p></div>
       </div>
       <div class="geo-card reveal reveal-delay-2">
-        <div class="gc-icon">ðº</div>
-        <div>
-          <div class="gc-title">SOC Depth Profiling</div>
-          <p class="gc-desc">Multi-depth soil organic carbon models calibrated against 1,200+ field measurement sites across MENA. NIR spectroscopy, LiDAR, and UAV integration for gold-standard ground-truth validation.</p>
-        </div>
+        <div class="gc-icon"><svg width="24" height="24" viewBox="0 0 30 30" fill="none" stroke="#2e6e50" stroke-width="1.6"><path d="M4 8l8-3 6 3 8-3v17l-8 3-6-3-8 3z"/><path d="M12 5v17M18 8v17"/></svg></div>
+        <div><div class="gc-title">SOC Depth Profiling</div><p class="gc-desc">Multi-depth soil organic carbon models calibrated against field measurements and published dryland datasets. Designed for ground-truth validation rather than satellite-only estimates.</p></div>
       </div>
       <div class="geo-card reveal reveal-delay-3">
-        <div class="gc-icon">ð¡</div>
-        <div>
-          <div class="gc-title">MRV Infrastructure</div>
-          <p class="gc-desc">Full Measurement, Reporting, and Verification stack built to Verra VCS, VM0042, and Gold Standard methodology. REST API access for project developers, verifiers, and national registries.</p>
-        </div>
+        <div class="gc-icon"><svg width="24" height="24" viewBox="0 0 30 30" fill="none" stroke="#2e6e50" stroke-width="1.6"><path d="M15 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/><path d="M9 12a8 8 0 0 1 12 0M5 8a14 14 0 0 1 20 0"/></svg></div>
+        <div><div class="gc-title">MRV-Aligned Data</div><p class="gc-desc">Measurement, reporting, and verification data structured to Verra VCS, VM0042, and Gold Standard methodology. Built for project developers, verifiers, and national registries.</p></div>
       </div>
     </div>
   </div>
@@ -698,24 +433,40 @@
 
 <!-- CTA -->
 <section class="cta">
-  <div class="cta-rings">
-    <div class="cta-ring" style="width:500px;height:500px"></div>
-    <div class="cta-ring" style="width:700px;height:700px"></div>
-    <div class="cta-ring" style="width:900px;height:900px"></div>
-  </div>
   <div class="section-inner">
-    <div class="cta-inner">
-      <div class="section-label reveal" style="justify-content:center">Get Started</div>
-      <h2 class="cta-h2 reveal reveal-delay-1">
-        Trade carbon.<br>
-        Restore land.<br>
-        Build <em>zero.</em>
-      </h2>
-      <p class="cta-sub reveal reveal-delay-2">Whether you're a buyer seeking verified offsets, a developer with a project in the ground, or a government building national carbon infrastructure â Sifr Collection is your gateway to the MENA carbon economy.</p>
-      <div class="cta-btns reveal reveal-delay-3">
-        <a href="dashboard.html" class="btn-primary">Launch Terminal</a>
-        <a href="projects.html" class="btn-secondary">Browse Projects</a>
+    <div class="section-label">Get Started</div>
+    <h2 class="cta-h2">See the market.<br>Decide with <em>clarity.</em></h2>
+    <p class="cta-sub">Whether you are a corporate buyer sizing a procurement budget, a developer benchmarking a project, or a government shaping national carbon policy, Sifr Collection gives you the MENA carbon market on one screen.</p>
+    <div class="cta-btns">
+      <a href="dashboard.html" class="btn-primary">Open Terminal</a>
+      <a href="#contact" class="btn-secondary">Request Access</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-inner">
+    <div class="section-label reveal">Contact</div>
+    <h2 class="section-title reveal reveal-delay-1">Request access or a <em>briefing</em></h2>
+    <div class="contact-grid">
+      <div class="reveal reveal-delay-2">
+        <p class="contact-intro">Sifr Collection works with corporates, project developers, and government bodies across the region. Tell us what you are trying to decide and we will point you at the right data, or set up terminal access.</p>
+        <div class="contact-meta">
+          <a href="mailto:C.wylie@sifrcollection.com">C.wylie@sifrcollection.com</a>
+          <span>Dubai, United Arab Emirates</span>
+        </div>
       </div>
+      <form class="cform reveal reveal-delay-3" onsubmit="return sifrContact(event)">
+        <div class="cform-row">
+          <input required name="name" placeholder="Name">
+          <input required type="email" name="email" placeholder="Work email">
+        </div>
+        <input name="org" placeholder="Organisation">
+        <textarea name="message" rows="4" placeholder="What are you looking to understand?"></textarea>
+        <button type="submit" class="btn-primary" style="justify-self:start">Send Enquiry</button>
+        <span id="contactMsg" class="source-note" style="display:none">Opening your email client. If nothing happens, write to C.wylie@sifrcollection.com.</span>
+      </form>
     </div>
   </div>
 </section>
@@ -725,74 +476,118 @@
   <div class="footer-grid">
     <div>
       <div class="footer-logo-text">Sifr Collection</div>
-      <div class="footer-tagline">MENA Carbon Intelligence Â· ØµÙØ±</div>
-      <p class="footer-desc">The definitive platform for carbon credit trading, soil carbon intelligence, and project development across the Middle East and North Africa.</p>
+      <div class="footer-tagline">MENA Carbon Intelligence · صفر</div>
+      <p class="footer-desc">The carbon market intelligence platform for the Middle East and North Africa. Reference prices, project tracking, and soil and geospatial data. Information only.</p>
     </div>
     <div>
       <div class="footer-col-title">Platform</div>
       <ul class="footer-links">
-        <li><a href="dashboard.html">Trading Terminal</a></li>
-        <li><a href="projects.html">Project Listings</a></li>
-        <li><a href="#soil">Soil Intelligence</a></li>
-        <li><a href="#geospatial">Geospatial Data</a></li>
-        <li><a href="#">API Access</a></li>
+        <li><a href="dashboard.html">Intelligence Terminal</a></li>
+        <li><a href="projects.html">Project Tracker</a></li>
+        <li><a href="index.html#soil">Soil Intelligence</a></li>
+        <li><a href="index.html#geospatial">Geospatial Data</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Company</div>
       <ul class="footer-links">
-        <li><a href="#">About Sifr</a></li>
-        <li><a href="#">Our Team</a></li>
-        <li><a href="#">Partners</a></li>
-        <li><a href="#">Press</a></li>
-        <li><a href="#">Careers</a></li>
+        <li><a href="index.html#about">About Sifr</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="mailto:C.wylie@sifrcollection.com">C.wylie@sifrcollection.com</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Resources</div>
       <ul class="footer-links">
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Methodology</a></li>
-        <li><a href="#">Research</a></li>
-        <li><a href="#">MENA Carbon Report</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="index.html#geospatial">Methodology</a></li>
+        <li><a href="projects.html">MENA Projects</a></li>
+        <li><a href="index.html#contact">Request a Briefing</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">Â© 2026 Sifr Collection FZ-LLC Â· Registered in DIFC, Dubai, UAE Â· All rights reserved</div>
+    <div class="footer-copy">© 2026 Sifr Collection · Dubai, United Arab Emirates · All rights reserved</div>
     <div class="footer-cert">
+      <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--mist);text-transform:uppercase;margin-right:2px">Standards tracked</span>
       <div class="cert-badge">Verra VCS</div>
       <div class="cert-badge">Gold Standard</div>
       <div class="cert-badge">ISO 14064</div>
-      <div class="cert-badge">TCFD Aligned</div>
+      <div class="cert-badge">VM0042</div>
     </div>
   </div>
 </footer>
 
+<!-- LEGAL DISCLAIMER -->
+<div class="disclaimer-strip">
+  <div class="disclaimer-inner">
+    Sifr Collection provides carbon market data, research, and intelligence for information purposes only. It is not a trading venue, exchange, broker, or financial adviser, and it does not solicit or facilitate the purchase or sale of carbon credits, securities, or any financial instrument. Reference prices are indicative and compiled from public sources. Nothing here is investment, legal, or tax advice. Always conduct your own due diligence.
+  </div>
+</div>
+
 <script>
-// Cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
-(function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
-
-// Nav scroll
 const nav = document.getElementById('mainNav');
-addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
 
-// Clock
-setInterval(() => {
-  const n = new Date(); const g = new Date(n.getTime()+4*3600000);
+function tick(){
+  const g = new Date(Date.now()+4*3600000);
   const p = v => String(v).padStart(2,'0');
-  const el = document.getElementById('termClock');
-  if(el) el.textContent = `${p(g.getUTCHours())}:${p(g.getUTCMinutes())}:${p(g.getUTCSeconds())} GST`;
-}, 1000);
+  const t = p(g.getUTCHours())+':'+p(g.getUTCMinutes())+' GST';
+  ['heroClock','termClock'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=t; });
+}
+tick(); setInterval(tick, 30000);
 
-// Reveal on scroll
-const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);} }), {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);} }), {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(r => io.observe(r));
+
+// Render the intelligence feed from news-data.js
+(function(){
+  var N = window.SIFR_NEWS, host = document.getElementById('homeNews');
+  if (!N || !host) return;
+  host.innerHTML = (N.items||[]).slice(0,5).map(function(it){
+    return '<div class="news-entry"><div class="ne-time">'+it.date+' · '+(it.source||'')+'</div><div class="ne-text">'+it.text+'</div></div>';
+  }).join('');
+})();
+
+function sifrContact(e){
+  e.preventDefault();
+  const f = e.target;
+  const subject = encodeURIComponent('Sifr enquiry from ' + (f.name.value || 'website'));
+  const body = encodeURIComponent('Name: ' + f.name.value + '\nEmail: ' + f.email.value + '\nOrganisation: ' + (f.org.value||'') + '\n\n' + (f.message.value||''));
+  document.getElementById('contactMsg').style.display = 'block';
+  window.location.href = 'mailto:C.wylie@sifrcollection.com?subject=' + subject + '&body=' + body;
+  return false;
+}
+</script>
+
+<!-- Interactive terminal map (Option A) -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var el = document.getElementById('leafMapHome');
+  if (!el || typeof L === 'undefined') return;
+  var TYPE = { soil:'#a85f32', blue:'#2c7a8c', land:'#2e6e50', redd:'#9a6a2f' };
+  var sites = [
+    { n:'Qassim Soil Restoration', lat:26.33, lon:43.97, type:'soil', t:'Soil carbon · Active' },
+    { n:'Abu Dhabi Soil', lat:24.45, lon:54.37, type:'soil', t:'Soil carbon · Active' },
+    { n:'AlUla Desert Ecosystem', lat:26.62, lon:37.95, type:'land', t:'Reforestation · Active' },
+    { n:'Nile Delta Mangrove', lat:31.2, lon:31.0, type:'blue', t:'Blue carbon · Active' },
+    { n:'Dhofar Rangeland', lat:17.0, lon:54.1, type:'soil', t:'Soil carbon · Active' },
+    { n:'Mesopotamia Marshes', lat:30.9, lon:47.0, type:'redd', t:'REDD+ · Pending' },
+    { n:'Red Sea Mangrove Belt', lat:22.0, lon:38.5, type:'blue', t:'Blue carbon · Development' },
+    { n:'Jordan Valley Watershed', lat:32.0, lon:35.6, type:'land', t:'Reforestation · Development' }
+  ];
+  var map = L.map('leafMapHome', { scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:4 }).setView([24.5, 44], 5);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { subdomains:'abcd', maxZoom:11, attribution:'© OpenStreetMap © CARTO' }).addTo(map);
+  if (window.SIFR_COVERAGE) { L.geoJSON(window.SIFR_COVERAGE, { interactive:false, style:{ color:'#2e6e50', weight:1, fillColor:'#2e6e50', fillOpacity:0.10 } }).addTo(map); }
+  sites.forEach(function(s){
+    L.circleMarker([s.lat, s.lon], { radius:7, color:'#fff', weight:1.6, fillColor:TYPE[s.type], fillOpacity:0.95 })
+      .addTo(map).bindPopup('<strong>'+s.n+'</strong><br>'+s.t);
+  });
+  var b = L.latLngBounds(sites.map(function(s){ return [s.lat, s.lon]; })).pad(0.22);
+  map.fitBounds(b);
+  map.setMaxBounds(b.pad(0.6));
+  setTimeout(function(){ map.invalidateSize(); map.fitBounds(b); }, 300);
+})();
 </script>
 </body>
 </html>

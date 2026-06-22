@@ -3,89 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects â Sifr Collection</title>
+<title>MENA Carbon Projects | Sifr Collection</title>
+<meta name="description" content="Track announced and active carbon projects across the Middle East and North Africa: soil carbon, blue carbon, reforestation, REDD+ and carbon capture (CCS, CCUS, DAC). Compiled from public sources by Sifr Collection. Information only.">
+<link rel="canonical" href="https://sifrcollection.com/projects">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sifr Collection">
+<meta property="og:title" content="MENA Carbon Projects | Sifr Collection">
+<meta property="og:description" content="Track announced and active carbon projects across MENA. Compiled from public sources. Information only.">
+<meta property="og:url" content="https://sifrcollection.com/projects">
+<meta property="og:image" content="https://sifrcollection.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script src="projects-data.js"></script>
 <link rel="stylesheet" href="shared.css">
 <style>
-.page-hero { padding:160px 0 80px; background:var(--midnight); border-bottom:1px solid rgba(200,169,126,0.08); }
-.page-hero-label { font-family:var(--mono); font-size:9px; letter-spacing:0.3em; color:var(--verdigris-bright); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:12px; }
-.page-hero-label::before { content:''; display:block; width:28px; height:1px; background:var(--verdigris-bright); }
-.page-hero h1 { font-family:var(--serif); font-size:clamp(42px,5.5vw,76px); font-weight:300; line-height:0.95; letter-spacing:-0.01em; margin-bottom:24px; }
+.page-hero { padding:150px 0 64px; background:var(--alt); border-bottom:1px solid var(--line); }
+.page-hero-label { font-family:var(--mono); font-size:11px; letter-spacing:0.2em; color:var(--green); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:12px; font-weight:500; }
+.page-hero-label::before { content:''; display:block; width:28px; height:2px; background:var(--green); }
+.page-hero h1 { font-family:var(--serif); font-size:clamp(40px,5.2vw,70px); font-weight:500; line-height:1.0; letter-spacing:-0.01em; margin-bottom:22px; color:var(--text); }
 .page-hero h1 em { font-style:italic; color:var(--clay); }
-.page-hero p { font-size:16px; font-weight:300; color:var(--sand-dim); max-width:520px; line-height:1.75; }
+.page-hero p { font-size:17px; color:var(--sand-dim); max-width:560px; line-height:1.7; }
 
 /* Filter bar */
-.filter-bar { background:var(--midnight); border-bottom:1px solid rgba(61,122,94,0.12); padding:16px 0; position:sticky; top:52px; z-index:50; }
+.filter-bar { background:var(--paper); border-bottom:1px solid var(--line); padding:16px 0; position:sticky; top:0; z-index:50; }
 .filter-inner { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-.filter-btn { font-family:var(--mono); font-size:9px; letter-spacing:0.16em; text-transform:uppercase; padding:7px 16px; border:1px solid rgba(61,122,94,0.2); color:var(--mist); background:transparent; cursor:none; transition:all 0.2s; }
-.filter-btn:hover { border-color:rgba(61,122,94,0.5); color:var(--sand); }
-.filter-btn.active { border-color:var(--verdigris-bright); color:var(--verdigris-bright); background:rgba(82,168,126,0.07); }
-.filter-sep { width:1px; height:24px; background:rgba(61,122,94,0.2); margin:0 4px; }
-.filter-count { font-family:var(--mono); font-size:9px; color:var(--mist); margin-left:auto; }
+.filter-btn { font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:8px 16px; border:1px solid var(--line-strong); border-radius:6px; color:var(--sand-dim); background:var(--surface); cursor:pointer; transition:all 0.2s; }
+.filter-btn:hover { border-color:var(--green); color:var(--green-deep); }
+.filter-btn.active { border-color:var(--green); color:#fff; background:var(--green); }
+.filter-sep { width:1px; height:24px; background:var(--line-strong); margin:0 4px; }
+.filter-count { font-family:var(--mono); font-size:11px; color:var(--mist); margin-left:auto; }
 
 /* Projects grid */
-.projects-section { padding:80px 0 120px; }
-.projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:0; }
-.project-card { background:var(--midnight); border:1px solid rgba(61,122,94,0.08); transition:all 0.3s; cursor:none; overflow:hidden; }
-.project-card:hover { border-color:rgba(61,122,94,0.28); transform:translateY(-3px); }
+.projects-section { padding:64px 0 110px; }
+.projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:0; }
+.project-card { background:var(--surface); border:1px solid var(--line); border-radius:14px; transition:transform 0.25s, box-shadow 0.25s; cursor:pointer; overflow:hidden; }
+.project-card:hover { transform:translateY(-3px); box-shadow:0 18px 38px -24px rgba(28,43,36,0.4); }
 .pc-header { padding:24px 24px 0; display:flex; justify-content:space-between; align-items:flex-start; }
-.pc-type { font-family:var(--mono); font-size:8px; letter-spacing:0.15em; text-transform:uppercase; padding:3px 8px; border-radius:0; }
-.type-soil { background:rgba(200,169,126,0.12); color:var(--clay); border:1px solid rgba(200,169,126,0.2); }
-.type-vcs { background:rgba(82,168,126,0.12); color:var(--verdigris-bright); border:1px solid rgba(82,168,126,0.2); }
-.type-blue { background:rgba(90,159,196,0.12); color:#5a9fc4; border:1px solid rgba(90,159,196,0.2); }
-.type-redd { background:rgba(180,115,51,0.12); color:var(--copper); border:1px solid rgba(180,115,51,0.2); }
-.type-gold { background:rgba(218,165,32,0.12); color:#d4a017; border:1px solid rgba(218,165,32,0.2); }
-.pc-status { font-family:var(--mono); font-size:8px; letter-spacing:0.12em; }
-.status-active { color:var(--verdigris-bright); }
+.pc-type { font-family:var(--mono); font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:4px 9px; border-radius:5px; }
+.type-soil { background:rgba(168,95,50,0.1); color:var(--clay); border:1px solid rgba(168,95,50,0.25); }
+.type-vcs { background:rgba(46,110,80,0.1); color:var(--green-deep); border:1px solid rgba(46,110,80,0.25); }
+.type-blue { background:rgba(44,122,140,0.1); color:#236374; border:1px solid rgba(44,122,140,0.25); }
+.type-redd { background:rgba(154,106,47,0.1); color:#7d5722; border:1px solid rgba(154,106,47,0.25); }
+.type-gold { background:rgba(154,123,62,0.12); color:#7d6326; border:1px solid rgba(154,123,62,0.25); }
+.type-capture { background:rgba(74,107,138,0.12); color:#3c5878; border:1px solid rgba(74,107,138,0.28); }
+.type-renewable { background:rgba(184,144,47,0.12); color:#8a6c1f; border:1px solid rgba(184,144,47,0.28); }
+.type-waste { background:rgba(111,125,79,0.14); color:#566145; border:1px solid rgba(111,125,79,0.3); }
+.pc-status { font-family:var(--mono); font-size:9px; letter-spacing:0.08em; }
+.status-active { color:var(--green); }
 .status-dev { color:var(--clay); }
 .status-pending { color:var(--mist); }
-.pc-flag { font-size:22px; margin:18px 24px 0; }
-.pc-name { padding:10px 24px 0; font-family:var(--serif); font-size:22px; font-weight:300; line-height:1.2; }
-.pc-location { padding:5px 24px 0; font-family:var(--mono); font-size:9px; letter-spacing:0.1em; color:var(--mist); text-transform:uppercase; }
-.pc-desc { padding:12px 24px 0; font-size:12px; color:var(--mist); line-height:1.65; }
-.pc-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; margin:20px 0 0; background:rgba(61,122,94,0.07); }
-.pc-metric { background:var(--midnight); padding:14px 16px; }
-.pcm-val { font-family:var(--serif); font-size:20px; font-weight:300; color:var(--clay); line-height:1; }
-.pcm-unit { font-family:var(--mono); font-size:7px; color:var(--verdigris); letter-spacing:0.1em; margin-top:2px; }
-.pcm-label { font-size:10px; color:var(--mist); margin-top:4px; }
-.pc-footer { padding:16px 24px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(61,122,94,0.07); }
-.pc-price { font-family:var(--serif); font-size:26px; font-weight:300; color:var(--sand); }
-.pc-price-unit { font-family:var(--mono); font-size:8px; color:var(--mist); letter-spacing:0.08em; margin-top:2px; }
-.pc-cta { font-family:var(--mono); font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--verdigris-bright); text-decoration:none; border:1px solid rgba(61,122,94,0.3); padding:8px 14px; transition:all 0.2s; }
-.pc-cta:hover { background:rgba(61,122,94,0.12); border-color:var(--verdigris-bright); }
+.pc-flag { font-size:24px; margin:18px 24px 0; }
+.pc-name { padding:10px 24px 0; font-family:var(--serif); font-size:24px; font-weight:600; line-height:1.18; color:var(--text); }
+.pc-location { padding:6px 24px 0; font-family:var(--mono); font-size:10px; letter-spacing:0.06em; color:var(--mist); text-transform:uppercase; }
+.pc-desc { padding:12px 24px 0; font-size:14px; color:var(--sand-dim); line-height:1.65; }
+.pc-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; margin:22px 0 0; background:var(--line); }
+.pc-metric { background:var(--surface); padding:15px 16px; }
+.pcm-val { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--green-deep); line-height:1; }
+.pcm-unit { font-family:var(--mono); font-size:8px; color:var(--clay); letter-spacing:0.08em; margin-top:3px; text-transform:uppercase; }
+.pcm-label { font-size:11px; color:var(--mist); margin-top:5px; }
+.pc-footer { padding:16px 24px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); }
+.pc-price { font-family:var(--serif); font-size:27px; font-weight:600; color:var(--text); }
+.pc-price-unit { font-family:var(--mono); font-size:9px; color:var(--mist); letter-spacing:0.06em; margin-top:2px; }
+.pc-cta { font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--green); text-decoration:none; border:1px solid var(--line-strong); border-radius:6px; padding:9px 14px; transition:all 0.2s; }
+.pc-cta:hover { background:var(--green); border-color:var(--green); color:#fff; }
 
 /* Featured row */
-.featured-project { grid-column:span 3; display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid rgba(200,169,126,0.15) !important; }
-.fp-left { padding:48px; border-right:1px solid rgba(200,169,126,0.1); }
-.fp-right { padding:48px; background:rgba(200,169,126,0.02); }
-.fp-badge { font-family:var(--mono); font-size:8px; letter-spacing:0.2em; color:var(--clay); text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-.fp-badge::before { content:'b'; font-size:10px; }
-.fp-title { font-family:var(--serif); font-size:38px; font-weight:300; line-height:1.05; margin-bottom:16px; }
+.featured-project { grid-column:span 3; display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line-strong) !important; }
+.fp-left { padding:48px; border-right:1px solid var(--line); }
+.fp-right { padding:48px; background:var(--alt); }
+.fp-badge { font-family:var(--mono); font-size:10px; letter-spacing:0.16em; color:var(--clay); text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:8px; font-weight:500; }
+.fp-badge::before { content:'★'; font-size:11px; }
+.fp-title { font-family:var(--serif); font-size:40px; font-weight:600; line-height:1.05; margin-bottom:16px; color:var(--text); }
 .fp-title em { font-style:italic; color:var(--clay); }
-.fp-desc { font-size:14px; color:var(--mist); line-height:1.75; margin-bottom:28px; }
-.fp-stats { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
-.fp-stat { background:rgba(61,122,94,0.06); padding:18px; border:1px solid rgba(61,122,94,0.1); }
-.fps-val { font-family:var(--serif); font-size:28px; font-weight:300; color:var(--clay); }
-.fps-label { font-size:11px; color:var(--mist); margin-top:4px; }
-.fp-visual { display:flex; flex-direction:column; gap:12px; }
-.fp-data-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(61,122,94,0.08); font-family:var(--mono); font-size:10px; }
+.fp-desc { font-size:15px; color:var(--sand-dim); line-height:1.75; margin-bottom:28px; }
+.fp-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.fp-stat { background:var(--surface); padding:18px; border:1px solid var(--line); border-radius:10px; }
+.fps-val { font-family:var(--serif); font-size:30px; font-weight:600; color:var(--green-deep); }
+.fps-label { font-size:12px; color:var(--mist); margin-top:4px; }
+.fp-visual { display:flex; flex-direction:column; gap:10px; }
+.fp-data-row { display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; }
 .fdr-label { color:var(--mist); }
-.fdr-val { color:var(--sand); }
+.fdr-val { color:var(--text); }
 .fdr-val.gold { color:var(--clay); }
-.fdr-val.up { color:var(--verdigris-bright); }
+.fdr-val.up { color:var(--green); }
+
+@media (max-width:900px){ .projects-grid{ grid-template-columns:1fr 1fr; } .featured-project{ grid-column:span 2; grid-template-columns:1fr; } .fp-left{ border-right:none; border-bottom:1px solid var(--line);} }
+@media (max-width:600px){ .projects-grid{ grid-template-columns:1fr; } .featured-project{ grid-column:span 1; } }
+.pc-cta { cursor:pointer; }
+
+/* Project detail panel */
+.pp-backdrop { position:fixed; inset:0; background:rgba(28,43,36,0.4); backdrop-filter:blur(2px); z-index:500; opacity:0; pointer-events:none; transition:opacity 0.2s; }
+.pp-backdrop.open { opacity:1; pointer-events:auto; }
+.pp-modal { position:fixed; top:50%; left:50%; transform:translate(-50%,-48%); width:min(560px,92vw); max-height:88vh; overflow-y:auto; background:var(--surface); border:1px solid var(--line-strong); border-radius:16px; box-shadow:0 40px 80px -30px rgba(28,43,36,0.45); z-index:501; opacity:0; pointer-events:none; transition:opacity 0.2s, transform 0.2s; }
+.pp-modal.open { opacity:1; pointer-events:auto; transform:translate(-50%,-50%); }
+.pp-head { padding:26px 28px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+.pp-eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--green); margin-bottom:10px; }
+.pp-title { font-family:var(--serif); font-size:30px; font-weight:600; line-height:1.1; color:var(--text); }
+.pp-loc { font-family:var(--mono); font-size:11px; color:var(--mist); margin-top:8px; text-transform:uppercase; letter-spacing:0.04em; }
+.pp-close { width:34px; height:34px; border-radius:9px; border:1px solid var(--line-strong); background:var(--paper); color:var(--mist); font-size:20px; cursor:pointer; flex-shrink:0; line-height:1; }
+.pp-close:hover { color:var(--dn); border-color:var(--dn); }
+.pp-body { padding:24px 28px; }
+.pp-desc { font-size:15px; line-height:1.7; color:var(--sand-dim); margin-bottom:24px; }
+.pp-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+.pp-cell { background:var(--surface); padding:16px; }
+.pp-cell-val { font-family:var(--serif); font-size:22px; font-weight:600; color:var(--green-deep); line-height:1; }
+.pp-cell-unit { font-family:var(--mono); font-size:8px; color:var(--clay); letter-spacing:0.08em; margin-top:4px; text-transform:uppercase; }
+.pp-cell-label { font-size:11px; color:var(--mist); margin-top:5px; }
+.pp-price { margin-top:22px; display:flex; align-items:baseline; gap:10px; }
+.pp-price-val { font-family:var(--serif); font-size:30px; font-weight:600; color:var(--text); }
+.pp-price-unit { font-family:var(--mono); font-size:11px; color:var(--mist); }
+.pp-note { margin-top:20px; font-family:var(--mono); font-size:10px; line-height:1.6; color:var(--mist); }
+.pp-cta { margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; }
+.pp-row { display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line); font-size:13px; }
+.pp-row:last-child { border-bottom:none; }
+.pp-row .k { color:var(--mist); font-family:var(--mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase; }
+.pp-row .v { color:var(--text); font-weight:500; text-align:right; max-width:62%; }
+.pp-chip { font-family:var(--mono); font-size:10px; color:var(--green-deep); background:rgba(46,110,80,0.08); border:1px solid rgba(46,110,80,0.18); border-radius:5px; padding:5px 9px; }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 <div class="geo-pattern"></div>
 
 <nav id="mainNav" class="scrolled">
-  <a class="nav-logo" href="index.html">
+  <a class="nav-logo" href="dashboard.html" title="Back to terminal">
     <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-      <polygon points="17,1 33,9 33,25 17,33 1,25 1,9" fill="none" stroke="#c8a97e" stroke-width="1"/>
-      <polygon points="17,6 28,12 28,22 17,28 6,22 6,12" fill="none" stroke="rgba(200,169,126,0.35)" stroke-width="0.6"/>
-      <text x="17" y="21" text-anchor="middle" font-family="Georgia" font-size="13" fill="#c8a97e" font-style="italic">Øµ</text>
+      <polygon points="17,1 33,9 33,25 17,33 1,25 1,9" fill="none" stroke="#2e6e50" stroke-width="1"/>
+      <polygon points="17,6 28,12 28,22 17,28 6,22 6,12" fill="none" stroke="rgba(46,110,80,0.4)" stroke-width="0.6"/>
+      <text x="17" y="21" text-anchor="middle" font-family="Georgia" font-size="13" fill="#2e6e50" font-style="italic">ص</text>
     </svg>
     <div>
       <div class="nav-logo-ar">Sifr Collection</div>
@@ -93,22 +139,22 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html#services">Services</a></li>
-    <li><a href="index.html#soil">Soil Carbon</a></li>
-    <li><a href="index.html#geospatial">Geospatial</a></li>
     <li><a href="dashboard.html">Terminal</a></li>
     <li><a href="projects.html" class="active">Projects</a></li>
-    <li><a href="index.html#about">About</a></li>
+    <li><a href="policy.html">Policy</a></li>
+    <li><a href="countries.html">Countries</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
   </ul>
-  <a href="dashboard.html" class="nav-cta">Open Terminal â</a>
+  <a href="dashboard.html" class="nav-cta">Open Terminal &rarr;</a>
 </nav>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="section-inner">
-    <div class="page-hero-label">Project Marketplace</div>
-    <h1 class="page-hero h1"><span style="font-family:var(--serif);font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:0.95;">MENA carbon projects,<br><em>verified and live</em></span></h1>
-    <p style="font-size:16px;font-weight:300;color:var(--sand-dim);max-width:520px;line-height:1.75;margin-top:20px">Browse, invest, and trade credits from 284 active and developing projects across the Middle East and North Africa â from desert reforestation to soil restoration and blue carbon.</p>
+    <div class="page-hero-label">Project Tracker</div>
+    <h1 class="page-hero h1"><span style="font-family:var(--serif);font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:0.95;">MENA carbon projects,<br><em>tracked in one place</em></span></h1>
+    <p style="font-size:16px;font-weight:300;color:var(--sand-dim);max-width:560px;line-height:1.75;margin-top:20px">A reference registry of announced and active carbon projects across the Middle East and North Africa, from desert reforestation to soil restoration and blue carbon. We track them so you do not have to chase scattered announcements. We do not sell or broker credits.</p>
   </div>
 </div>
 
@@ -117,229 +163,104 @@
   <div class="section-inner filter-inner">
     <button class="filter-btn active" onclick="filterCards('all',this)">All Projects</button>
     <button class="filter-btn" onclick="filterCards('soil',this)">Soil Carbon</button>
-    <button class="filter-btn" onclick="filterCards('vcs',this)">VCS</button>
+    <button class="filter-btn" onclick="filterCards('land',this)">Reforestation</button>
     <button class="filter-btn" onclick="filterCards('blue',this)">Blue Carbon</button>
     <button class="filter-btn" onclick="filterCards('redd',this)">REDD+</button>
-    <button class="filter-btn" onclick="filterCards('gold',this)">Gold Standard</button>
+    <button class="filter-btn" onclick="filterCards('capture',this)">Carbon Capture</button>
+    <button class="filter-btn" onclick="filterCards('renewable',this)">Renewable</button>
+    <button class="filter-btn" onclick="filterCards('waste',this)">Waste</button>
+    <div class="filter-sep"></div>
+    <button class="filter-btn" onclick="filterCards('removal',this)">Removal</button>
+    <button class="filter-btn" onclick="filterCards('avoidance',this)">Avoidance</button>
+    <button class="filter-btn" onclick="filterCards('reduction',this)">Reduction</button>
     <div class="filter-sep"></div>
     <button class="filter-btn" onclick="filterCards('active',this)">Active</button>
     <button class="filter-btn" onclick="filterCards('dev',this)">In Development</button>
-    <span class="filter-count" id="filterCount">284 projects</span>
+    <span class="filter-count" id="filterCount">16 tracked</span>
   </div>
 </div>
 
 <!-- PROJECTS -->
 <section class="projects-section">
   <div class="section-inner">
+    <div class="source-note" style="margin-bottom:24px;padding:14px 18px;border:1px solid var(--line);border-radius:8px;background:var(--surface);line-height:1.7">
+      Project entries are compiled from public announcements and developer disclosures. Prices shown are indicative reference points for the credit class and region, not quotes or offers. Sifr Collection does not list, broker, or sell credits. Verify any figure with the project developer and registry before acting.
+    </div>
     <div class="projects-grid" id="projectsGrid">
 
       <!-- FEATURED -->
       <div class="project-card featured-project" data-type="gold" data-status="dev">
         <div class="fp-left">
-          <div class="fp-badge">Featured Project</div>
-          <div class="fp-title">NEOM Green<br><em>Spine Initiative</em></div>
-          <p class="fp-desc">A 320,000-hectare landscape restoration and reforestation programme spanning the mountainous terrain of Tabuk region, Saudi Arabia. The world's largest desert reforestation carbon project, structured under Gold Standard certification.</p>
+          <div class="fp-badge">Tracked Initiative</div>
+          <div class="fp-title">Saudi Green<br><em>Initiative</em></div>
+          <p class="fp-desc">Saudi Arabia's flagship greening programme, publicly committed to planting 10 billion trees and reaching net zero by 2060. It anchors a wave of land restoration across the Kingdom and sets the demand backdrop for regional nature-based credits. We track it as market context, not as a credit listing.</p>
           <div style="display:flex;gap:12px;margin-top:8px">
-            <a href="#" class="pc-cta" style="font-size:9px">Invest Now â</a>
-            <a href="#" class="pc-cta" style="border-color:rgba(61,122,94,0.2);color:var(--mist)">View MRV Data</a>
+            <a href="https://www.sgi.gov.sa" target="_blank" rel="noopener" class="pc-cta" style="font-size:9px">Official Source &rarr;</a>
+            <a href="index.html#contact" class="pc-cta" style="border-color:rgba(61,122,94,0.2);color:var(--mist)">Request Briefing</a>
           </div>
         </div>
         <div class="fp-right">
           <div class="fp-stats" style="margin-bottom:20px">
-            <div class="fp-stat"><div class="fps-val">320K</div><div class="fps-label">Hectares Â· Tabuk, KSA</div></div>
-            <div class="fp-stat"><div class="fps-val">1.2M</div><div class="fps-label">tCOâe per year</div></div>
-            <div class="fp-stat"><div class="fps-val">$31.10</div><div class="fps-label">Ask price / tCOâe</div></div>
-            <div class="fp-stat"><div class="fps-val">30yr</div><div class="fps-label">Project lifetime</div></div>
+            <div class="fp-stat"><div class="fps-val">10B</div><div class="fps-label">Trees committed</div></div>
+            <div class="fp-stat"><div class="fps-val">2060</div><div class="fps-label">Net zero target</div></div>
+            <div class="fp-stat"><div class="fps-val">100M+</div><div class="fps-label">Mangroves by 2030</div></div>
+            <div class="fp-stat"><div class="fps-val">2021</div><div class="fps-label">Initiative launched</div></div>
           </div>
           <div class="fp-visual">
-            <div class="fp-data-row"><span class="fdr-label">Developer</span><span class="fdr-val">NEOM Company</span></div>
-            <div class="fp-data-row"><span class="fdr-label">Standard</span><span class="fdr-val">Gold Standard V4</span></div>
-            <div class="fp-data-row"><span class="fdr-label">Vintage</span><span class="fdr-val">2026 â 2056</span></div>
-            <div class="fp-data-row"><span class="fdr-label">Verification Body</span><span class="fdr-val">Bureau Veritas</span></div>
-            <div class="fp-data-row"><span class="fdr-label">Status</span><span class="fdr-val" style="color:var(--clay)">Development Â· Q4 2026</span></div>
-            <div class="fp-data-row"><span class="fdr-label">Total Value</span><span class="fdr-val up">$1.12B estimated</span></div>
+            <div class="fp-data-row"><span class="fdr-label">Programme</span><span class="fdr-val">Saudi Green Initiative</span></div>
+            <div class="fp-data-row"><span class="fdr-label">Scope</span><span class="fdr-val">National, Kingdom-wide</span></div>
+            <div class="fp-data-row"><span class="fdr-label">Includes</span><span class="fdr-val">Red Sea Global mangroves</span></div>
+            <div class="fp-data-row"><span class="fdr-label">Status</span><span class="fdr-val" style="color:var(--clay)">Active</span></div>
+            <div class="fp-data-row"><span class="fdr-label">Source</span><span class="fdr-val">Public, sgi.gov.sa</span></div>
+            <div class="fp-data-row"><span class="fdr-label">Sifr role</span><span class="fdr-val up">Tracking only</span></div>
           </div>
         </div>
       </div>
 
-      <!-- Card 1 -->
-      <div class="project-card" data-type="soil" data-status="active">
-        <div class="pc-header"><span class="pc-type type-soil">Soil Carbon</span><span class="pc-status status-active">â Active</span></div>
-        <div class="pc-flag">ð¸ð¦</div>
-        <div class="pc-name">Qassim Basin Soil Restoration</div>
-        <div class="pc-location">Al-Qassim Region, Saudi Arabia</div>
-        <p class="pc-desc">Comprehensive soil organic carbon enhancement across 95,000 hectares of degraded rangeland. Biochar application, managed grazing, and native species planting.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">95K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Project area</div></div>
-          <div class="pc-metric"><div class="pcm-val">420K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Sequestration</div></div>
-          <div class="pc-metric"><div class="pcm-val">Verra</div><div class="pcm-unit">VM0042</div><div class="pcm-label">Standard</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$28.90</div><div class="pc-price-unit">per tCOâe</div></div>
-          <a href="#" class="pc-cta">Trade â</a>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="project-card" data-type="soil" data-status="active">
-        <div class="pc-header"><span class="pc-type type-soil">Soil Carbon</span><span class="pc-status status-active">â Active</span></div>
-        <div class="pc-flag">ð¦ðª</div>
-        <div class="pc-name">UAE Desert Soil Sequestration</div>
-        <div class="pc-location">Abu Dhabi Hinterland, UAE</div>
-        <p class="pc-desc">Pioneer programme deploying compost amendment and deep-rooted native desert shrub planting across 42,000 hectares of sandy substrate in Abu Dhabi emirate.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">42K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Project area</div></div>
-          <div class="pc-metric"><div class="pcm-val">168K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Sequestration</div></div>
-          <div class="pc-metric"><div class="pcm-val">Verra</div><div class="pcm-unit">VCS</div><div class="pcm-label">Standard</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$24.80</div><div class="pc-price-unit">per tCOâe</div></div>
-          <a href="#" class="pc-cta">Trade â</a>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="project-card" data-type="blue" data-status="active">
-        <div class="pc-header"><span class="pc-type type-blue">Blue Carbon</span><span class="pc-status status-active">â Active</span></div>
-        <div class="pc-flag">ðªð¬</div>
-        <div class="pc-name">Nile Delta Mangrove Restoration</div>
-        <div class="pc-location">Northern Delta, Egypt</div>
-        <p class="pc-desc">Large-scale mangrove restoration and coastal ecosystem rehabilitation across 12,000 hectares of degraded wetlands in the Nile Delta. Highest-priced credit class in the region.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">12K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Mangrove area</div></div>
-          <div class="pc-metric"><div class="pcm-val">96K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Sequestration</div></div>
-          <div class="pc-metric"><div class="pcm-val">Verra</div><div class="pcm-unit">VM0033</div><div class="pcm-label">Standard</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$41.20</div><div class="pc-price-unit">per tCOâe</div></div>
-          <a href="#" class="pc-cta">Trade â</a>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="project-card" data-type="vcs" data-status="active">
-        <div class="pc-header"><span class="pc-type type-vcs">VCS</span><span class="pc-status status-active">â Active</span></div>
-        <div class="pc-flag">ð¸ð¦</div>
-        <div class="pc-name">AlUla Desert Ecosystem</div>
-        <div class="pc-location">AlUla, Medina Region, KSA</div>
-        <p class="pc-desc">Ancient landscape restoration under the Royal Commission for AlUla. Native Juniper and Acacia woodland restoration across 180,000 hectares of the Hejaz mountains.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">180K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Project area</div></div>
-          <div class="pc-metric"><div class="pcm-val">680K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Sequestration</div></div>
-          <div class="pc-metric"><div class="pcm-val">Verra</div><div class="pcm-unit">VM0047</div><div class="pcm-label">Standard</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$18.20</div><div class="pc-price-unit">per tCOâe</div></div>
-          <a href="#" class="pc-cta">Trade â</a>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="project-card" data-type="soil" data-status="active">
-        <div class="pc-header"><span class="pc-type type-soil">Soil Carbon</span><span class="pc-status status-active">â Active</span></div>
-        <div class="pc-flag">ð´ð²</div>
-        <div class="pc-name">Dhofar Rangeland Restoration</div>
-        <div class="pc-location">Dhofar Governorate, Oman</div>
-        <p class="pc-desc">Managed rangeland rehabilitation across Dhofar's highland plateau, leveraging the monsoon (Khareef) climate. First Gold Standard certified rangeland soil carbon project in the Arabian Peninsula.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">67K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Project area</div></div>
-          <div class="pc-metric"><div class="pcm-val">185K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Sequestration</div></div>
-          <div class="pc-metric"><div class="pcm-val">Gold</div><div class="pcm-unit">Standard</div><div class="pcm-label">Certification</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$26.40</div><div class="pc-price-unit">per tCOâe</div></div>
-          <a href="#" class="pc-cta">Trade â</a>
-        </div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="project-card" data-type="redd" data-status="pending">
-        <div class="pc-header"><span class="pc-type type-redd">REDD+</span><span class="pc-status status-pending">â Pending</span></div>
-        <div class="pc-flag">ð®ð¶</div>
-        <div class="pc-name">Mesopotamia Wetlands REDD+</div>
-        <div class="pc-location">Southern Iraq Wetlands</div>
-        <p class="pc-desc">Protection and restoration of the iconic Mesopotamian marshes â a UNESCO World Heritage site. Avoidance of emissions from drainage and degradation of 55,000 ha of reed beds.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">55K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Project area</div></div>
-          <div class="pc-metric"><div class="pcm-val">220K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Est. avoidance</div></div>
-          <div class="pc-metric"><div class="pcm-val">Verra</div><div class="pcm-unit">VM0007</div><div class="pcm-label">Standard</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$9.40</div><div class="pc-price-unit">indicative price</div></div>
-          <a href="#" class="pc-cta">Watch â</a>
-        </div>
-      </div>
-
-      <!-- Card 7 -->
-      <div class="project-card" data-type="soil" data-status="active">
-        <div class="pc-header"><span class="pc-type type-soil">Soil Carbon</span><span class="pc-status status-active">â Active</span></div>
-        <div class="pc-flag">ð¸ð¦</div>
-        <div class="pc-name">Al-Ahsa Oasis Soil Enrichment</div>
-        <div class="pc-location">Al-Ahsa, Eastern Province, KSA</div>
-        <p class="pc-desc">Soil organic carbon enhancement in the world's largest natural oasis â a UNESCO-listed landscape. Date palm compost recycling and cover crop integration across 33,000 ha.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">33K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Oasis area</div></div>
-          <div class="pc-metric"><div class="pcm-val">145K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Sequestration</div></div>
-          <div class="pc-metric"><div class="pcm-val">ACR</div><div class="pcm-unit">Verified</div><div class="pcm-label">Standard</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$32.50</div><div class="pc-price-unit">per tCOâe</div></div>
-          <a href="#" class="pc-cta">Trade â</a>
-        </div>
-      </div>
-
-      <!-- Card 8 -->
-      <div class="project-card" data-type="vcs" data-status="dev">
-        <div class="pc-header"><span class="pc-type type-vcs">VCS</span><span class="pc-status status-dev">â Development</span></div>
-        <div class="pc-flag">ð¯ð´</div>
-        <div class="pc-name">Jordan Valley Watershed</div>
-        <div class="pc-location">Jordan Rift Valley, Jordan</div>
-        <p class="pc-desc">Watershed restoration and native Mediterranean dryland forest recovery across 28,000 hectares of the Jordan Rift Valley hillsides. Expected Q2 2027 verification.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">28K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Project area</div></div>
-          <div class="pc-metric"><div class="pcm-val">84K</div><div class="pcm-unit">tCOâe/yr</div><div class="pcm-label">Est. removal</div></div>
-          <div class="pc-metric"><div class="pcm-val">Verra</div><div class="pcm-unit">VM0047</div><div class="pcm-label">Target std</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$12.50</div><div class="pc-price-unit">indicative price</div></div>
-          <a href="#" class="pc-cta">Enquire â</a>
-        </div>
-      </div>
-
-      <!-- Card 9 -->
-      <div class="project-card" data-type="blue" data-status="dev">
-        <div class="pc-header"><span class="pc-type type-blue">Blue Carbon</span><span class="pc-status status-dev">â Development</span></div>
-        <div class="pc-flag">ð¸ð¦</div>
-        <div class="pc-name">Red Sea Mangrove Belt</div>
-        <div class="pc-location">Red Sea Coastline, KSA & Yemen</div>
-        <p class="pc-desc">PIF-backed $2.4B mangrove restoration programme spanning 8,200 kilometres of Red Sea coastline. The largest blue carbon project pipeline globally. 8.2M tCOâe projected.</p>
-        <div class="pc-metrics">
-          <div class="pc-metric"><div class="pcm-val">52K</div><div class="pcm-unit">Hectares</div><div class="pcm-label">Coastal area</div></div>
-          <div class="pc-metric"><div class="pcm-val">8.2M</div><div class="pcm-unit">tCOâe total</div><div class="pcm-label">30yr pipeline</div></div>
-          <div class="pc-metric"><div class="pcm-val">Verra</div><div class="pcm-unit">VM0033</div><div class="pcm-label">Target std</div></div>
-        </div>
-        <div class="pc-footer">
-          <div><div class="pc-price">$38.00</div><div class="pc-price-unit">indicative ask</div></div>
-          <a href="#" class="pc-cta">Enquire â</a>
-        </div>
-      </div>
-
+      <!-- Project cards are generated from projects-data.js -->
     </div>
   </div>
 </section>
+
+<!-- Project detail panel -->
+<div class="pp-backdrop" id="ppBackdrop" onclick="closeProfile()"></div>
+<div class="pp-modal" id="ppModal" role="dialog" aria-modal="true" aria-labelledby="ppTitle">
+  <div class="pp-head">
+    <div>
+      <div class="pp-eyebrow" id="ppEyebrow"></div>
+      <div class="pp-title" id="ppTitle"></div>
+      <div class="pp-loc" id="ppLoc"></div>
+    </div>
+    <button class="pp-close" onclick="closeProfile()" aria-label="Close">&times;</button>
+  </div>
+  <div class="pp-body">
+    <p class="pp-desc" id="ppDesc"></p>
+    <div class="pp-grid" id="ppMetrics"></div>
+    <div class="pp-rows" id="ppRows" style="margin-top:22px"></div>
+    <div id="ppCoWrap" style="margin-top:20px">
+      <div class="pp-cell-unit" style="margin-bottom:8px">Co-benefits</div>
+      <div id="ppCobenefits" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    </div>
+    <div class="pp-note">Compiled from public announcements and registries. Figures are indicative for the credit class and region, not quotes or offers. Verify with the project developer and registry before acting.</div>
+    <div class="pp-cta">
+      <a class="btn-primary" href="index.html#contact">Request a briefing</a>
+      <a class="btn-secondary" id="ppSourceLink" href="#" target="_blank" rel="noopener" style="cursor:pointer">Official source</a>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="footer-grid">
     <div>
       <div class="footer-logo-text">Sifr Collection</div>
-      <div class="footer-tagline">MENA Carbon Intelligence Â· ØµÙØ±</div>
-      <p class="footer-desc">The definitive platform for carbon credit trading, soil carbon intelligence, and project development across the Middle East and North Africa.</p>
+      <div class="footer-tagline">MENA Carbon Intelligence · صفر</div>
+      <p class="footer-desc">The carbon market intelligence platform for the Middle East and North Africa. Reference prices, project tracking, and soil and geospatial data. Information only.</p>
     </div>
     <div>
       <div class="footer-col-title">Platform</div>
       <ul class="footer-links">
-        <li><a href="dashboard.html">Trading Terminal</a></li>
-        <li><a href="projects.html">Project Listings</a></li>
+        <li><a href="dashboard.html">Intelligence Terminal</a></li>
+        <li><a href="projects.html">Project Tracker</a></li>
         <li><a href="index.html#soil">Soil Intelligence</a></li>
         <li><a href="index.html#geospatial">Geospatial Data</a></li>
       </ul>
@@ -347,59 +268,128 @@
     <div>
       <div class="footer-col-title">Company</div>
       <ul class="footer-links">
-        <li><a href="#">About Sifr</a></li>
-        <li><a href="#">Our Team</a></li>
-        <li><a href="#">Partners</a></li>
-        <li><a href="#">Careers</a></li>
+        <li><a href="index.html#about">About Sifr</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="mailto:C.wylie@sifrcollection.com">C.wylie@sifrcollection.com</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Resources</div>
       <ul class="footer-links">
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Methodology</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="index.html#geospatial">Methodology</a></li>
+        <li><a href="index.html#contact">Request a Briefing</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">Â© 2026 Sifr Collection FZ-LLC Â· Registered in DIFC, Dubai, UAE</div>
+    <div class="footer-copy">© 2026 Sifr Collection · Dubai, United Arab Emirates</div>
     <div class="footer-cert">
+      <span style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;color:var(--mist);text-transform:uppercase;align-self:center;margin-right:4px">Standards tracked</span>
       <div class="cert-badge">Verra VCS</div>
       <div class="cert-badge">Gold Standard</div>
       <div class="cert-badge">ISO 14064</div>
-      <div class="cert-badge">TCFD Aligned</div>
+      <div class="cert-badge">VM0042</div>
     </div>
   </div>
 </footer>
 
-<script>
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
-(function ar(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
+<div class="disclaimer-strip">
+  <div class="disclaimer-inner">
+    Sifr Collection provides carbon market data, research, and intelligence for information purposes only. It is not a trading venue, exchange, broker, or financial adviser, and it does not solicit or facilitate the purchase or sale of carbon credits or any financial instrument. Project entries and prices are indicative and compiled from public sources. Nothing here is investment, legal, or tax advice.
+  </div>
+</div>
 
+<script>
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+
+// Shared metadata
+var TYPELABEL = { soil:'Soil Carbon', blue:'Blue Carbon', land:'Reforestation', redd:'REDD+', capture:'Carbon Capture', renewable:'Renewable Energy', waste:'Waste to Energy' };
+var BADGECLASS = { soil:'type-soil', blue:'type-blue', land:'type-vcs', redd:'type-redd', capture:'type-capture', renewable:'type-renewable', waste:'type-waste' };
+var STATUSCLASS = { Active:'status-active', Development:'status-dev', Pending:'status-pending' };
+var STATUSDOT   = { Active:'●', Development:'◐', Pending:'○' };
+var STATUSDATA  = { Active:'active', Development:'dev', Pending:'pending' };
+var BY_ID = {};
+(window.SIFR_PROJECTS || []).forEach(function(p){ BY_ID[p.id] = p; });
+
+// Generate project cards from the shared dataset (card = summary, panel = full record)
+(function(){
+  var grid = document.getElementById('projectsGrid');
+  if (!grid || !window.SIFR_PROJECTS) return;
+  var html = window.SIFR_PROJECTS.map(function(p){
+    var priceHtml = /^[$€]/.test(p.price) ? '<div class="pc-price">'+p.price+'</div>' : '<div class="pc-price" style="font-size:18px">'+p.price+'</div>';
+    return '<div class="project-card" data-id="'+p.id+'" data-type="'+p.type+'" data-status="'+(STATUSDATA[p.status]||'dev')+'" onclick="openProfile(this)">'
+      + '<div class="pc-header"><span class="pc-type '+(BADGECLASS[p.type]||'')+'">'+(TYPELABEL[p.type]||p.type)+'</span>'
+      + '<span class="pc-status '+(STATUSCLASS[p.status]||'')+'">'+(STATUSDOT[p.status]||'')+' '+p.status+'</span></div>'
+      + '<div class="pc-flag">'+p.flag+'</div>'
+      + '<div class="pc-name">'+p.name+'</div>'
+      + '<div class="pc-location">'+(p.country||p.cc)+'</div>'
+      + '<p class="pc-desc">'+(p.summary||'')+'</p>'
+      + '<div class="pc-metrics">'
+      +   '<div class="pc-metric"><div class="pcm-val" style="font-size:17px">'+p.area+'</div><div class="pcm-unit">Size</div><div class="pcm-label">Area</div></div>'
+      +   '<div class="pc-metric"><div class="pcm-val" style="font-size:15px">'+p.annual+'</div><div class="pcm-unit">Annual</div><div class="pcm-label">tCO₂e</div></div>'
+      +   '<div class="pc-metric"><div class="pcm-val" style="font-size:15px">'+p.std+'</div><div class="pcm-unit">Standard</div><div class="pcm-label">'+(p.registry||'')+'</div></div>'
+      + '</div>'
+      + '<div class="pc-footer"><div>'+priceHtml+'<div class="pc-price-unit">'+(p.priceUnit||'')+'</div></div><span class="pc-cta">View profile &rarr;</span></div>'
+      + '</div>';
+  }).join('');
+  grid.insertAdjacentHTML('beforeend', html);
+  var fc = document.getElementById('filterCount');
+  if (fc) fc.textContent = document.querySelectorAll('.project-card').length + ' tracked';
+})();
+
+function cardNature(c){
+  var p = BY_ID[c.dataset.id];
+  if (p && p.nature) return p.nature.toLowerCase();
+  var m = { soil:'removal', blue:'removal', land:'removal', vcs:'removal', redd:'avoidance', capture:'reduction', renewable:'reduction', waste:'reduction', gold:'' };
+  return m[c.dataset.type] || '';
+}
 
 function filterCards(type, btn) {
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const cards = document.querySelectorAll('.project-card');
+  const natures = { removal:1, avoidance:1, reduction:1 };
   let count = 0;
-  cards.forEach(c=>{
-    const t = c.dataset.type;
-    const s = c.dataset.status;
+  document.querySelectorAll('.project-card').forEach(c=>{
+    const t = c.dataset.type, s = c.dataset.status;
     let show = type==='all' || t===type || s===type;
-    // special: 'active' and 'dev' filter by status
     if(type==='active') show = s==='active';
     if(type==='dev') show = s==='dev' || s==='pending';
+    if(natures[type]) show = cardNature(c) === type;
     c.style.display = show ? '' : 'none';
     if(show) count++;
   });
-  document.getElementById('filterCount').textContent = count + ' projects';
+  document.getElementById('filterCount').textContent = count + ' tracked';
 }
+
+function ppCell(v,u,l){ return '<div class="pp-cell"><div class="pp-cell-val" style="font-size:18px">'+(v||'')+'</div><div class="pp-cell-unit">'+(u||'')+'</div><div class="pp-cell-label">'+(l||'')+'</div></div>'; }
+
+// Detail panel: full record from the dataset, more than the card shows
+function openProfile(card){
+  var p = BY_ID[card.dataset.id];
+  if (!p) return;
+  function set(id,v){ var e=document.getElementById(id); if(e) e.textContent = v || '··'; }
+  set('ppEyebrow', (TYPELABEL[p.type]||p.type) + ' · ' + p.status + (p.nature ? ' · ' + p.nature : ''));
+  set('ppTitle', p.name);
+  set('ppLoc', p.flag + '  ' + (p.country || p.cc));
+  set('ppDesc', p.detail || p.summary);
+  document.getElementById('ppMetrics').innerHTML = ppCell(p.area,'Size','Area') + ppCell(p.annual,'Annual','tCO₂e') + ppCell(p.std,'Standard',p.registry||'');
+  set('ppPrice', p.price); set('ppPriceUnit', p.priceUnit||'');
+  var rows = [['Credit nature',p.nature],['Status',p.status],['Registry',p.registry],['Methodology',p.methodology],['Vintage',p.vintage],['Lifetime',p.lifetime],['Developer',p.developer]];
+  document.getElementById('ppRows').innerHTML = rows.filter(function(r){return r[1];}).map(function(r){ return '<div class="pp-row"><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>'; }).join('');
+  var co = document.getElementById('ppCobenefits'), wrap = document.getElementById('ppCoWrap'), list = p.coBenefits || [];
+  co.innerHTML = list.map(function(c){ return '<span class="pp-chip">'+c+'</span>'; }).join('');
+  wrap.style.display = list.length ? '' : 'none';
+  var link = document.getElementById('ppSourceLink');
+  if (p.url) { link.href = p.url; link.style.display = ''; } else { link.style.display = 'none'; }
+  document.getElementById('ppBackdrop').classList.add('open');
+  document.getElementById('ppModal').classList.add('open');
+}
+function closeProfile(){
+  document.getElementById('ppBackdrop').classList.remove('open');
+  document.getElementById('ppModal').classList.remove('open');
+}
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeProfile(); });
 </script>
 </body>
 </html>
