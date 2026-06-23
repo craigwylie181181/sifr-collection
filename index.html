@@ -192,7 +192,7 @@
 }
 @media (max-width:760px){
   /* tighten the long vertical rhythm so the page is not endless on a phone */
-  .hero { padding:118px 0 56px; }
+  .hero { padding:104px 0 52px; }
   .hero-h1 { font-size:clamp(40px,11.5vw,58px); line-height:1.02; }
   .hero-h1 .sifr-ar { font-size:0.4em; }
   .hero-body { font-size:17px; margin-top:22px; }
@@ -202,6 +202,10 @@
   .svc-card { padding:30px 24px; }
   .geo-card { padding:26px; gap:16px; }
   .stat-mosaic { grid-template-columns:1fr 1fr; }
+  /* let stacked grid items shrink instead of forcing horizontal overflow */
+  .hero-grid > *, .about-grid > *, .soil-grid > *, .geo-grid > *, .contact-grid > * { min-width:0; }
+  .stat-tile { padding:24px 18px; min-width:0; }
+  .st-num { font-size:36px; }
   .terminal-cta { flex-direction:column; align-items:flex-start; gap:10px; }
   /* soil depth chart: was fixed-width and overflowed; let it wrap */
   .depth-row { flex-wrap:wrap; gap:8px 12px; padding:13px 16px; }

@@ -734,6 +734,48 @@
 
   .btn-row { display: flex; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border); }
 
+  /* ───────────────────────────────────────────────────────────────
+     MOBILE LAYOUT FIX (declared LAST so it overrides the base
+     .main grid + .stats-bar that appear later in the source than the
+     earlier media queries, which is why the terminal never stacked
+     and the map was buried under its overlays on phones).
+     ─────────────────────────────────────────────────────────────── */
+  @media (max-width: 920px) {
+    html { overflow-x: hidden; }   /* belt-and-braces: no sideways scroll from the ticker */
+    .main { display: flex !important; flex-direction: column; height: auto; }
+    .center { order: -1; width: 100%; overflow: visible; height: auto; }
+    .sidebar-left, .sidebar-right { width: 100%; border-left: none; border-right: none; border-bottom: 1px solid var(--border); overflow: visible; }
+    .map-container { height: 60vh; min-height: 340px; flex: 0 0 auto; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr) !important; }
+    .stat-cell:nth-child(2n) { border-right: none; }
+    .bottom-panel { height: auto; }
+    .tab-content { max-height: 340px; }
+    .tab-bar { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .header { height: auto; flex-wrap: wrap; padding: 8px 14px; row-gap: 8px; }
+    .nav { display: none; }            /* bottom tabs handle view switching */
+    .ext-link { display: inline-block; }
+    .market-item { grid-template-columns: 1fr auto; }
+    .ticker-wrap { overflow: hidden; }
+    /* keep the map overlays from covering a smaller map */
+    .map-legend { bottom: 8px; left: 8px; padding: 8px 10px; }
+    .legend-title { margin-bottom: 6px; }
+    .legend-row { margin-bottom: 4px; }
+    .legend-label { font-size: 11px; }
+    .legend-dot { width: 9px; height: 9px; }
+    .map-controls { top: 8px; left: 8px; }
+    .map-layer-toggle { top: 8px; right: 8px; gap: 4px; }
+    .layer-btn { padding: 5px 9px; font-size: 10px; }
+  }
+  @media (max-width: 560px) {
+    body { font-size: 12px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr) !important; }
+    .header-right .time-display { display: none; }
+    .logo-sub { display: none; }
+    .map-container { height: 56vh; }
+    /* lay the layer filters as a compact wrapping cluster, not a tall stack */
+    .map-layer-toggle { flex-direction: row; flex-wrap: wrap; max-width: 188px; justify-content: flex-end; }
+    .proj-modal { width: 94vw; }
+  }
 </style>
 </head>
 <body>

@@ -176,29 +176,35 @@ footer { background:var(--alt); border-top:1px solid var(--line); padding:64px 0
 }
 @media (max-width: 760px) {
   body { font-size:16px; }
-  /* Mobile nav: keep an always-legible bar with the links in a tidy
-     horizontally scrollable row under the logo (they used to disappear). */
+  /* Compact 2-row mobile nav (CSS grid): logo + CTA on top,
+     a single scrollable links strip underneath. Replaces the links
+     that used to vanish, without the bulky 3-row wrap. */
   nav, nav.scrolled {
-    padding:10px 18px; flex-wrap:wrap; row-gap:8px;
-    background:rgba(246,242,233,0.96);
+    display:grid; grid-template-columns:1fr auto;
+    grid-template-areas:"logo cta" "links links";
+    align-items:center; column-gap:10px; row-gap:6px;
+    padding:8px 16px;
+    background:rgba(246,242,233,0.97);
     -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
     border-bottom:1px solid var(--line);
   }
-  .nav-logo-ar { font-size:19px; }
-  .nav-logo-en { font-size:8px; }
+  .nav-logo { grid-area:logo; gap:10px; min-width:0; }
+  .nav-logo-ar { font-size:18px; white-space:nowrap; }
+  .nav-logo-en { display:none; }
+  nav > div { grid-area:cta; justify-self:end; flex-wrap:nowrap; }
   .nav-links {
-    order:3; flex-basis:100%; width:100%;
-    display:flex; flex-wrap:nowrap; overflow-x:auto; gap:20px;
-    padding-top:9px; margin-top:1px; border-top:1px solid var(--line);
+    grid-area:links;
+    display:flex; flex-wrap:nowrap; overflow-x:auto; gap:18px;
+    padding-top:6px; border-top:1px solid var(--line);
     -webkit-overflow-scrolling:touch; scrollbar-width:none;
   }
   .nav-links::-webkit-scrollbar { display:none; }
-  .nav-links a { font-size:12.5px; letter-spacing:0.05em; white-space:nowrap; flex:0 0 auto; }
+  .nav-links a { font-size:12.5px; letter-spacing:0.04em; white-space:nowrap; flex:0 0 auto; padding:1px 0; }
   .nav-links a::after { display:none; }
-  .nav-cta { padding:8px 14px; }
+  .nav-cta { padding:8px 13px; }
   .section-inner { padding:0 20px; }
   .section-title { font-size:clamp(30px,8.4vw,44px); }
-  .page-hero2 { padding:122px 0 40px; }
+  .page-hero2 { padding:104px 0 40px; }
   .page-hero2 p { font-size:16px; }
   .page-body { padding:44px 0 64px; }
   .faq-section { padding:60px 0; }
@@ -209,4 +215,8 @@ footer { background:var(--alt); border-top:1px solid var(--line); padding:64px 0
 @media (max-width: 480px) {
   .footer-grid { grid-template-columns:1fr; }
   .section-inner { padding:0 16px; }
+}
+@media (max-width: 400px) {
+  .nav-logo-ar { font-size:16px; }
+  .nav-cta { padding:7px 11px; font-size:11px; }
 }
