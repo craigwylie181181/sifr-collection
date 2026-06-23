@@ -21,6 +21,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://sifrcollection.com/compliance</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://sifrcollection.com/countries</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
