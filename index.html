@@ -190,7 +190,30 @@
   .countries-wrap { grid-template-columns:repeat(4,1fr); }
   .cform-row { grid-template-columns:1fr; }
 }
+@media (max-width:760px){
+  /* tighten the long vertical rhythm so the page is not endless on a phone */
+  .hero { padding:118px 0 56px; }
+  .hero-h1 { font-size:clamp(40px,11.5vw,58px); line-height:1.02; }
+  .hero-h1 .sifr-ar { font-size:0.4em; }
+  .hero-body { font-size:17px; margin-top:22px; }
+  .about, .services, .terminal-preview, .soil-section, .coverage, .geo-section, .contact { padding:62px 0; }
+  .cta { padding:74px 0; }
+  .services-grid, .geo-grid { gap:14px; }
+  .svc-card { padding:30px 24px; }
+  .geo-card { padding:26px; gap:16px; }
+  .stat-mosaic { grid-template-columns:1fr 1fr; }
+  .terminal-cta { flex-direction:column; align-items:flex-start; gap:10px; }
+  /* soil depth chart: was fixed-width and overflowed; let it wrap */
+  .depth-row { flex-wrap:wrap; gap:8px 12px; padding:13px 16px; }
+  .dr-depth, .dr-val, .dr-name { width:auto; }
+  .dr-bar-bg { flex:1 1 55%; }
+}
 @media (max-width:520px){ .countries-wrap{ grid-template-columns:repeat(2,1fr);} .stat-mosaic,.soil-stats{grid-template-columns:1fr 1fr;} }
+@media (max-width:380px){
+  .hero-h1 { font-size:37px; }
+  .hp-prices { grid-template-columns:1fr 1fr 1fr; }
+  .hp-val { font-size:21px; }
+}
 </style>
 </head>
 <body>

@@ -176,14 +176,37 @@ footer { background:var(--alt); border-top:1px solid var(--line); padding:64px 0
 }
 @media (max-width: 760px) {
   body { font-size:16px; }
-  .nav-links { display:none; }
-  nav, nav.scrolled { padding:12px 20px; }
+  /* Mobile nav: keep an always-legible bar with the links in a tidy
+     horizontally scrollable row under the logo (they used to disappear). */
+  nav, nav.scrolled {
+    padding:10px 18px; flex-wrap:wrap; row-gap:8px;
+    background:rgba(246,242,233,0.96);
+    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-logo-ar { font-size:19px; }
+  .nav-logo-en { font-size:8px; }
+  .nav-links {
+    order:3; flex-basis:100%; width:100%;
+    display:flex; flex-wrap:nowrap; overflow-x:auto; gap:20px;
+    padding-top:9px; margin-top:1px; border-top:1px solid var(--line);
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .nav-links::-webkit-scrollbar { display:none; }
+  .nav-links a { font-size:12.5px; letter-spacing:0.05em; white-space:nowrap; flex:0 0 auto; }
+  .nav-links a::after { display:none; }
   .nav-cta { padding:8px 14px; }
   .section-inner { padding:0 20px; }
+  .section-title { font-size:clamp(30px,8.4vw,44px); }
+  .page-hero2 { padding:122px 0 40px; }
+  .page-hero2 p { font-size:16px; }
+  .page-body { padding:44px 0 64px; }
+  .faq-section { padding:60px 0; }
   .footer-grid { grid-template-columns:1fr 1fr; gap:32px; padding:0 20px; }
   .footer-bottom { flex-direction:column; align-items:flex-start; padding:24px 20px 0; }
   .disclaimer-inner { padding:16px 20px; }
 }
 @media (max-width: 480px) {
   .footer-grid { grid-template-columns:1fr; }
+  .section-inner { padding:0 16px; }
 }
