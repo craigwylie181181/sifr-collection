@@ -2,7 +2,7 @@
    RVCMC auction volumes are public and verified. Per-registry MENA issuance and retirement
    totals are filled by the daily job from CarbonPlan OffsetsDB and the registries. */
 window.SIFR_REGISTRY = {
-  updated: "2026-06-29",
+  updated: "2026-06-30",
   note: "RVCMC auction volumes are public and verified. Per-registry MENA issuance and retirement totals sync daily from CarbonPlan OffsetsDB and the public registries.",
   auctions: [
     { operator:"RVCMC", volume:"1.4M tCO₂e", when:"2022", location:"Riyadh, KSA" },
