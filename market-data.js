@@ -2,7 +2,7 @@
    Real, sourced benchmark figures. The EUA compliance price is refreshed daily by the data-refresh job;
    voluntary figures are benchmark ranges from public market reporting, dated below. */
 window.SIFR_MARKET = {
-  updated: "2026-07-03",
+  updated: "2026-07-04",
   mode: "reference",
   note: "Reference benchmarks from public sources. EUA is a live compliance price; voluntary figures are published market ranges.",
   prices: [
