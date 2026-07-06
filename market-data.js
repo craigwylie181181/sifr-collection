@@ -2,7 +2,7 @@
    Real, sourced benchmark figures. The EUA compliance price is refreshed daily by the data-refresh job;
    voluntary figures are benchmark ranges from public market reporting, dated below. */
 window.SIFR_MARKET = {
-  updated: "2026-07-05",
+  updated: "2026-07-06",
   mode: "reference",
   note: "Reference benchmarks from public sources. EUA is a live compliance price; voluntary figures are published market ranges.",
   prices: [
@@ -10,6 +10,7 @@ window.SIFR_MARKET = {
     { sym:"NBS-ARR", label:"Nature-based removal (ARR)", value:"$24", change:"▲", dir:"up", basis:"2025 market reporting", asof:"2025" },
     { sym:"NBS-AVOID", label:"Nature-based avoidance", value:"$2-5", change:"▼", dir:"dn", basis:"2025 market reporting", asof:"2025" },
     { sym:"GS-PREM", label:"Gold Standard premium", value:"+20-40%", change:"▲", dir:"up", basis:"vs comparable Verra", asof:"2025" },
+    { sym:"CCP-PREM", label:"CCP-labelled premium (integrity tier)", value:"~3x", change:"▲", dir:"up", basis:"vs legacy credits, 2026 market reporting", asof:"2026" },
     { sym:"BLUE-C", label:"Blue carbon (mangrove)", value:"$30-45", change:"▲", dir:"up", basis:"class estimate", asof:"2025" },
     { sym:"TECH-REM", label:"Durable tech removal", value:"$300+", change:"▲", dir:"up", basis:"2025 market reporting", asof:"2025" }
   ],
