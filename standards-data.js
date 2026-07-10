@@ -3,35 +3,28 @@
 // Compiled from public sources. Information only. Verify with the relevant body before acting.
 // accent: green = standards body, blue = financial regulator, amber = regional standardisation
 window.SIFR_STANDARDS = {
-  updated: "29 Jun 2026",
+  updated: "2026-07-08",
   items: [
-    {
-      date: "Jun 2026",
-      body: "ICVCM",
-      accent: "green",
-      title: "CCP assessments continue. Further cookstove and forest methodologies under review.",
-      url: "https://icvcm.org"
-    },
     {
       date: "Jun 2026",
       body: "ADGM",
       accent: "blue",
-      title: "Voluntary carbon credits remain regulated as financial instruments under FSRA.",
-      url: "https://www.adgm.com"
+      title: "Voluntary carbon credits remain regulated as Environmental Instruments, a class of financial instrument, under FSRA. In force since Sep 2022.",
+      url: "https://www.adgm.com/media/announcements/adgm-fsra-issues-enhancements-to-its-capital-markets-framework-including-environmental-instruments"
     },
     {
       date: "Oct 2025",
       body: "GSO",
       accent: "amber",
-      title: "GCC 2026-2030 standards strategy approved. Unified Gulf market surveillance, sustainability focus.",
-      url: "https://www.gso.org.sa"
+      title: "GSO Technical Council approved the 2026-2030 strategy, pending Ministerial Committee adoption. Enhanced Gulf market surveillance is an explicit pillar.",
+      url: "https://www.gso.org.sa/en/media/2025/10/gso-technical-council-approves-its-new-strategy-for-2026-2030-to-enhance-gulf-economic-integration/"
     },
     {
       date: "2025",
       body: "FSRA",
       accent: "blue",
-      title: "ADGM capital markets framework enhanced. Expanded oversight of environmental instruments.",
-      url: "https://www.adgm.com"
+      title: "FSRA advanced sustainable finance work in 2025, including Consultation Paper No. 13 on climate-related financial risk. The Environmental Instrument class itself dates from 2022.",
+      url: "https://www.adgm.com/media/announcements/adgm-fsra-highlights-milestones-in-sustainable-finance-and-regulatory-leadership"
     },
     {
       date: "Mar 2025",
@@ -44,22 +37,22 @@ window.SIFR_STANDARDS = {
       date: "Mar 2025",
       body: "Gold Standard",
       accent: "green",
-      title: "Metered cookstove methodology CCP-approved. Simplified, unmonitored approaches excluded.",
-      url: "https://www.goldstandard.org"
+      title: "Gold Standard Metered & Measured Energy Cooking Devices is CCP-approved. The Simplified Methodology for Clean and Efficient Cookstoves was found not to meet the CCP framework.",
+      url: "https://www.goldstandard.org/news/icvcm-confirms-gold-standards-clean-cooking-methodologies-as-core-carbon-principles-eligible"
     },
     {
       date: "2025",
       body: "Verra",
       accent: "green",
-      title: "VM0048 REDD and VM0050 cookstove methodologies gain CCP eligibility.",
-      url: "https://verra.org"
+      title: "Verra VM0048 (REDD) and VM0050 (cookstoves) gained conditional CCP eligibility. VM0048 carries conditions on the VMD0055 unplanned-deforestation module.",
+      url: "https://icvcm.org/integrity-council-approves-three-cookstove-methodologies/"
     },
     {
-      date: "2025",
-      body: "CMA",
+      date: "May 2025",
+      body: "SCA (UAE)",
       accent: "blue",
-      title: "Resolution No. 10 finfluencer regime live. Bites on advice over regulated instruments.",
-      url: ""
+      title: "UAE Securities and Commodities Authority Chairman Decision No. 10 of 2025 launched the region's first finfluencer licence. Bites on advice over regulated instruments, and ADGM regulates carbon credits as financial instruments.",
+      url: "https://www.sca.gov.ae/en/media-center/news/28/5/2025/sca-launches-regions-first-finfluencer-license-to-regulate-digital-financial-content.aspx"
     }
   ],
   note: "Standards and methodology tracking. Compiled from public sources, not legal or compliance advice."
