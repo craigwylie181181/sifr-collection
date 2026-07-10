@@ -1,0 +1,40 @@
+name: Data integrity gate
+
+# Blocks any push or PR that reintroduces an unsourced number, a fabricated project,
+# a false capability claim, or a price hardcoded outside market-data.js.
+#
+# This runs on GitHub, so it fires whether the change came from Craig, from the daily
+# refresh job, or from an AI agent editing the repo. That is the point: the previous
+# safeguard was "be careful", and it did not hold.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Verify every value carries a source
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check data files parse
+        run: |
+          for f in market-data.js news-data.js registry-data.js projects-data.js \
+                   countries-data.js schemes-data.js standards-data.js reports-data.js \
+                   compliance-data.js; do
+            node --check "$f" || exit 1
+          done
+
+      - name: Data integrity gate
+        run: node tools/verify-data.js
+
+      - name: Gate self-test (the gate must actually catch fabrication)
+        run: node tools/verify-data.test.js
