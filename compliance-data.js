@@ -2,7 +2,7 @@
    Regulatory status and dated obligations per jurisdiction, from public sources.
    Information only, not legal or compliance advice. Refreshable by the daily data job. */
 window.SIFR_COMPLIANCE = {
-  updated: "2026-06-23",
+  updated: "2026-07-08",
   note: "Regulatory status and milestones from public sources. Information only, not legal advice. Verify obligations against the primary legislation and a qualified adviser.",
 
   /* Per-jurisdiction status board: the data a generic price tracker does not carry. */
@@ -24,7 +24,7 @@ window.SIFR_COMPLIANCE = {
       venue:{ has:true, label:"RVCMC voluntary market, GCOM in development" },
       penalty:"n/a",
       netZero:"2060",
-      next:"RVCMC: 30M+ tonnes committed by 2030",
+      next:"VCM/Enowa deal: 30M+ tonnes targeted by 2030",
       summary:"Largest voluntary market and supply pipeline. GCOM, a national crediting mechanism, is the one to watch for a future compliance layer."
     },
     {
@@ -124,9 +124,9 @@ window.SIFR_COMPLIANCE = {
     },
     {
       year:2030, dateLabel:"By 2030", cc:"KSA", flag:"🇸🇦", jurisdiction:"Saudi Arabia",
-      title:"RVCMC to deliver 30M+ tonnes of credits", type:"market", status:"Committed",
-      detail:"RVCMC has signed agreements to deliver more than 30 million tonnes of carbon credits by 2030, against roughly 6.1 million auctioned across 2022 to 2024. The delivery gap is the key supply risk to watch.",
-      source:"https://vcm.sa/"
+      title:"VCM (formerly RVCMC) and Enowa target 30M+ tonnes", type:"market", status:"Committed",
+      detail:"A single June 2025 agreement between VCM (formerly RVCMC) and Enowa, NEOM's energy and water subsidiary, targets delivery of more than 30 million tonnes of carbon credits by 2030, against roughly 6.1 million auctioned across 2022 to 2024. One bilateral deal, not a portfolio of agreements. The delivery gap is the key supply risk to watch.",
+      source:"https://vcm.sa/en/media-detail/vcm-and-enowa-target-delivery-of-more-than-million-tonnes-of-carbon-credits/"
     },
     {
       year:2030, dateLabel:"By 2030", cc:"UAE", flag:"🇦🇪", jurisdiction:"United Arab Emirates",
