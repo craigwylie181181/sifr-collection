@@ -7,7 +7,7 @@ window.SIFR_SCHEMES = {
       id:"rvcmc", name:"RVCMC", full:"Regional Voluntary Carbon Market Company", cc:"KSA", country:"Saudi Arabia",
       kind:"Voluntary market", status:"Active",
       summary:"Saudi voluntary carbon market operator, PIF and Tadawul owned.",
-      detail:"Owned 80% by the Public Investment Fund and 20% by Tadawul. Has auctioned over 6.1 million tonnes across three events (2022 to 2024), launched a regional voluntary carbon exchange, and signed agreements to deliver more than 30 million tonnes of credits by 2030. The anchor of Saudi Arabia's voluntary market.",
+      detail:"Owned 80% by the Public Investment Fund and 20% by Tadawul. Has auctioned over 6.1 million tonnes across three events (2022 to 2024) and launched a regional voluntary carbon exchange. In June 2025 it signed a single agreement with Enowa, NEOM's energy and water subsidiary, targeting delivery of more than 30 million tonnes of credits by 2030. That is one bilateral deal, not a portfolio. The company now trades as VCM; RVCMC is the former name.",
       url:"https://vcm.sa/"
     },
     {
