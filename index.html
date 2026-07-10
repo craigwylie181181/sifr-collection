@@ -43,6 +43,7 @@
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="news-data.js"></script>
+<script src="market-data.js"></script>
 <script src="coverage-data.js"></script>
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -278,9 +279,9 @@
         </div>
         <img class="hp-map" src="mena-map.svg" alt="Map of carbon projects tracked across the Arabian Peninsula, Egypt, Jordan and Iraq" width="1000" height="720" loading="lazy">
         <div class="hp-prices">
-          <div class="hp-price"><div class="hp-sym">NBS removal</div><div class="hp-val">$24</div><div class="hp-chg">per tCO₂e</div></div>
+          <div class="hp-price"><div class="hp-sym">NBS removal</div><div class="hp-val" id="hpNbs">$20.44</div><div class="hp-chg">per tCO₂e, 2024</div></div>
           <div class="hp-price"><div class="hp-sym">RVCMC</div><div class="hp-val">6.1M</div><div class="hp-chg">t auctioned</div></div>
-          <div class="hp-price"><div class="hp-sym">MEA VCM '23</div><div class="hp-val">$107M</div><div class="hp-chg">~27% CAGR</div></div>
+          <div class="hp-price"><div class="hp-sym">MEA VCM '25</div><div class="hp-val" id="hpMea">$173.2M</div><div class="hp-chg">Grand View</div></div>
         </div>
       </div>
     </div>
@@ -299,10 +300,10 @@
         <p>We do not broker credits and we do not run a trading venue. We are an information platform. That independence is the point: our job is to tell you what the market is doing, not to sell you a position in it.</p>
       </div>
       <div class="stat-mosaic reveal reveal-delay-3">
-        <div class="stat-tile"><div class="st-num">$107.5M</div><div class="st-unit">MEA VCM 2023</div><div class="st-label">Regional voluntary market revenue, growing ~27% a year to 2030</div></div>
+        <div class="stat-tile"><div class="st-num" id="stMea">$173.2M</div><div class="st-unit">MEA VCM 2025</div><div class="st-label">Regional voluntary market revenue, 22.6% CAGR forecast to 2033 (Grand View Research)</div></div>
         <div class="stat-tile"><div class="st-num">6.1M</div><div class="st-unit">tCO₂e</div><div class="st-label">Credits auctioned by Saudi Arabia's RVCMC across 2022 to 2024</div></div>
-        <div class="stat-tile"><div class="st-num">$24</div><div class="st-unit">per tCO₂e</div><div class="st-label">Nature-based removal benchmark, up from ~$14 in early 2025</div></div>
-        <div class="stat-tile"><div class="st-num">14</div><div class="st-unit">Nations tracked</div><div class="st-label">Projects, policy, and pricing across the MENA region</div></div>
+        <div class="stat-tile"><div class="st-num" id="stNbs">$20.44</div><div class="st-unit">per tCO₂e</div><div class="st-label">Nature-based removal (ARR) average, 2024, up 19% on 2023 (Ecosystem Marketplace)</div></div>
+        <div class="stat-tile"><div class="st-num">12</div><div class="st-unit">Nations tracked</div><div class="st-label">Projects, policy, and pricing across the MENA region</div></div>
       </div>
     </div>
     <div class="source-note reveal" style="margin-top:20px">Sources: Grand View Research (MEA voluntary carbon credit market); Saudi PIF / RVCMC auction disclosures; 2025 nature-based removal price reporting.</div>
@@ -355,12 +356,8 @@
       <div class="terminal-body">
         <div class="term-col">
           <div class="term-col-head">Reference Prices</div>
-          <div class="price-row"><span class="pr-sym">NBS-ARR</span><span class="pr-price">$24.00</span></div>
-          <div class="price-row"><span class="pr-sym">NBS-AVOID</span><span class="pr-price">$2-5</span></div>
-          <div class="price-row"><span class="pr-sym">GS-NBS</span><span class="pr-price gold">+20-40%</span></div>
-          <div class="price-row"><span class="pr-sym">BLUE-C</span><span class="pr-price blue">$30-45</span></div>
-          <div class="price-row"><span class="pr-sym">TECH-REM</span><span class="pr-price">$300+</span></div>
-          <div class="price-row"><span class="pr-sym">EUA</span><span class="pr-price">€71</span></div>
+          <!-- Rendered from market-data.js. Never hardcode a price here: it will drift from the sourced file. -->
+          <div id="homeRefPrices"></div>
           <div class="term-col-head" style="border-top:1px solid var(--line)">Auctions</div>
           <div class="price-row"><span class="pr-sym">RVCMC total</span><span class="pr-price">6.1M t</span></div>
           <div class="price-row"><span class="pr-sym">ACX ADGM</span><span class="pr-price">Live</span></div>
@@ -387,18 +384,18 @@
     <div class="soil-grid">
       <div class="soil-diagram reveal reveal-delay-2">
         <div class="soil-depth-chart">
-          <div class="depth-row"><div class="dr-depth">0-10 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:82%;background:#a85f32"></div></div><div class="dr-val">42.8 tC/ha</div><div class="dr-name">Topsoil</div></div>
-          <div class="depth-row"><div class="dr-depth">10-30 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:65%;background:#9a7b3e"></div></div><div class="dr-val">33.4 tC/ha</div><div class="dr-name">Subsoil A</div></div>
-          <div class="depth-row"><div class="dr-depth">30-60 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:49%;background:#6e7c52"></div></div><div class="dr-val">24.9 tC/ha</div><div class="dr-name">Subsoil B</div></div>
-          <div class="depth-row"><div class="dr-depth">60-100 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:34%;background:#5e6d64"></div></div><div class="dr-val">17.7 tC/ha</div><div class="dr-name">Deep soil</div></div>
-          <div class="depth-row"><div class="dr-depth">&gt; 100 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:22%;background:#8a8170"></div></div><div class="dr-val">11.4 tC/ha</div><div class="dr-name">Deep soil B</div></div>
+          <div class="depth-row"><div class="dr-depth">0-10 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:82%;background:#a85f32"></div></div><div class="dr-val">Highest</div><div class="dr-name">Topsoil</div></div>
+          <div class="depth-row"><div class="dr-depth">10-30 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:65%;background:#9a7b3e"></div></div><div class="dr-val">High</div><div class="dr-name">Subsoil A</div></div>
+          <div class="depth-row"><div class="dr-depth">30-60 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:49%;background:#6e7c52"></div></div><div class="dr-val">Moderate</div><div class="dr-name">Subsoil B</div></div>
+          <div class="depth-row"><div class="dr-depth">60-100 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:34%;background:#5e6d64"></div></div><div class="dr-val">Low</div><div class="dr-name">Deep soil</div></div>
+          <div class="depth-row"><div class="dr-depth">&gt; 100 cm</div><div class="dr-bar-bg"><div class="dr-bar" style="width:22%;background:#8a8170"></div></div><div class="dr-val">Lowest</div><div class="dr-name">Deep soil B</div></div>
         </div>
-        <div class="soil-chart-label">Illustrative soil organic carbon depth profile · arid rangeland</div>
+        <div class="soil-chart-label">Schematic: relative distribution of soil carbon by depth in arid rangeland. Not measured data, and not from any MENA site.</div>
       </div>
       <div class="soil-copy reveal reveal-delay-3">
         <p>Arid and semi-arid soils are one of the region's most overlooked carbon stories. They hold little carbon per hectare, but MENA has a vast amount of land. Generations of overgrazing and desertification have stripped these soils, and well managed restoration can rebuild part of that stock.</p>
         <p>The honest picture matters here. Dryland restoration sequesters carbon slowly, roughly <strong>0.1 to 0.5 tonnes of carbon per hectare each year</strong> on grazing land, so credible measurement separates real projects from optimistic ones. That is exactly where data earns its keep.</p>
-        <p>Sifr tracks soil organic carbon using Sentinel-2 satellite data and published dryland science, aligned to Verra VM0042 and Gold Standard methodology, so a soil carbon claim can survive scrutiny.</p>
+        <p>Sifr does not measure soil carbon. We track the methodologies that govern it, chiefly Verra's VM0042 and Gold Standard's soil organic carbon requirements, and we report what the registries and the published science say. Anyone selling you a MENA soil carbon number without field measurement behind it is selling you a model output.</p>
         <div class="soil-stats">
           <div class="ss-cell"><div class="ss-val">0.1-0.5</div><div class="ss-unit">tC/ha/yr</div><div class="ss-label">Typical dryland restoration rate</div></div>
           <div class="ss-cell"><div class="ss-val">10m</div><div class="ss-unit">Resolution</div><div class="ss-label">Sentinel-2 pixel</div></div>
@@ -553,6 +550,27 @@
 </div>
 
 <script>
+/* Reference prices on this page are rendered from market-data.js, the single sourced file.
+   Do not hardcode a price into the HTML above: it will silently drift from the sourced value. */
+(function renderHomePrices(){
+  var M = window.SIFR_MARKET;
+  if (!M) return;
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]; }); }
+  var box = document.getElementById('homeRefPrices');
+  if (box) {
+    box.innerHTML = (M.prices || []).map(function(p){
+      var cls = p.sym === 'GS-PREM' ? ' gold' : (p.sym === 'BLUE-C' ? ' blue' : '');
+      return '<div class="price-row"><span class="pr-sym">' + esc(p.sym) +
+             '</span><span class="pr-price' + cls + '">' + esc(p.value) + '</span></div>';
+    }).join('');
+  }
+  function find(sym){ return (M.prices || []).concat(M.indices || []).filter(function(p){ return p.sym === sym; })[0]; }
+  function set(id, sym){ var el = document.getElementById(id), row = find(sym); if (el && row) el.textContent = row.value; }
+  set('hpNbs', 'NBS-ARR'); set('stNbs', 'NBS-ARR');
+  set('hpMea', 'MEA-VCM'); set('stMea', 'MEA-VCM');
+})();
+
 const nav = document.getElementById('mainNav');
 addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
 
@@ -593,16 +611,19 @@ function sifrContact(e){
 (function(){
   var el = document.getElementById('leafMapHome');
   if (!el || typeof L === 'undefined') return;
-  var TYPE = { soil:'#a85f32', blue:'#2c7a8c', land:'#2e6e50', redd:'#9a6a2f' };
+  var TYPE = { soil:'#a85f32', blue:'#2c7a8c', land:'#2e6e50', redd:'#9a6a2f', capture:'#4a6fa5', renewable:'#c08a2e', waste:'#7a6a8c' };
   var sites = [
-    { n:'Qassim Soil Restoration', lat:26.33, lon:43.97, type:'soil', t:'Soil carbon · Active' },
-    { n:'Abu Dhabi Soil', lat:24.45, lon:54.37, type:'soil', t:'Soil carbon · Active' },
-    { n:'AlUla Desert Ecosystem', lat:26.62, lon:37.95, type:'land', t:'Reforestation · Active' },
-    { n:'Nile Delta Mangrove', lat:31.2, lon:31.0, type:'blue', t:'Blue carbon · Active' },
-    { n:'Dhofar Rangeland', lat:17.0, lon:54.1, type:'soil', t:'Soil carbon · Active' },
-    { n:'Mesopotamia Marshes', lat:30.9, lon:47.0, type:'redd', t:'REDD+ · Pending' },
-    { n:'Red Sea Mangrove Belt', lat:22.0, lon:38.5, type:'blue', t:'Blue carbon · Development' },
-    { n:'Jordan Valley Watershed', lat:32.0, lon:35.6, type:'land', t:'Reforestation · Development' }
+    { n:'AlUla Landscape Restoration', lat:26.62, lon:37.95, type:'land', t:'Restoration initiative · Not registered' },
+    { n:'NEOM Regreening', lat:27.9, lon:35.5, type:'land', t:'Restoration initiative · Not registered' },
+    { n:'Mesopotamian Marshes', lat:30.9, lon:47.0, type:'redd', t:'UNESCO restoration · Not registered' },
+    { n:'Red Sea Mangrove Belt', lat:22.0, lon:38.5, type:'blue', t:'Blue carbon initiative · Not registered' },
+    { n:'ADNOC Habshan CCS', lat:24.05, lon:53.65, type:'capture', t:'CCS · 1.5 Mtpa' },
+    { n:'Aramco Jubail CCUS', lat:27.0, lon:49.65, type:'capture', t:'CCUS · up to 9 Mtpa by 2027' },
+    { n:'QatarEnergy Ras Laffan CCS', lat:25.9, lon:51.55, type:'capture', t:'CCS · up to 4.1 Mtpa by 2030' },
+    { n:'44.01 Al Qabil Mineralisation', lat:22.9, lon:58.4, type:'capture', t:'Permanent removal · Oman' },
+    { n:'Benban Solar Park', lat:24.46, lon:32.74, type:'renewable', t:'GCC-registered sub-projects' },
+    { n:'Tafila Wind Farm', lat:30.8, lon:35.6, type:'renewable', t:'117 MW · No registration verified' },
+    { n:'Sharjah Waste-to-Energy', lat:25.3, lon:55.5, type:'waste', t:'UAE first commercial WtE' }
   ];
   var map = L.map('leafMapHome', { scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:4 }).setView([24.5, 44], 5);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { subdomains:'abcd', maxZoom:11, attribution:'© OpenStreetMap © CARTO' }).addTo(map);
