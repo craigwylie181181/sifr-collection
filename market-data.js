@@ -9,11 +9,11 @@
    Voluntary figures are 2024 transaction data from Ecosystem Marketplace SOVCM 2025,
    published 29 May 2025. They are annual averages, not live prices, and are dated as such. */
 window.SIFR_MARKET = {
-  updated: "2026-07-08",
+  updated: "2026-07-11",
   mode: "reference",
   note: "Reference benchmarks from named public sources. EUA is a live compliance price. Voluntary figures are 2024 annual transaction averages from Ecosystem Marketplace, not live quotes.",
   prices: [
-    { sym:"EUA", label:"EU Allowance (EU ETS)", value:"€80.60", change:"+0.4% wk", dir:"up", basis:"Carbon Pulse, EU ETS compliance", asof:"2026-07-03", src:"https://carbon-pulse.com/528515/" },
+    { sym:"EUA", label:"EU Allowance (EU ETS)", value:"€79.10", change:"+0.08% d", dir:"up", basis:"Trading Economics, EU ETS compliance", asof:"2026-07-10", src:"https://tradingeconomics.com/commodity/carbon" },
     { sym:"NBS-ARR", label:"Nature-based removal (ARR)", value:"$20.44", change:"+19%", dir:"up", basis:"EM SOVCM 2025", asof:"2024", src:"https://www.ecosystemmarketplace.com/publications/2025-state-of-the-voluntary-carbon-market-sovcm/" },
     { sym:"NBS-AVOID", label:"Reduction / avoidance credits", value:"$4.05", change:"-13%", dir:"dn", basis:"EM SOVCM 2025", asof:"2024", src:"https://www.ecosystemmarketplace.com/publications/2025-state-of-the-voluntary-carbon-market-sovcm/" },
     { sym:"REM-PREM", label:"Removals premium vs reductions", value:"+381%", change:"was +245%", dir:"up", basis:"EM SOVCM 2025", asof:"2024", src:"https://www.ecosystemmarketplace.com/publications/2025-state-of-the-voluntary-carbon-market-sovcm/" },
