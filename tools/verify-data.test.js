@@ -95,7 +95,7 @@ const cases = [
   },
   {
     name: 'news item with no source URL',
-    mutate: (d) => edit(d, 'news-data.js', (t) => t.replace(/url:"https:\/\/carbon-pulse\.com\/529093\/"/, 'url:""')),
+    mutate: (d) => edit(d, 'news-data.js', (t) => t.replace(/url:"https?:\/\/[^"]+"/, 'url:""')),
   },
   {
     name: 'compliance timeline item with no source',
