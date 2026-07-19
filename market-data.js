@@ -9,7 +9,7 @@
    Voluntary figures are 2024 transaction data from Ecosystem Marketplace SOVCM 2025,
    published 29 May 2025. They are annual averages, not live prices, and are dated as such. */
 window.SIFR_MARKET = {
-  updated: "2026-07-18",
+  updated: "2026-07-19",
   mode: "reference",
   note: "Reference benchmarks from named public sources. EUA is a live compliance price. Voluntary figures are 2024 annual transaction averages from Ecosystem Marketplace, not live quotes.",
   prices: [
