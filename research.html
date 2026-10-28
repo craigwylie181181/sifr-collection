@@ -130,7 +130,7 @@
     </ul></div>
     <div><div class="footer-col-title">Company</div><ul class="footer-links">
       <li><a href="/#about">About</a></li><li><a href="/#contact">Contact</a></li>
-      <li><a href="mailto:C.wylie@sifrcollection.com">C.wylie@sifrcollection.com</a></li>
+      <li><a href="mailto:c.wylie@sifrcollection.com">c.wylie@sifrcollection.com</a></li>
     </ul></div>
   </div>
   <div class="footer-bottom"><div class="footer-copy">© 2026 Sifr Collection · Dubai, United Arab Emirates</div></div>
@@ -158,12 +158,12 @@ function sifrSub(e){
     .then(function(r){ return r.json().then(function(d){ return { ok:r.ok && d.ok, d:d }; }); })
     .then(function(res){
       if (res.ok) { note.textContent = 'You are in. Look out for the next Weekly Brief.'; form.reset(); }
-      else { note.textContent = (res.d && res.d.error) || 'Could not subscribe. Email C.wylie@sifrcollection.com and we will add you.'; }
+      else { note.textContent = (res.d && res.d.error) || 'Could not subscribe. Email c.wylie@sifrcollection.com and we will add you.'; }
     })
     .catch(function(){
       // No backend yet (for example opened locally): fall back to email
       note.textContent = 'Opening your email client to confirm.';
-      window.location.href = 'mailto:C.wylie@sifrcollection.com?subject=' + encodeURIComponent('Subscribe to the Sifr Weekly Brief') + '&body=' + encodeURIComponent('Please subscribe this email: ' + email);
+      window.location.href = 'mailto:c.wylie@sifrcollection.com?subject=' + encodeURIComponent('Subscribe to the Sifr Weekly Brief') + '&body=' + encodeURIComponent('Please subscribe this email: ' + email);
     });
   return false;
 }

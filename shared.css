@@ -173,12 +173,22 @@ footer { background:var(--alt); border-top:1px solid var(--line); padding:64px 0
   .section-inner { padding:0 32px; }
   nav, nav.scrolled { padding:14px 32px; }
   .footer-grid, .footer-bottom, .disclaimer-inner { padding-left:32px; padding-right:32px; }
+  /* Tablet: keep all links visible without colliding with the CTA */
+  .nav-links { gap:16px; }
+  .nav-links a { font-size:11px; letter-spacing:0.04em; white-space:nowrap; }
+  .nav-logo-ar { white-space:nowrap; }
+  .nav-logo-en { display:none; }
+  .nav-logo { margin-right:20px; }
+  .nav-cta { white-space:nowrap; }
+}
+@media (min-width: 761px) and (max-width: 960px) {
+  /* "Terminal" is already in the links; drop the duplicate CTA so nothing collides */
+  .nav-cta { display:none; }
 }
 @media (max-width: 760px) {
   body { font-size:16px; }
-  /* Compact 2-row mobile nav (CSS grid): logo + CTA on top,
-     a single scrollable links strip underneath. Replaces the links
-     that used to vanish, without the bulky 3-row wrap. */
+  /* Compact mobile nav (CSS grid): logo + CTA on top, the links
+     underneath, wrapping onto a second line so none are cut off. */
   nav, nav.scrolled {
     display:grid; grid-template-columns:1fr auto;
     grid-template-areas:"logo cta" "links links";
@@ -194,17 +204,15 @@ footer { background:var(--alt); border-top:1px solid var(--line); padding:64px 0
   nav > div { grid-area:cta; justify-self:end; flex-wrap:nowrap; }
   .nav-links {
     grid-area:links;
-    display:flex; flex-wrap:nowrap; overflow-x:auto; gap:18px;
+    display:flex; flex-wrap:wrap; gap:6px 16px;
     padding-top:6px; border-top:1px solid var(--line);
-    -webkit-overflow-scrolling:touch; scrollbar-width:none;
   }
-  .nav-links::-webkit-scrollbar { display:none; }
   .nav-links a { font-size:12.5px; letter-spacing:0.04em; white-space:nowrap; flex:0 0 auto; padding:1px 0; }
   .nav-links a::after { display:none; }
   .nav-cta { padding:8px 13px; }
   .section-inner { padding:0 20px; }
   .section-title { font-size:clamp(30px,8.4vw,44px); }
-  .page-hero2 { padding:104px 0 40px; }
+  .page-hero2 { padding:136px 0 40px; }
   .page-hero2 p { font-size:16px; }
   .page-body { padding:44px 0 64px; }
   .faq-section { padding:60px 0; }

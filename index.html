@@ -40,10 +40,11 @@
   "foundingDate": "2026",
   "areaServed": "Middle East and North Africa",
   "knowsAbout": ["Carbon markets", "Voluntary carbon credits", "Soil organic carbon", "Geospatial monitoring", "MRV", "MENA climate policy"],
-  "email": "C.wylie@sifrcollection.com"
+  "email": "c.wylie@sifrcollection.com"
 }
 </script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="projects-data.js"></script>
 <script src="news-data.js"></script>
 <script src="market-data.js"></script>
 <script src="coverage-data.js"></script>
@@ -195,7 +196,8 @@
 }
 @media (max-width:760px){
   /* tighten the long vertical rhythm so the page is not endless on a phone */
-  .hero { padding:104px 0 52px; }
+  .hero { padding:136px 0 52px; }
+  .hero .reveal { opacity:1; transform:none; }
   .hero-h1 { font-size:clamp(40px,11.5vw,58px); line-height:1.02; }
   .hero-h1 .sifr-ar { font-size:0.4em; }
   .hero-body { font-size:17px; margin-top:22px; }
@@ -347,7 +349,7 @@
 <section class="terminal-preview">
   <div class="section-inner">
     <div class="section-label reveal">Sifr Terminal</div>
-    <h2 class="section-title reveal reveal-delay-1">Bloomberg-grade data,<br>built for <em>MENA carbon</em></h2>
+    <h2 class="section-title reveal reveal-delay-1">Institutional-grade data,<br>built for <em>MENA carbon</em></h2>
     <p class="source-note reveal" style="margin-top:10px;max-width:580px">Prices shown are sample data while the live market feed is being connected, not real quotes. Sifr Collection is an information platform.</p>
     <div class="terminal-wrap reveal reveal-delay-2">
       <div class="terminal-topbar">
@@ -414,20 +416,20 @@
   <div class="section-inner">
     <div class="section-label reveal">Regional Reach</div>
     <h2 class="section-title reveal reveal-delay-1">12 nations. One <em>platform.</em></h2>
-    <p class="source-note reveal" style="margin-bottom:8px;max-width:560px">Indicative tracked project pipeline by country. Figures reflect coverage scope, not credits traded by Sifr.</p>
+    <p class="source-note reveal" style="margin-bottom:8px;max-width:560px">Projects in the Sifr tracker by country, counted live from the project dataset. Includes initiatives that are not registered carbon projects. Countries without a tracked project are covered for policy only. Coverage of Morocco, Tunisia, Algeria and Libya is coming soon.</p>
     <div class="countries-wrap">
-      <div class="country-cell reveal"><div class="cc-flag">🇸🇦</div><div class="cc-name">Saudi Arabia</div><div class="cc-num">3.2M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-1"><div class="cc-flag">🇦🇪</div><div class="cc-name">UAE</div><div class="cc-num">1.8M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-2"><div class="cc-flag">🇴🇲</div><div class="cc-name">Oman</div><div class="cc-num">1.1M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">🇪🇬</div><div class="cc-name">Egypt</div><div class="cc-num">0.9M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-4"><div class="cc-flag">🇯🇴</div><div class="cc-name">Jordan</div><div class="cc-num">0.4M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal"><div class="cc-flag">🇶🇦</div><div class="cc-name">Qatar</div><div class="cc-num">0.3M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-1"><div class="cc-flag">🇰🇼</div><div class="cc-name">Kuwait</div><div class="cc-num">0.2M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-2"><div class="cc-flag">🇧🇭</div><div class="cc-name">Bahrain</div><div class="cc-num">0.1M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">🇮🇶</div><div class="cc-name">Iraq</div><div class="cc-num">0.2M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-4"><div class="cc-flag">🇾🇪</div><div class="cc-name">Yemen</div><div class="cc-num">0.1M</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal"><div class="cc-flag">🇱🇧</div><div class="cc-name">Lebanon</div><div class="cc-num">50K</div><div class="cc-unit">tracked</div></div>
-      <div class="country-cell reveal reveal-delay-3"><div class="cc-flag">🇸🇾</div><div class="cc-name">Syria</div><div class="cc-num">40K</div><div class="cc-unit">tracked</div></div>
+      <div class="country-cell reveal" data-country="Saudi Arabia"><div class="cc-flag">🇸🇦</div><div class="cc-name">Saudi Arabia</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-1" data-country="United Arab Emirates"><div class="cc-flag">🇦🇪</div><div class="cc-name">UAE</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-2" data-country="Oman"><div class="cc-flag">🇴🇲</div><div class="cc-name">Oman</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-3" data-country="Egypt"><div class="cc-flag">🇪🇬</div><div class="cc-name">Egypt</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-4" data-country="Jordan"><div class="cc-flag">🇯🇴</div><div class="cc-name">Jordan</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal" data-country="Qatar"><div class="cc-flag">🇶🇦</div><div class="cc-name">Qatar</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-1" data-country="Kuwait"><div class="cc-flag">🇰🇼</div><div class="cc-name">Kuwait</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-2" data-country="Bahrain"><div class="cc-flag">🇧🇭</div><div class="cc-name">Bahrain</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-3" data-country="Iraq"><div class="cc-flag">🇮🇶</div><div class="cc-name">Iraq</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-4" data-country="Yemen"><div class="cc-flag">🇾🇪</div><div class="cc-name">Yemen</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal" data-country="Lebanon"><div class="cc-flag">🇱🇧</div><div class="cc-name">Lebanon</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
+      <div class="country-cell reveal reveal-delay-3" data-country="Syria"><div class="cc-flag">🇸🇾</div><div class="cc-name">Syria</div><div class="cc-num">&ndash;</div><div class="cc-unit">projects</div></div>
     </div>
   </div>
 </section>
@@ -480,7 +482,7 @@
       <div class="reveal reveal-delay-2">
         <p class="contact-intro">Sifr Collection works with corporates, project developers, and government bodies across the region. Tell us what you are trying to decide and we will point you at the right data, or set up terminal access.</p>
         <div class="contact-meta">
-          <a href="mailto:C.wylie@sifrcollection.com">C.wylie@sifrcollection.com</a>
+          <a href="mailto:c.wylie@sifrcollection.com">c.wylie@sifrcollection.com</a>
           <span>Dubai, United Arab Emirates</span>
         </div>
       </div>
@@ -490,9 +492,10 @@
           <input required type="email" name="email" placeholder="Work email">
         </div>
         <input name="org" placeholder="Organisation">
+        <input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <textarea name="message" rows="4" placeholder="What are you looking to understand?"></textarea>
         <button type="submit" class="btn-primary" style="justify-self:start">Send Enquiry</button>
-        <span id="contactMsg" class="source-note" style="display:none">Opening your email client. If nothing happens, write to C.wylie@sifrcollection.com.</span>
+        <span id="contactMsg" class="source-note" style="display:none" role="status"></span>
       </form>
     </div>
   </div>
@@ -520,7 +523,7 @@
       <ul class="footer-links">
         <li><a href="/about">About Sifr</a></li>
         <li><a href="/#contact">Contact</a></li>
-        <li><a href="mailto:C.wylie@sifrcollection.com">C.wylie@sifrcollection.com</a></li>
+        <li><a href="mailto:c.wylie@sifrcollection.com">c.wylie@sifrcollection.com</a></li>
       </ul>
     </div>
     <div>
@@ -599,10 +602,28 @@ document.querySelectorAll('.reveal').forEach(r => io.observe(r));
 function sifrContact(e){
   e.preventDefault();
   const f = e.target;
-  const subject = encodeURIComponent('Sifr enquiry from ' + (f.name.value || 'website'));
-  const body = encodeURIComponent('Name: ' + f.name.value + '\nEmail: ' + f.email.value + '\nOrganisation: ' + (f.org.value||'') + '\n\n' + (f.message.value||''));
-  document.getElementById('contactMsg').style.display = 'block';
-  window.location.href = 'mailto:C.wylie@sifrcollection.com?subject=' + subject + '&body=' + body;
+  const msg = document.getElementById('contactMsg');
+  const btn = f.querySelector('button[type=submit]');
+  const data = { name: f.name.value, email: f.email.value, org: f.org.value, message: f.message.value, website: f.website.value };
+  function fallback(){
+    const subject = encodeURIComponent('Sifr enquiry from ' + (data.name || 'website'));
+    const body = encodeURIComponent('Name: ' + data.name + '\nEmail: ' + data.email + '\nOrganisation: ' + (data.org||'') + '\n\n' + (data.message||''));
+    msg.textContent = 'Opening your email client. If nothing happens, write to c.wylie@sifrcollection.com.';
+    msg.style.display = 'block';
+    window.location.href = 'mailto:c.wylie@sifrcollection.com?subject=' + subject + '&body=' + body;
+  }
+  btn.disabled = true;
+  msg.textContent = 'Sending...';
+  msg.style.display = 'block';
+  fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) })
+    .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); })
+    .then(function(res){
+      if (res.ok && res.d.ok) { msg.textContent = 'Thank you. Your enquiry has been sent and we will reply by email.'; f.reset(); }
+      else if (res.d && /valid email|your name/.test(res.d.error || '')) { msg.textContent = res.d.error; }
+      else { fallback(); }
+    })
+    .catch(fallback)
+    .then(function(){ btn.disabled = false; });
   return false;
 }
 </script>
@@ -638,6 +659,17 @@ function sifrContact(e){
   map.fitBounds(b);
   map.setMaxBounds(b.pad(0.6));
   setTimeout(function(){ map.invalidateSize(); map.fitBounds(b); }, 300);
+})();
+</script>
+<script>
+(function () {
+  var counts = {};
+  (window.SIFR_PROJECTS || []).forEach(function (p) { counts[p.country] = (counts[p.country] || 0) + 1; });
+  document.querySelectorAll('.country-cell[data-country]').forEach(function (el) {
+    var n = counts[el.getAttribute('data-country')] || 0;
+    el.querySelector('.cc-num').textContent = n ? n : '\u2013';
+    el.querySelector('.cc-unit').textContent = n === 1 ? 'project' : n ? 'projects' : 'policy only';
+  });
 })();
 </script>
 </body>
