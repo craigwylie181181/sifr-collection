@@ -1396,9 +1396,14 @@
   var BY_ID = {};
   PROJECTS.forEach(function(p){ BY_ID[p.id] = p; });
 
+  // Fields the dataset leaves blank on purpose (no public source) render as a dash
+  var BLANK_RE = /^(not published|not listed|not registered|n\/a|)$/i;
+  function isBlank(v){ return BLANK_RE.test((v || '').toString().trim()); }
+  function cell(v){ return isBlank(v) ? '<span class="neutral">&ndash;</span>' : v; }
+
   function priceCell(p){
     var real = /^[$€]/.test(p.price);
-    return real ? '<span class="up">'+p.price+'</span>' : '<span class="neutral">'+p.price+'</span>';
+    return real ? '<span class="up">'+p.price+'</span>' : '<span class="neutral">'+(isBlank(p.price) ? '&ndash;' : p.price)+'</span>';
   }
 
   // Build the Tracked Projects table
@@ -1411,7 +1416,7 @@
       return '<tr onclick="openProject(\''+p.id+'\')">'
         + '<td class="sym">'+p.name+'</td>'
         + '<td><span class="badge '+t.badge+'">'+t.label+'</span></td>'
-        + '<td>'+p.cc+'</td><td>'+p.area+'</td><td>'+p.annual+'</td><td>'+p.std+'</td>'
+        + '<td>'+p.cc+'</td><td>'+cell(p.area)+'</td><td>'+cell(p.annual)+'</td><td>'+cell(p.std)+'</td>'
         + '<td>'+priceCell(p)+'</td>'
         + '<td><span '+(statusColor[p.status]||'')+'>'+p.status+'</span></td>'
         + '<td>'+(p.developer||p.registry||'')+'</td></tr>';
@@ -1422,14 +1427,14 @@
   function openProject(id){
     var p = BY_ID[id]; if (!p) return;
     var t = TYPE[p.type];
-    function set(elId, val){ var e = document.getElementById(elId); if (e) e.textContent = val || '··'; }
+    function set(elId, val){ var e = document.getElementById(elId); if (e) e.textContent = isBlank(val) ? '\u2013' : val; }
     set('pmType', t.label + ' · ' + (natureOf(p) || p.status));
     set('pmTitle', p.name);
     set('pmLoc', p.flag + '  ' + (p.country || p.cc));
     set('pmBlurb', p.detail || p.summary);
     set('pmArea', p.area);
     set('pmSeq', p.annual);
-    set('pmPrice', /^[$€]/.test(p.price) ? p.price : p.price);
+    set('pmPrice', isBlank(p.price) ? 'No public price' : p.price);
     set('pmTypeRow', t.label);
     set('pmNature', natureOf(p));
     set('pmStatus', p.status);
@@ -1463,7 +1468,7 @@
   // Interactive map
   (function(){
     if (typeof L === 'undefined') return;
-    var light = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { subdomains:'abcd', maxZoom:11, attribution:'© OpenStreetMap © CARTO' });
+    var light = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { maxZoom:11, attribution:'Tiles © Esri, HERE, Garmin, © OpenStreetMap contributors' });
     var sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom:16, attribution:'Imagery © Esri' });
     var map = L.map('leafMap', { scrollWheelZoom:false, zoomControl:false, attributionControl:true, minZoom:4 }).setView([24.5, 44], 5);
     light.addTo(map);

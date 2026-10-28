@@ -649,7 +649,7 @@ function sifrContact(e){
     { n:'Sharjah Waste-to-Energy', lat:25.3, lon:55.5, type:'waste', t:'UAE first commercial WtE' }
   ];
   var map = L.map('leafMapHome', { scrollWheelZoom:false, zoomControl:true, attributionControl:true, minZoom:4 }).setView([24.5, 44], 5);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { subdomains:'abcd', maxZoom:11, attribution:'© OpenStreetMap © CARTO' }).addTo(map);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { maxZoom:11, attribution:'Tiles © Esri, HERE, Garmin, © OpenStreetMap contributors' }).addTo(map);
   if (window.SIFR_COVERAGE) { L.geoJSON(window.SIFR_COVERAGE, { interactive:false, style:{ color:'#2e6e50', weight:1, fillColor:'#2e6e50', fillOpacity:0.10 } }).addTo(map); }
   sites.forEach(function(s){
     L.circleMarker([s.lat, s.lon], { radius:7, color:'#fff', weight:1.6, fillColor:TYPE[s.type], fillOpacity:0.95 })

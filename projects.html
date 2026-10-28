@@ -314,12 +314,23 @@ var STATUSDATA  = { Active:'active', Development:'dev', Pending:'pending' };
 var BY_ID = {};
 (window.SIFR_PROJECTS || []).forEach(function(p){ BY_ID[p.id] = p; });
 
+// Fields the dataset leaves blank on purpose (no public source) render as a quiet dash
+var BLANK_RE = /^(not published|not listed|not registered|n\/a|)$/i;
+function isBlank(v){ return BLANK_RE.test((v || '').toString().trim()); }
+function metricVal(v, size){
+  return isBlank(v)
+    ? '<div class="pcm-val" style="font-size:'+size+'px;color:var(--mist);font-weight:400">&ndash;</div>'
+    : '<div class="pcm-val" style="font-size:'+size+'px">'+v+'</div>';
+}
+
 // Generate project cards from the shared dataset (card = summary, panel = full record)
 (function(){
   var grid = document.getElementById('projectsGrid');
   if (!grid || !window.SIFR_PROJECTS) return;
   var html = window.SIFR_PROJECTS.map(function(p){
-    var priceHtml = /^[$€]/.test(p.price) ? '<div class="pc-price">'+p.price+'</div>' : '<div class="pc-price" style="font-size:18px">'+p.price+'</div>';
+    var priceHtml = /^[$€]/.test(p.price) ? '<div class="pc-price">'+p.price+'</div>'
+      : isBlank(p.price) ? '<div class="pc-price" style="font-size:14px;font-weight:400;color:var(--mist)">No public price</div>'
+      : '<div class="pc-price" style="font-size:18px">'+p.price+'</div>';
     return '<div class="project-card" data-id="'+p.id+'" data-type="'+p.type+'" data-status="'+(STATUSDATA[p.status]||'dev')+'" onclick="openProfile(this)">'
       + '<div class="pc-header"><span class="pc-type '+(BADGECLASS[p.type]||'')+'">'+(TYPELABEL[p.type]||p.type)+'</span>'
       + '<span class="pc-status '+(STATUSCLASS[p.status]||'')+'">'+(STATUSDOT[p.status]||'')+' '+p.status+'</span></div>'
@@ -327,12 +338,14 @@ var BY_ID = {};
       + '<div class="pc-name">'+p.name+'</div>'
       + '<div class="pc-location">'+(p.country||p.cc)+'</div>'
       + '<p class="pc-desc">'+(p.summary||'')+'</p>'
-      + '<div class="pc-metrics">'
-      +   '<div class="pc-metric"><div class="pcm-val" style="font-size:17px">'+p.area+'</div><div class="pcm-unit">Size</div><div class="pcm-label">Area</div></div>'
-      +   '<div class="pc-metric"><div class="pcm-val" style="font-size:15px">'+p.annual+'</div><div class="pcm-unit">Annual</div><div class="pcm-label">tCO₂e</div></div>'
-      +   '<div class="pc-metric"><div class="pcm-val" style="font-size:15px">'+p.std+'</div><div class="pcm-unit">Standard</div><div class="pcm-label">'+(p.registry||'')+'</div></div>'
-      + '</div>'
-      + '<div class="pc-footer"><div>'+priceHtml+'<div class="pc-price-unit">'+(p.priceUnit||'')+'</div></div><span class="pc-cta">View profile &rarr;</span></div>'
+      + (isBlank(p.area) && isBlank(p.annual) && isBlank(p.std)
+          ? '<div class="pc-metrics" style="display:block;background:none;border-top:1px solid var(--line)"><div class="pcm-label" style="padding:14px 0 2px;font-size:12px">'+(p.registry||'')+'. Size and annual figures not published.</div></div>'
+          : '<div class="pc-metrics">'
+          +   '<div class="pc-metric">'+metricVal(p.area,17)+'<div class="pcm-unit">Size</div><div class="pcm-label">Area</div></div>'
+          +   '<div class="pc-metric">'+metricVal(p.annual,15)+'<div class="pcm-unit">Annual</div><div class="pcm-label">tCO₂e</div></div>'
+          +   '<div class="pc-metric">'+metricVal(p.std,15)+'<div class="pcm-unit">Standard</div><div class="pcm-label">'+(p.registry||'')+'</div></div>'
+          + '</div>')
+      + '<div class="pc-footer"><div>'+priceHtml+(isBlank(p.price) ? '' : '<div class="pc-price-unit">'+(p.priceUnit||'')+'</div>')+'</div><span class="pc-cta">View profile &rarr;</span></div>'
       + '</div>';
   }).join('');
   grid.insertAdjacentHTML('beforeend', html);
@@ -364,7 +377,7 @@ function filterCards(type, btn) {
   document.getElementById('filterCount').textContent = count + ' tracked';
 }
 
-function ppCell(v,u,l){ return '<div class="pp-cell"><div class="pp-cell-val" style="font-size:18px">'+(v||'')+'</div><div class="pp-cell-unit">'+(u||'')+'</div><div class="pp-cell-label">'+(l||'')+'</div></div>'; }
+function ppCell(v,u,l){ return '<div class="pp-cell"><div class="pp-cell-val" style="font-size:18px'+(isBlank(v) ? ';color:var(--mist);font-weight:400">&ndash;' : '">'+v)+'</div><div class="pp-cell-unit">'+(u||'')+'</div><div class="pp-cell-label">'+(l||'')+'</div></div>'; }
 
 // Detail panel: full record from the dataset, more than the card shows
 function openProfile(card){
@@ -376,9 +389,9 @@ function openProfile(card){
   set('ppLoc', p.flag + '  ' + (p.country || p.cc));
   set('ppDesc', p.detail || p.summary);
   document.getElementById('ppMetrics').innerHTML = ppCell(p.area,'Size','Area') + ppCell(p.annual,'Annual','tCO₂e') + ppCell(p.std,'Standard',p.registry||'');
-  set('ppPrice', p.price); set('ppPriceUnit', p.priceUnit||'');
+  set('ppPrice', isBlank(p.price) ? 'No public price' : p.price); set('ppPriceUnit', isBlank(p.price) ? ' ' : (p.priceUnit||''));
   var rows = [['Credit nature',p.nature],['Status',p.status],['Registry',p.registry],['Methodology',p.methodology],['Vintage',p.vintage],['Lifetime',p.lifetime],['Developer',p.developer]];
-  document.getElementById('ppRows').innerHTML = rows.filter(function(r){return r[1];}).map(function(r){ return '<div class="pp-row"><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>'; }).join('');
+  document.getElementById('ppRows').innerHTML = rows.filter(function(r){return r[1] && !isBlank(r[1]);}).map(function(r){ return '<div class="pp-row"><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>'; }).join('');
   var co = document.getElementById('ppCobenefits'), wrap = document.getElementById('ppCoWrap'), list = p.coBenefits || [];
   co.innerHTML = list.map(function(c){ return '<span class="pp-chip">'+c+'</span>'; }).join('');
   wrap.style.display = list.length ? '' : 'none';
