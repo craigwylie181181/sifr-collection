@@ -17,6 +17,7 @@
 <meta property="og:image" content="https://sifrcollection.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="shared.css">
+<script src="projects-data.js"></script>
 <style>
 .about-body { padding:72px 0 96px; }
 .about-body .lede { font-size:22px; line-height:1.6; color:var(--text); max-width:760px; font-family:var(--serif); font-weight:500; }
@@ -71,9 +72,9 @@
 
     <div class="fact-row">
       <div class="fact"><div class="n">12</div><div class="l">Nations covered</div></div>
-      <div class="fact"><div class="n">11</div><div class="l">Projects tracked</div></div>
+      <div class="fact"><div class="n" id="factProjects">21</div><div class="l">Projects tracked</div></div>
       <div class="fact"><div class="n">8</div><div class="l">Schemes monitored</div></div>
-      <div class="fact"><div class="n">Daily</div><div class="l">Intelligence feed</div></div>
+      <div class="fact"><div class="n">Dated</div><div class="l">Every data point</div></div>
     </div>
 
     <div class="about-grid">
@@ -91,7 +92,7 @@
       </div>
       <div class="about-block">
         <h3>Built on public data</h3>
-        <p>Our data comes from public carbon registries, exchange and compliance markets, national submissions and primary sources, each dated on the page. The intelligence feed and the EUA price refresh daily; schemes, country profiles and the project tracker are reviewed on a rolling basis. We document our methodology openly so the numbers can be checked. No black box, no paywalled mystery index.</p>
+        <p>Our data comes from public carbon registries, exchange and compliance markets, national submissions and primary sources, each dated on the page. The intelligence feed and reference prices are refreshed regularly and dated on the page; schemes, country profiles and the project tracker are reviewed on a rolling basis. We document our methodology openly so the numbers can be checked. No black box, no paywalled mystery index.</p>
       </div>
     </div>
 
@@ -133,12 +134,17 @@
       <li><a href="mailto:c.wylie@sifrcollection.com">c.wylie@sifrcollection.com</a></li>
     </ul></div>
   </div>
-  <div class="footer-bottom"><div class="footer-copy">© 2026 Sifr Collection · Dubai, United Arab Emirates</div></div>
+  <div class="footer-bottom"><div class="footer-copy">© 2026 Sifr Collection · Dubai, United Arab Emirates · <a href="/privacy" style="color:inherit">Privacy</a></div></div>
 </footer>
 <div class="disclaimer-strip"><div class="disclaimer-inner">Sifr Collection provides carbon market data and intelligence for information purposes only. It is not a trading venue, exchange, broker, or financial adviser, and does not facilitate the purchase or sale of carbon credits.</div></div>
 
 <script>
 const nav=document.getElementById('mainNav'); addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
 </script>
+<script>
+(function(){ var n = (window.SIFR_PROJECTS || []).length; var el = document.getElementById('factProjects'); if (el && n) el.textContent = n; })();
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

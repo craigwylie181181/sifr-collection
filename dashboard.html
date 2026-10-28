@@ -798,29 +798,7 @@
 <div class="ticker-wrap">
   <div class="ticker-label">REF</div>
   <div style="overflow:hidden;flex:1">
-    <div class="ticker-track" id="tickerTrack">
-      <div class="ticker-item"><span class="sym">EUA</span> €65.40 <span class="up">▲ +1.2%</span></div>
-      <div class="ticker-item"><span class="sym">VCS-MENA</span> $18.20 <span class="up">▲ +3.4%</span></div>
-      <div class="ticker-item"><span class="sym">SOIL-AE</span> $24.80 <span class="up">▲ +0.8%</span></div>
-      <div class="ticker-item"><span class="sym">REDD+SA</span> $12.50 <span class="dn">▼ -0.5%</span></div>
-      <div class="ticker-item"><span class="sym">GS-AGRI</span> $31.10 <span class="up">▲ +2.1%</span></div>
-      <div class="ticker-item"><span class="sym">CER-JO</span> $9.40 <span class="dn">▼ -1.3%</span></div>
-      <div class="ticker-item"><span class="sym">ACR-EG</span> $15.70 <span class="up">▲ +0.6%</span></div>
-      <div class="ticker-item"><span class="sym">SOIL-SA</span> $28.90 <span class="up">▲ +4.1%</span></div>
-      <div class="ticker-item"><span class="sym">MENA-BLUE</span> $41.20 <span class="up">▲ +1.9%</span></div>
-      <div class="ticker-item"><span class="sym">IQ-CARBON</span> $7.80 <span class="dn">▼ -2.1%</span></div>
-      <!-- Duplicate for seamless loop -->
-      <div class="ticker-item"><span class="sym">EUA</span> €65.40 <span class="up">▲ +1.2%</span></div>
-      <div class="ticker-item"><span class="sym">VCS-MENA</span> $18.20 <span class="up">▲ +3.4%</span></div>
-      <div class="ticker-item"><span class="sym">SOIL-AE</span> $24.80 <span class="up">▲ +0.8%</span></div>
-      <div class="ticker-item"><span class="sym">REDD+SA</span> $12.50 <span class="dn">▼ -0.5%</span></div>
-      <div class="ticker-item"><span class="sym">GS-AGRI</span> $31.10 <span class="up">▲ +2.1%</span></div>
-      <div class="ticker-item"><span class="sym">CER-JO</span> $9.40 <span class="dn">▼ -1.3%</span></div>
-      <div class="ticker-item"><span class="sym">ACR-EG</span> $15.70 <span class="up">▲ +0.6%</span></div>
-      <div class="ticker-item"><span class="sym">SOIL-SA</span> $28.90 <span class="up">▲ +4.1%</span></div>
-      <div class="ticker-item"><span class="sym">MENA-BLUE</span> $41.20 <span class="up">▲ +1.9%</span></div>
-      <div class="ticker-item"><span class="sym">IQ-CARBON</span> $7.80 <span class="dn">▼ -2.1%</span></div>
-    </div>
+    <div class="ticker-track" id="tickerTrack"><!-- filled from market-data.js --></div>
   </div>
 </div>
 
@@ -1152,7 +1130,7 @@
 
 <!-- Disclaimer -->
 <div style="background:var(--ticker-bg);border-top:1px solid var(--border);padding:14px 20px;font-family:var(--mono);font-size:9px;line-height:1.7;color:var(--text-muted);letter-spacing:0.02em">
-  Prices and indices on this terminal are sample data shown while the live market feed is being connected, not real quotes. Project, auction and policy entries are compiled from public sources. Sifr Collection is an information platform, not a trading venue, exchange, broker, or financial adviser, and does not facilitate the purchase or sale of carbon credits. Nothing here is investment, legal, or tax advice. © 2026 Sifr Collection, Dubai, UAE.
+  Prices and indices on this terminal are reference figures from named, dated public sources, not live trading quotes. Project, auction and policy entries are compiled from public sources. Sifr Collection is an information platform, not a trading venue, exchange, broker, or financial adviser, and does not facilitate the purchase or sale of carbon credits. Nothing here is investment, legal, or tax advice. © 2026 Sifr Collection, Dubai, UAE.
 </div>
 
 <!-- Tooltip overlay -->
@@ -1505,5 +1483,7 @@
   })();
 </script>
 
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

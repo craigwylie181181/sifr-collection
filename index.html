@@ -350,7 +350,7 @@
   <div class="section-inner">
     <div class="section-label reveal">Sifr Terminal</div>
     <h2 class="section-title reveal reveal-delay-1">Institutional-grade data,<br>built for <em>MENA carbon</em></h2>
-    <p class="source-note reveal" style="margin-top:10px;max-width:580px">Prices shown are sample data while the live market feed is being connected, not real quotes. Sifr Collection is an information platform.</p>
+    <p class="source-note reveal" style="margin-top:10px;max-width:580px">Reference prices are taken from named, dated public sources and are not live trading quotes. Sifr Collection is an information platform.</p>
     <div class="terminal-wrap reveal reveal-delay-2">
       <div class="terminal-topbar">
         <div class="term-dots"><div class="term-dot" style="background:#2e6e50"></div><div class="term-dot" style="background:#a85f32"></div><div class="term-dot" style="background:#c9a227"></div></div>
@@ -359,7 +359,7 @@
       </div>
       <div class="terminal-body">
         <div class="term-col">
-          <div class="term-col-head">Reference Prices</div>
+          <div class="term-col-head">Reference Prices <span id="homePricesAsof" style="float:right;opacity:0.7"></span></div>
           <!-- Rendered from market-data.js. Never hardcode a price here: it will drift from the sourced file. -->
           <div id="homeRefPrices"></div>
           <div class="term-col-head" style="border-top:1px solid var(--line)">Auctions</div>
@@ -368,7 +368,7 @@
         </div>
         <div class="term-col term-map" id="leafMapHome" aria-label="Interactive map of MENA carbon projects"></div>
         <div class="term-col">
-          <div class="term-col-head">Intelligence Feed</div>
+          <div class="term-col-head">Intelligence Feed <span id="homeNewsAsof" style="float:right;opacity:0.7"></span></div>
           <div id="homeNews"></div>
         </div>
       </div>
@@ -494,6 +494,7 @@
         <input name="org" placeholder="Organisation">
         <input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <textarea name="message" rows="4" placeholder="What are you looking to understand?"></textarea>
+        <p class="source-note" style="margin:0">We use your details only to reply. See our <a href="/privacy" style="color:inherit">privacy policy</a>.</p>
         <button type="submit" class="btn-primary" style="justify-self:start">Send Enquiry</button>
         <span id="contactMsg" class="source-note" style="display:none" role="status"></span>
       </form>
@@ -536,7 +537,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2026 Sifr Collection · Dubai, United Arab Emirates · All rights reserved</div>
+    <div class="footer-copy">© 2026 Sifr Collection · Dubai, United Arab Emirates · All rights reserved · <a href="/privacy" style="color:inherit">Privacy</a></div>
     <div class="footer-cert">
       <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:var(--mist);text-transform:uppercase;margin-right:2px">Standards tracked</span>
       <div class="cert-badge">Verra VCS</div>
@@ -594,6 +595,9 @@ document.querySelectorAll('.reveal').forEach(r => io.observe(r));
 (function(){
   var N = window.SIFR_NEWS, host = document.getElementById('homeNews');
   if (!N || !host) return;
+  function fmt(d){ var p = (d||'').split('-'); var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]; return mo ? 'Updated ' + (+p[2]) + ' ' + mo + ' ' + p[0] : ''; }
+  var na = document.getElementById('homeNewsAsof'); if (na) na.textContent = fmt(N.updated);
+  var pa = document.getElementById('homePricesAsof'); if (pa && window.SIFR_MARKET) pa.textContent = fmt(window.SIFR_MARKET.updated);
   host.innerHTML = (N.items||[]).slice(0,5).map(function(it){
     return '<div class="news-entry"><div class="ne-time">'+it.date+' · '+(it.source||'')+'</div><div class="ne-text">'+it.text+'</div></div>';
   }).join('');
@@ -672,5 +676,7 @@ function sifrContact(e){
   });
 })();
 </script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
